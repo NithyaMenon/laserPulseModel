@@ -1,9 +1,14 @@
-function [ outputPulse ] = wireModule( inputPulse, wireLength )
+function [ outputPulses ] = wireModule( inputPulses, wireLength )
 %   Inputs: inputPulse [frequency, amplitude, offset, polarization, power],
 %           wireLength (meters)
 %   Outputs: modulated output pulse
 
-inputPulse(3) = (wireLength / (2.99792458 * 10^8))*10^9 + inputPulse(3); % computes delay in ns
-outputPulse = inputPulse;
-end
+[nrow, ncol] = size(inputPulses);
 
+wireDelay = (wireLength / (2.99792458 * 10^8))*10^9;
+outputPulses = [];
+for i = 1:nrow
+    currentPulse = inputPulses(i,:);
+    currentPulse(3) = wireDelay + currentPulse(3); % computes delay in ns
+    outputPulses = [outputPulses; currentPulse];   
+end

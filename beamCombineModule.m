@@ -13,12 +13,12 @@ fs = 800E8;
 t = 0 : 1/fs : totalTime;
 w = 3*10^(-9);
 pulseTrain = pulstran(t, [], @rectpuls,w);
-for i = 1:length(inputPulses),
-        currentSequence = inputPulses{i};       
-        inputPeriod = 1/currentSequence{1};
+[nrow, ncol] = size(inputPulses);
+for i = 1:nrow,
+        currentSequence = inputPulses(i,:);       
+        inputPeriod = 1/currentSequence(1);
         D = 0 : inputPeriod : totalTime;
         currentTrain = pulstran(t, D, @rectpuls, w);
-        
         pulseTrain = pulseTrain + currentTrain;
 end
 
@@ -28,10 +28,10 @@ if max(pulseTrain) > 1.01
     disp('ERROR: Pulses are interferring!')
 end
 
-transmitPulses = {};
-for i = 1:length(inputPulses),
-    currentSequence = inputPulses{i};
-    currentSequence{5} = currentSequence{5} * (1-transmitPercentage);
+transmitPulses = [];
+for i = 1:nrow,
+    currentSequence = inputPulses(i,:);
+    currentSequence(5) = currentSequence(5) * (1-transmitPercentage);
     transmitPulses = [transmitPulses; currentSequence];
 end
     
