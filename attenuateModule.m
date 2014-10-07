@@ -4,10 +4,11 @@ function [ outputPulses ] = attenuateModule( inputPulses, attenFactor)
 %           by
 %   Outputs: outputPulses - attenuated output pulses
 %
+outputPulses = [];
 
 [nrow, ncol] = size(inputPulses);
 for i = 1:nrow
     currentPulse = inputPulses(i,:);
-    currentPulse(5) = attenFactor * currentPulse(5); % attenuates signal
+    currentPulse(2) = attenFactor * currentPulse(2); % attenuates signal
     outputPulses = [outputPulses; currentPulse];   
 end

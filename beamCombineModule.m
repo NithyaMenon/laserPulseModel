@@ -17,12 +17,12 @@ pulseTrain = pulstran(t, [], @rectpuls,w);
 for i = 1:nrow,
         currentSequence = inputPulses(i,:);       
         inputPeriod = 1/currentSequence(1);
-        D = 0 : inputPeriod : totalTime;
+        D = currentSequence(3) : inputPeriod : totalTime;
         currentTrain = pulstran(t, D, @rectpuls, w);
         pulseTrain = pulseTrain + currentTrain;
 end
 
-%plot(t*1E6, pulseTrain);
+plot(t*1E6, pulseTrain);
 
 if max(pulseTrain) > 1.01
     disp('ERROR: Pulses are interferring!')
@@ -31,7 +31,7 @@ end
 transmitPulses = [];
 for i = 1:nrow,
     currentSequence = inputPulses(i,:);
-    currentSequence(5) = currentSequence(5) * (1-transmitPercentage);
+    currentSequence(5) = currentSequence(5) * transmitPercentage;
     transmitPulses = [transmitPulses; currentSequence];
 end
     

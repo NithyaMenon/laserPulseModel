@@ -1,9 +1,10 @@
 function [ outputPulses ] = delayModule( inputPulses, delayTime)
 %   Inputs: inputPulses - A list of input pulses
-%           delayTime - a specified time in ns all input pulses will be 
+%           delayTime - a specified time in seconds all input pulses will be 
 %           delayed by
 %   Outputs: outputPulses - delayed output pulses
 %
+outputPulses = [];
 
 [nrow, ncol] = size(inputPulses);
 for i = 1:nrow
