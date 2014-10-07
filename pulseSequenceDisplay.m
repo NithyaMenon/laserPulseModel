@@ -10,6 +10,7 @@ w = 3*10^(-9);
 pulseTrain = pulstran(t, [], @rectpuls,w);
 
 [nrow, ncol] = size(inputPulses);
+disp(nrow)
 for i = 1:nrow,
         currentSequence = inputPulses(i,:);       
         inputPeriod = 1/currentSequence(1);
