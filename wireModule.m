@@ -5,7 +5,7 @@ function [ outputPulses ] = wireModule( inputPulses, wireLength )
 
 [nrow, ncol] = size(inputPulses);
 
-wireDelay = (wireLength / (2.99792458 * 10^8))*10^9;
+wireDelay = (wireLength / (2.99792458 * 10^8));
 outputPulses = [];
 for i = 1:nrow
     currentPulse = inputPulses(i,:);
