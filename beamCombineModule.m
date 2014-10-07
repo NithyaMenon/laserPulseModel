@@ -22,7 +22,7 @@ for i = 1:nrow,
         pulseTrain = pulseTrain + currentTrain;
 end
 
-plot(t*1E6, pulseTrain);
+
 
 if max(pulseTrain) > 1.01
     disp('ERROR: Pulses are interferring!')
