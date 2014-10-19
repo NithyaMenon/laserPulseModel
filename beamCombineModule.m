@@ -31,7 +31,7 @@ end
 transmitPulses = [];
 for i = 1:nrow,
     currentSequence = inputPulses(i,:);
-    currentSequence(5) = currentSequence(5) * transmitPercentage;
+    currentSequence(2) = currentSequence(2) * transmitPercentage;
     transmitPulses = [transmitPulses; currentSequence];
 end
     

@@ -1,5 +1,5 @@
 function [ outputPulses ] = wireModule( inputPulses, wireLength )
-%   Inputs: inputPulse [frequency, amplitude, offset, polarization, power],
+%   Inputs: inputPulse [frequency, power, offset, polarization],
 %           wireLength (meters)
 %   Outputs: modulated output pulse
 

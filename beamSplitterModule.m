@@ -11,9 +11,9 @@ reflectedPulses = [];
 for i = 1:nrows,
     currentPulse = inputPulses(i,:);
     transmitPulse = currentPulse;
-    transmitPulse(5) = currentPulse(5) * transmitPercentage;
+    transmitPulse(2) = currentPulse(2) * transmitPercentage;
     reflectedPulse = currentPulse;
-    reflectedPulse(5) = currentPulse(5) * (1-transmitPercentage);
+    reflectedPulse(2) = currentPulse(2) * (1-transmitPercentage);
     
     transmitPulses = [transmitPulses; transmitPulse];
     reflectedPulses = [reflectedPulses; reflectedPulse];
