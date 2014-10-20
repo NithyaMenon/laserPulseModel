@@ -6,7 +6,7 @@ function [pulseTrain] = pulseSequenceDisplay( inputPulses, totalTime)
 
 fs = 800E8;    
 t = 0 : 1/fs : totalTime;
-w = 5*10^(-12);
+w = 5*10^(-9);
 pulseTrain = pulstran(t, [], @rectpuls,w);
 
 for i = 1:size(inputPulses),
@@ -17,3 +17,4 @@ for i = 1:size(inputPulses),
         pulseTrain = pulseTrain + currentTrain;
 end
 
+plot(t*1E9, pulseTrain);
