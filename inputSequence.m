@@ -14,8 +14,9 @@ pulseTrain = pulstran(t, D, @rectpuls,w);
 
 pulseTrain = power*pulseTrain;
 
-outputSequence.time = t;
-outputSequence.data = pulseTrain;
+outputSequence.time = t';
+outputSequence.signals.values = pulseTrain';
+outputSequence.signals.dimensions = 1;
 outputSequence.pol = polarization;
 
 %outputSequence = timeseries(pulseTrain, t, 'name', 'sequence');
