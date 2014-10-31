@@ -1,7 +1,6 @@
 function outputSequence = inputSequence( repRate, power, offset, polarization, totalTime)
 
-%INPUTPULSE Summary of this function goes here
-%   Detailed explanation goes here
+% create a [N x 3] matrix  where each row contains [t, power, polarization]
 
 fs = 800E8;    
 t = 0 : 1/fs : totalTime;
@@ -14,13 +13,11 @@ pulseTrain = pulstran(t, D, @rectpuls,w);
 
 pulseTrain = power*pulseTrain;
 
-outputSequence.time = t';
-outputSequence.data = pulseTrain';
-outputSequence.pol = polarization;
+pols = zeros(size(t));
+pols(:)=polarization;
 
-%outputSequence = timeseries(pulseTrain, t, 'name', 'sequence');
-%outputSequence.UserData = polarization;
 
+outputSequence = [ t' pulseTrain' pols'];
 
     
 end
