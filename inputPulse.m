@@ -1,4 +1,4 @@
-function outputSequence = inputSequence( repRate, power, offset, polarization, totalTime)
+function outputSequence = inputPulse( repRate, power, offset, polarization, totalTime)
 
 %INPUTPULSE Summary of this function goes here
 %   Detailed explanation goes here
