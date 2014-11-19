@@ -15,3 +15,5 @@ slprj/grt/_sharedutils/shared_file.dmr
 *.rsp
 *.mk
 *.tlc
+*.fig
+*.png
