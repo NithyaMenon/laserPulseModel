@@ -11,7 +11,7 @@ function out = pulseAVG3(x,idealTimes,repRate)
 %  repRate - the repetition time of the laser
 %
 % Outputs:
-%  The function computes the sum of the absolute value time differences between
+%  The function computes the average of the absolute value time differences between
 %  each ideal pulse and its nearest digital pulse.
 
 out = 0;

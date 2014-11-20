@@ -1,5 +1,5 @@
 function tp = digitizer(pulses,Tmax,repRate,frac)
-% adjusts a series of pulse timings 'pulses' to the nearest repRate/frac,
+% adjusts a series of pulse timings, 'pulses', to the nearest repRate/frac,
 % where repRate is a repeated pulse rate and frac is some fraction of that
 % rate
 

@@ -20,7 +20,9 @@ out = 0;
 
 modTimes = mod(idealTimes,repRate);
 
-digTimes = repRate*([0; x(2); x(3); x(2)+x(3); x(4); x(2)+x(4); x(3)+x(4); x(2)+x(3)+x(4)]+x(1)*ones(8,1));
+% construct the possible delay lines; offset added last
+digTimes = repRate*([0; x(2); x(3); x(2)+x(3); x(4); x(2)+x(4); x(3)+x(4); ...
+    x(2)+x(3)+x(4)]+x(1)*ones(8,1));
 perShift = repRate*ones(length(digTimes),1); % time of one repetition of laser
 allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
 
@@ -28,6 +30,7 @@ allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
 % adjacent one, for each real pulse
 nearPulses = dsearchn(allTimes,modTimes);
 
+% sum individual MSDs
 for i = 1:length(idealTimes)
     out = out + (allTimes(nearPulses(i),1)-modTimes(i,1))^2;
 end

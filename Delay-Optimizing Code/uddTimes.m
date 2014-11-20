@@ -1,6 +1,16 @@
 function out = uddTimes(T,n,plot)
 % computes and displays a sin^2 sequence. If plot=1, plot will be
 % displayed.
+%
+% Inputs:
+%  T - the overall length of the UDD sequence to be approximated, in
+%      nanoseconds
+%  n - the number of pi pulses in the UDD sequence
+%  plot - optional boolean input to turn off plotting
+%
+% Outputs:
+%  Computes the pi pulse arrival times of a UDD sequence of length T and
+%  order n. The timings can be plotted on an arc by setting plot = 1.
 
 if nargin < 3
     plot = false;
