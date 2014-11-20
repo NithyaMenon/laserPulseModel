@@ -56,9 +56,9 @@ end
 
 % the list of all delays constructed from the optimized delays; offset
 %  added at the end
-digTimes = [0; delTimes(2); delTimes(3); delTimes(2)+delTimes(3); ...
-    delTimes(4); delTimes(2)+delTimes(4); delTimes(3)+delTimes(4); ...
-    delTimes(2)+delTimes(3)+delTimes(4)] + delTimes(1)*ones(8,1);
+digTimes = [0; delTimes(2); delTimes(3); ...
+    delTimes(4); delTimes(2)+delTimes(4); delTimes(3)+delTimes(4)]...
+    + delTimes(1)*ones(6,1);
 
 % plotting
 if plotCheck
@@ -79,7 +79,7 @@ if plotCheck
     plot(mod(idealTimes,repRate),(1:n)','o')
 
     % lines for digital delays
-    for j = 1:8
+    for j = 1:length(digTimes)
         plot(repRate*mod(digTimes(j),1)*[1 1],[0 n+1],...
             'Color','red',...
             'LineWidth',2)
