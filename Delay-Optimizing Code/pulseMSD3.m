@@ -20,10 +20,9 @@ out = 0;
 
 modTimes = mod(idealTimes,repRate);
 
-% construct the possible delay lines; offset added last
-% NOTE: this version accomodates pi/2 pulses, so the delays incorporating
-%       both x(2) and x(3) are no longer useable
-digTimes = repRate*([0; x(2); x(3); x(4); x(2)+x(4); x(3)+x(4)]+x(1)*ones(6,1));
+% construct the possible delay lines in subfunction; add preceding and
+% succeeding pulses as well for wraparound boundary conditions
+digTimes = repRate*compositeDelays(x);
 perShift = repRate*ones(length(digTimes),1); % time of one repetition of laser
 allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
 

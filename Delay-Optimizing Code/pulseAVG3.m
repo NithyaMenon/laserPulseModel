@@ -18,7 +18,7 @@ out = 0;
 
 modTimes = mod(idealTimes,repRate);
 
-digTimes = repRate*([0; x(2); x(3); x(2)+x(3); x(4); x(2)+x(4); x(3)+x(4); x(2)+x(3)+x(4)]+x(1)*ones(8,1));
+digTimes = repRate*compositeDelays(x);
 perShift = repRate*ones(length(digTimes),1); % time of one repetition of laser
 allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
 

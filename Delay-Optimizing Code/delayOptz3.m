@@ -56,9 +56,7 @@ end
 
 % the list of all delays constructed from the optimized delays; offset
 %  added at the end
-digTimes = [0; delTimes(2); delTimes(3); ...
-    delTimes(4); delTimes(2)+delTimes(4); delTimes(3)+delTimes(4)]...
-    + delTimes(1)*ones(6,1);
+digTimes = compositeDelays(delTimes);
 
 % plotting
 if plotCheck
