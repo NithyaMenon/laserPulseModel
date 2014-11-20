@@ -1,4 +1,4 @@
-function [delTimes, digTimes, bestDelays, msd] = delayOptz3(T,n,plot)
+function [delTimes, digTimes, bestDelays, msd] = delayOptz3(T,n,plotCheck)
 % finds the optimal delays for an optical network with eight digital delays
 % (constructed from three tunable delays) for a UDD sequence of length T
 % and order n
@@ -15,13 +15,17 @@ function [delTimes, digTimes, bestDelays, msd] = delayOptz3(T,n,plot)
 %  mean-square time difference between pulses. To do the optimization, the
 %  code employs fmincon, and tries a number of initial conditions to
 %  improve the chances of finding a global minimum.
+%
+% Required files:
+%  uddTimes.m
+%  pulseMSD3.m
 
 if nargin<3
-    plot = true;
+    plotCheck = true;
 end
 
-repRate = 13; % input pulse repetition rate
-stepSize = 0.1; % size (as fraction of repRate) of steps for optimization
+repRate = 13; % input pulse repetition rate, in nanoseconds
+stepSize = 0.3; % size (as fraction of repRate) of steps for optimization
 
 idealTimes = uddTimes(T,n,0); % UDD sequence times
 msd = Inf; % starting value
@@ -57,19 +61,31 @@ digTimes = [0; delTimes(2); delTimes(3); delTimes(2)+delTimes(3); ...
     delTimes(2)+delTimes(3)+delTimes(4)] + delTimes(1)*ones(8,1);
 
 % plotting
-if plot
+if plotCheck
+    fixfonts = @(h) set(h,'FontName','Arial',...
+                      'FontSize',10,...
+                      'FontWeight','bold');
     figure
     hold on
     xlim([0 14])
-    xlabel('Pulse Arrival Time mod Repetition Rate, in ns')
+    ylim([0 n+1])
+    fixfonts(xlabel('Pulse Arrival Time mod Repetition Rate, in ns'));
+    fixfonts(ylabel('\pi Pulse Number'));
+    fixfonts(title(strcat('Optimized Pulse Delay Lines for T=',int2str(T),...
+        ' and n=',int2str(n))));
+    fixfonts(gca);
 
-    for i = 1:n
-        plot(mod(idealTimes(i),repRate)*[1 1], [0 1])
-    end
+    % markers for ideal times
+    plot(mod(idealTimes,repRate),(1:n)','o')
 
+    % lines for digital delays
     for j = 1:8
-        plot(repRate*mod(digTimes(j),1)*[1 1],[0 1],'LineStyle','--','color','red')
+        plot(repRate*mod(digTimes(j),1)*[1 1],[0 n+1],...
+            'Color','red',...
+            'LineWidth',2)
     end
+    
+    fixfonts(legend('Ideal Pulses','Delay Lines'));
 
     hold off
 end
