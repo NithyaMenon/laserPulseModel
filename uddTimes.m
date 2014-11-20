@@ -1,15 +1,25 @@
-function out = uddTimes(T,n)
-% computes and displays a sin^2 sequence
+function out = uddTimes(T,n,plotCheck)
+% computes and displays a sin^2 sequence. If plot=1, plot will be
+% displayed.
 
-t = pi/(2*n+2):pi/(2*n+2):n*pi/(2*n+2);
+if nargin < 3
+    plotCheck = false;
+end
+
+t = (pi/(2*n+2):pi/(2*n+2):n*pi/(2*n+2))';
 
 out = T*sin(t).^2;
 
-plot([0 0], [0 T]);
-hold on;
+if plotCheck
+    t2 = (0:T/100:T)';
+    circle = @(t) sqrt(T^2/4-(t-T/2).^2);
 
-for i = 1:n
-    plot([out(i) out(i)],[0 T]);
+    plot(t2,circle(t2));
+    hold on;
+
+    for i = 1:n
+        plot([out(i) out(i)],[0 circle(out(i))]);
+    end
+    axis equal;
+    hold off;
 end
-
-plot([T T], [0 T]);
