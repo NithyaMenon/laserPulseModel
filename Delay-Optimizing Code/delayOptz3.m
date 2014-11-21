@@ -25,11 +25,11 @@ if nargin<3
 end
 
 repRate = 13; % input pulse repetition rate, in nanoseconds
-stepSize = 0.3; % size (as fraction of repRate) of steps for optimization
+stepSize = 0.25; % size (as fraction of repRate) of steps for optimization
 
 idealTimes = uddTimes(T,n,0); % UDD sequence times
 msd = Inf; % starting value
-delTimes = [0; 0.125; 0.25; 0.5]; % a uniformly-spaced default
+delTimes = [0; 1/6; 1/3; 1/2]; % a uniformly-spaced default
 options = optimset('Algorithm','active-set','Display','off'); % suppress output
 
 % constraint matrices that specify 0<x0<1, 0<x1<x2<x3<2
@@ -39,8 +39,8 @@ b = [0; 0];
 % performs nested for-loop to try all sorts of initial conditions
 for x0 = 0:stepSize:1
     for x3 = 0:stepSize:1
-        for x2 = 0:stepSize:x3
-            for x1 = 0:stepSize:x2
+        for x2 = 0:stepSize:x3-stepSize
+            for x1 = 0:stepSize/2:x2-stepSize/2
                 delTry = fmincon(@(x)pulseMSD3(x,idealTimes,repRate),[x0;x1;x2;x3],...
                     A,b,[],[],zeros(4,1),[1; 2*ones(3,1)],[],options);
                 msdTry = pulseMSD3(delTry,idealTimes,repRate);

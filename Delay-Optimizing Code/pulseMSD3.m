@@ -34,3 +34,5 @@ nearPulses = dsearchn(allTimes,modTimes);
 for i = 1:length(idealTimes)
     out = out + (allTimes(nearPulses(i),1)-modTimes(i,1))^2;
 end
+
+out = out/length(idealTimes);
