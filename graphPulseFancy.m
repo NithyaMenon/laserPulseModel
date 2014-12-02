@@ -17,7 +17,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
                       'FontWeight','bold');
 
 % Here we go, final figure.  Declare the figure
-figure(n);
+%figure(n);
 % Set the axes
 axis([tVector(1) tVector(end) 0.01 2]);
 % set the y-axis to log
