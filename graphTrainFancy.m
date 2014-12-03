@@ -15,7 +15,7 @@ desiredVector = desiredPulse(:,2);
 inVectorVert(inVectorVert <= 0) = 1e-12;
 inVectorHoriz(inVectorHoriz <= 0) = 1e-12;
 stageVectorVert(stageVectorVert <= 0) = 1e-12;
-stageVectorHoriz(stageVectorVert <= 0) = 1e-12;
+stageVectorHoriz(stageVectorHoriz <= 0) = 1e-12;
 desiredVector(desiredVector <= 0) = 1e-12;
 
 fixfonts = @(h) set(h,'FontName','Arial',...
@@ -25,7 +25,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
 % Here we go, final figure.  Declare the figure
 figure(n);
 % Set the axes
-axis([750 850 0.01 2]);
+axis([770 840 0.0001 2]);
 % set the y-axis to log
 set(gca,'YScale','log');
 % Turn "hold on" to tell it that we're going to add a couple patches
@@ -37,7 +37,7 @@ linecolors = [0   0 1;   % blue
               0 1 0 ; % green
               0 0 0 ; % black
               1 0 1 ; % magenta
-              0 0 1 ; % cyan
+              0 1 1 ; % cyan
               1 1 1];  % white
           
 % Let's fill with a lighter color; how light is set by "shading"
@@ -62,7 +62,7 @@ set(h5,'EdgeColor',linecolors(6,:),'LineWidth',2);
 % label with big fonts
 fixfonts(xlabel('Time (ns)'));
 fixfonts(ylabel('Pulse power'));
-fixfonts(title('Final plot'))
+%fixfonts(title('Final plot'))
 % It may also be nice to have a legend in the NorthEast corner.
 % Note for this we need a vector of handles and a cell-array of strings.
 fixfonts(legend([h1,h2,h4,h5,h3],{'Vertical Input','Horizontal Input','Vertical Intermediate','Horizontal Intermediate', 'Ideal Pulse'},'Location','NorthEast'));

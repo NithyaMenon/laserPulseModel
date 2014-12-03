@@ -19,7 +19,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
 % Here we go, final figure.  Declare the figure
 %figure(n);
 % Set the axes
-axis([tVector(1) tVector(end) 0.01 2]);
+axis([tVector(1) tVector(end) 0.0001 2]);
 % set the y-axis to log
 set(gca,'YScale','log');
 % Turn "hold on" to tell it that we're going to add a couple patches
@@ -40,7 +40,7 @@ set(h2,'EdgeColor',linecolors(2,:),'LineWidth',2);
 % label with big fonts
 fixfonts(xlabel('Time (ns)'));
 fixfonts(ylabel('Pulse power'));
-fixfonts(title('Final plot'))
+%fixfonts(title('Final plot'))
 % It may also be nice to have a legend in the NorthEast corner.
 % Note for this we need a vector of handles and a cell-array of strings.
 fixfonts(legend([h1,h2],{'Vertical','Horizontal'},'Location','NorthEast'));
