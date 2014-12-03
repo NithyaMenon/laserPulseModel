@@ -25,7 +25,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
 % Here we go, final figure.  Declare the figure
 figure(n);
 % Set the axes
-axis([770 840 0.0001 2]);
+axis([600 660 0.0001 2]);
 % set the y-axis to log
 set(gca,'YScale','log');
 % Turn "hold on" to tell it that we're going to add a couple patches
