@@ -5,7 +5,7 @@ function outputSequence = inputSequence( repRate, power, offset, totalTime)
 
 fs = 800E8;    
 t = 0 : 1/fs : totalTime;
-w = 2*10^(-9);
+w = 50*10^(-12);
 inputPeriod = 1/repRate;
 
 D = offset : inputPeriod : totalTime; 
