@@ -2,7 +2,7 @@ function idealOutput = idealPulse(T, n, power, delay)
 
 fs = 800E8;    
 t = 0 : 1/fs : T;
-w = 2*10^(-9);
+w = 50*10^(-12);
 
 T2 = 1.5*10^(-6);
 t2 = 0 : 1/fs : T2;
