@@ -9,7 +9,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
                       'FontSize',12,...
                       'FontWeight','bold');
 
-idealOutput = idealPulse(1.0*10^(-6),6,1,0.8717*10^(-9));
+idealOutput = idealPulse(1.0*10^(-6),6,1,(13+8)*10^(-9));
 
 figure(1)
 subplot(3,2,1)
