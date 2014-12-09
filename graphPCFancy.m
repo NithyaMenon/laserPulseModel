@@ -1,4 +1,4 @@
-function graphPCFancy(inputPulse, transmissionPulse, desiredPulse, n)
+function data=graphPCFancy(inputPulse, transmissionPulse, desiredPulse, n)
 %   Inputs: inputPulse [ N x 3] matrix containing time, value_vert, and value_horiz in each row
 %   Outputs: plots  time vs. value 
 
@@ -23,7 +23,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
 % Here we go, final figure.  Declare the figure
 figure(n);
 % Set the axes
-axis([600 660 0.0001 2]);
+axis([760 840 0.00001 2]);
 % set the y-axis to log
 set(gca,'YScale','log');
 % Turn "hold on" to tell it that we're going to add a couple patches
@@ -42,24 +42,25 @@ fillcolors = ones(size(linecolors))*(1-shading)+shading*linecolors;
 % fill in the boxes.  Save the handles h1, h2, for further manipulation.
 h1=fill(tVector,inVectorVert,fillcolors(1,:));
 h2=fill(tVector,inVectorHoriz,fillcolors(2,:));
-h3=fill(tVector,desiredVector,fillcolors(3,:));
+%h3=fill(tVector,desiredVector,fillcolors(4,:));
 %h4=fill(tVector,transVector,fillcolors(5,:));
 %alpha(0.5);
 % Make the lines around them thicker and colored
-set(h1,'EdgeColor',linecolors(1,:),'LineWidth',2);
-set(h2,'EdgeColor',linecolors(2,:),'LineWidth',2);
-set(h3,'EdgeColor',linecolors(3,:),'LineWidth',2);
+set(h1,'EdgeColor',linecolors(1,:),'LineWidth',2, 'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
+set(h2,'EdgeColor',linecolors(2,:),'LineWidth',2, 'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
 
+h3 = stairs(tVector, desiredVector,'g','LineStyle', '--', 'LineWidth',2);
 h4 = plot(tVector, transVector, 'k', 'LineWidth', 2);
 
+data=[h1,h2,h3,h4];
 
 % label with big fonts
 fixfonts(xlabel('Time (ns)'));
-fixfonts(ylabel('Pulse power'));
+%fixfonts(ylabel('Log of Relative Pulse Power'));
 %fixfonts(title('Final plot'))
 % It may also be nice to have a legend in the NorthEast corner.
 % Note for this we need a vector of handles and a cell-array of strings.
-fixfonts(legend([h1,h2,h3,h4],{'Vertical Input','Horizontal Input','Ideal Pulse','PC Transmission'},'Location','NorthEast'));
+%fixfonts(legend([h1,h2,h3,h4],{'Vertical Input','Horizontal Input','Ideal Pulse','PC Transmission'},'Location','NorthEast'));
 
 
 % big font labels

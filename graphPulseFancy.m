@@ -1,4 +1,4 @@
-function graphPulseFancy(inputPulse, n)
+function data = graphPulseFancy(inputPulse, n)
 %   Inputs: inputPulse [ N x 3] matrix containing time, value_vert, and value_horiz in each row
 %   Outputs: plots  time vs. value 
 
@@ -19,7 +19,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
 % Here we go, final figure.  Declare the figure
 %figure(n);
 % Set the axes
-axis([tVector(1) tVector(end) 0.0001 2]);
+axis([tVector(1) tVector(end) 0.00001 2]);
 % set the y-axis to log
 set(gca,'YScale','log');
 % Turn "hold on" to tell it that we're going to add a couple patches
@@ -27,24 +27,27 @@ hold on
 % Choose the pulse colors, both the lines and the fill
 % Let's do blue and dark red
 linecolors = [0   0 1;   % blue 
-              0.7 0 0];  % dark red
+              0.7 0 0    % dark red
+              0 1 0];    % green
 % Let's fill with a lighter color; how light is set by "shading"
 shading = 0.1;
 fillcolors = ones(size(linecolors))*(1-shading)+shading*linecolors;
 % fill in the boxes.  Save the handles h1, h2, for further manipulation.
 h1=fill(tVector,vertVector,fillcolors(1,:));
 h2=fill(tVector,horizVector,fillcolors(2,:));
+
 % Make the lines around them thicker and colored
-set(h1,'EdgeColor',linecolors(1,:),'LineWidth',2);
-set(h2,'EdgeColor',linecolors(2,:),'LineWidth',2);
+set(h1,'EdgeColor',linecolors(1,:),'LineWidth',2,'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
+set(h2,'EdgeColor',linecolors(2,:),'LineWidth',2,'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
+
 % label with big fonts
 fixfonts(xlabel('Time (ns)'));
 fixfonts(ylabel('Pulse power'));
 %fixfonts(title('Final plot'))
 % It may also be nice to have a legend in the NorthEast corner.
 % Note for this we need a vector of handles and a cell-array of strings.
-fixfonts(legend([h1,h2],{'Vertical','Horizontal'},'Location','NorthEast'));
-
+%fixfonts(legend([h1,h2],{'Vertical','Horizontal'},'Location','NorthEast'));
+data = [h1,h2];
 
 % big font labels
 fixfonts(gca);
