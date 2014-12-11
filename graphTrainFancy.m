@@ -25,7 +25,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
 % Here we go, final figure.  Declare the figure
 figure(n);
 % Set the axes
-axis([760 840 0.00001 2]);
+axis([790 860 0.00001 2]);
 % set the y-axis to log
 set(gca,'YScale','log');
 % Turn "hold on" to tell it that we're going to add a couple patches
@@ -47,8 +47,8 @@ fillcolors = ones(size(linecolors))*(1-shading)+shading*linecolors;
 h1=fill(tVector,inVectorVert,fillcolors(1,:));
 h2=fill(tVector,inVectorHoriz,fillcolors(2,:));
 %h3=fill(tVector,desiredVector,fillcolors(4,:));
-h4=fill(tVector,stageVectorVert,fillcolors(5,:));
-h5=fill(tVector,stageVectorHoriz,fillcolors(6,:));
+h4=fill(tVector,stageVectorVert,fillcolors(6,:));
+h5=fill(tVector,stageVectorHoriz,fillcolors(5,:));
 
 %h4=fill(tVector,transVector,fillcolors(5,:));
 %alpha(0.5);
@@ -56,8 +56,8 @@ h5=fill(tVector,stageVectorHoriz,fillcolors(6,:));
 set(h1,'EdgeColor',linecolors(1,:),'LineWidth',2,'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
 set(h2,'EdgeColor',linecolors(2,:),'LineWidth',2,'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
 %set(h3,'EdgeColor',linecolors(4,:),'LineWidth',3,'LineStyle', '--');
-set(h4,'EdgeColor',linecolors(5,:),'LineWidth',2,'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
-set(h5,'EdgeColor',linecolors(6,:),'LineWidth',2,'LineStyle', '-', 'Marker', '+', 'MarkerSize', 10);
+set(h4,'EdgeColor',linecolors(6,:),'LineWidth',2,'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
+set(h5,'EdgeColor',linecolors(5,:),'LineWidth',2,'LineStyle', '-', 'Marker', '+', 'MarkerSize', 10);
 
 h3 = stairs(tVector, desiredVector,'g','LineStyle', '--','LineWidth',2);
 

@@ -23,7 +23,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
 % Here we go, final figure.  Declare the figure
 figure(n);
 % Set the axes
-axis([760 840 0.00001 2]);
+axis([790 860 0.00001 2]);
 % set the y-axis to log
 set(gca,'YScale','log');
 % Turn "hold on" to tell it that we're going to add a couple patches
@@ -49,7 +49,7 @@ h2=fill(tVector,inVectorHoriz,fillcolors(2,:));
 set(h1,'EdgeColor',linecolors(1,:),'LineWidth',2, 'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
 set(h2,'EdgeColor',linecolors(2,:),'LineWidth',2, 'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
 
-h3 = stairs(tVector, desiredVector,'g','LineStyle', '--', 'LineWidth',2);
+h3 = stairs(tVector, desiredVector,'g','LineStyle', '--','LineWidth',2);
 h4 = plot(tVector, transVector, 'k', 'LineWidth', 2);
 
 data=[h1,h2,h3,h4];
