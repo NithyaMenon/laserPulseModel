@@ -53,7 +53,7 @@ fixfonts(ylabel('Log of Relative Pulse Power'));
 %fixfonts(title('Final plot'))
 % It may also be nice to have a legend in the NorthEast corner.
 % Note for this we need a vector of handles and a cell-array of strings.
-%fixfonts(legend([h1,h2,h3],{'Vertical','Horizontal','Ideal Pulse'},'Location','NorthEast'));
+fixfonts(legend([h1,h2,h3],{'Vertical','Horizontal','Ideal Pulse'},'Location','NorthEast'));
 data = [h1,h2,h3];
 
 % big font labels

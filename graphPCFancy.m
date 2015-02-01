@@ -56,11 +56,11 @@ data=[h1,h2,h3,h4];
 
 % label with big fonts
 fixfonts(xlabel('Time (ns)'));
-%fixfonts(ylabel('Log of Relative Pulse Power'));
+fixfonts(ylabel('Log of Relative Pulse Power'));
 %fixfonts(title('Final plot'))
 % It may also be nice to have a legend in the NorthEast corner.
 % Note for this we need a vector of handles and a cell-array of strings.
-%fixfonts(legend([h1,h2,h3,h4],{'Vertical Input','Horizontal Input','Ideal Pulse','PC Transmission'},'Location','NorthEast'));
+fixfonts(legend([h1,h2,h3,h4],{'Vertical Input','Horizontal Input','Ideal Pulse','PC Transmission'},'Location','NorthEast'));
 
 
 % big font labels
