@@ -1,8 +1,9 @@
 function [ result ] = beamSplitterTransmit( inputs )
-%beamSplitter - returns transmitted pulse and reflected pulse based on
+%beamSplitter - returns transmitted pulse based on
 %input pulse and transmission percentage
-%   Inputs: input pulse, transmission percentage
-%   Outputs: transmitted pulse, reflected pulse
+%   Inputs: [input pulses, transmission percentage]
+%   Outputs: [transmitted pulses]
+%Notes: This is a 50-50 beam splitter
 
 % Ensure row vector
 size_inputs = size(inputs);
@@ -10,7 +11,7 @@ if(size_inputs(2)<size_inputs(1))
     inputs = transpose(inputs);
 end
 
-transmitPercentage = inputs(end);
+attenuatationFactor = inputs(end);
 
 transmitPulseIDs = [];
 
@@ -25,8 +26,8 @@ transmitPulseIDs = [];
         inputPulse = Pulse.getPulse(inputPulseID);
         
         transmitPulse = inputPulse;
-        transmitPulse.verticalPower = transmitPercentage*transmitPulse.verticalPower;
-        transmitPulse.horizontalPower = transmitPercentage*transmitPulse.horizontalPower;
+        transmitPulse.verticalPower = attenuatationFactor*transmitPulse.verticalPower;
+        transmitPulse.horizontalPower = attenuatationFactor*transmitPulse.horizontalPower;
 
         transmitPulseID = transmitPulse.ID;
         transmitPulseIDs = [transmitPulseIDs,transmitPulseID ];
