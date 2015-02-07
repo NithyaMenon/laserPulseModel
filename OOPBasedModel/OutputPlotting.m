@@ -15,3 +15,7 @@ plotdata = transpose([timevec;vertvec;horzvec]);
 plotdata = plotdata(I,:);
 
 graphPulseFancy(plotdata,1);
+
+% diffs = sort(diff(sort(times)));
+% plot(diffs,'r+');
+% mintime = mean(diffs(100:1000));
