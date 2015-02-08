@@ -11,7 +11,7 @@ delays = tim(T,n,1:n);
 
 
 % Vector of input pulse timings
-num_pulses_let_through = 1000;
+num_pulses_let_through = 1;
 timings = 0:13e-9:(num_pulses_let_through-1)*13e-9;
 
 % Pulse sequence creation
