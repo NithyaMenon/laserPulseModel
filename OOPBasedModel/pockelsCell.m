@@ -29,7 +29,6 @@ for inputPulseID = inputs(1:end-size_of_timings-1)
         inputPulse = Pulse.getPulse(inputPulseID);
         
         % Convert inputPulse to resultPulseID
-         % TODO
         riseFallTime = 8e-9; % Hard-coded
         onTime = 1e-9; % Hard-coded
         PCTrasmittence = 0.85;
@@ -40,8 +39,17 @@ for inputPulseID = inputs(1:end-size_of_timings-1)
             sCurveFall = @(t) (0.0876+1-((-0.135)+ 1.2348./(1+2*exp(-0.012*(t))).^2))/1.0876;
             sCurve = @(sTau) 1*(sTau*600<100) + sCurveFall(sTau*600 - 100).*(sTau*600>=100);
             sCurveVal = sCurve(sTau);
+            dTheta = sCurveVal*pi/2;
+        else
+            dTheta = 0;
         end
-        
+        theta = atan2(inputPulse.verticalPower,inputPulse.horizontalPower);
+        R = norm([inputPulse.verticalPower,inputPulse.horizontalPower]);
+        R = R*PCTrasmittence;
+        theta = theta + dTheta;
+        inputPulse.verticalPower = R*sin(theta);
+        inputPulse.horizontalPower = R*cos(theta);
+        resultPulseID = inputPulse.ID;
          
         % Concatenate resultPulseID to result array
         
