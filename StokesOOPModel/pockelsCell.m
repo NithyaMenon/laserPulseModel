@@ -28,11 +28,11 @@ for inputPulseID = inputs(1:end-size_of_timings-2)
         
         inputPulse = Pulse.getPulse(inputPulseID);
         
-        % Convert inputPulse to resultPulseID
         riseFallTime = 8e-9; % Hard-coded
         onTime = 1e-9; % Hard-coded
         PCTrasmittence = 0.85; % Hard-coded
         
+        % Compute s-curve value and value of Tau
         if(min(abs(inputPulse.time - timings))<(onTime/2 + riseFallTime))
             dt = min(abs(inputPulse.time - timings));
             sDt = dt/(onTime/2 + riseFallTime);
@@ -44,6 +44,7 @@ for inputPulseID = inputs(1:end-size_of_timings-2)
             Tau = 0;
         end
         
+        % Compute Mueller matrix
         G = (1/2)*(1+cos(Tau));
         H = (1/2)*(1-cos(Tau));
         
@@ -51,10 +52,11 @@ for inputPulseID = inputs(1:end-size_of_timings-2)
             0 (G+H*cos(4*psi)) H*sin(4*psi) -sin(Tau)*sin(2*psi);...
             0 H*sin(4*psi) (G-H*cos(4*psi)) sin(Tau)*cos(2*psi);...
             0 sin(Tau)*sin(2*psi) -sin(Tau)*cos(2*psi) cos(Tau)];
-        % Source:
+        % Source for Mueller mx:
         % Polarization of Light: Basics to Instruments
         % N. Manset / CFHT
         
+        % Apply Mueller mx
         S = [inputPulse.I; inputPulse.Q; inputPulse.U; inputPulse.V];
         Sout = PCTrasmittence*M*S;
         resultPulse = inputPulse;
