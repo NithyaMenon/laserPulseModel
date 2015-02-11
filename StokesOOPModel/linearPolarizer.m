@@ -36,7 +36,7 @@ outputPulseIDs = [];
         
         % Apply Mueller matrix
         S = [inputPulse.I;inputPulse.Q;inputPulse.U;inputPulse.V];
-        Sout = M*S;
+        Sout = M*S; % TODO Transmittence
         inputPulse.I = Sout(1);
         inputPulse.Q = Sout(2);
         inputPulse.U = Sout(3);

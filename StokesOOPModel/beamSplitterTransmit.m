@@ -27,6 +27,9 @@ transmitPulseIDs = [];
         
         transmitPulse = inputPulse;
         transmitPulse.I = attenuatationFactor*transmitPulse.I;
+        transmitPulse.Q = attenuatationFactor*transmitPulse.Q;
+        transmitPulse.U = attenuatationFactor*transmitPulse.U;
+        transmitPulse.V = attenuatationFactor*transmitPulse.V;
  
         transmitPulseID = transmitPulse.ID;
         transmitPulseIDs = [transmitPulseIDs,transmitPulseID ];

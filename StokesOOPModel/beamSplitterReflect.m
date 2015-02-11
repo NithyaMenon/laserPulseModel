@@ -27,6 +27,9 @@ reflectPulseIDs = [];
         
         reflectPulse = Pulse.clonePulse(inputPulse);
         reflectPulse.I = attenuationFactor*reflectPulse.I;
+        reflectPulse.Q = attenuationFactor*reflectPulse.Q;
+        reflectPulse.U = attenuationFactor*reflectPulse.U;
+        reflectPulse.V = attenuationFactor*reflectPulse.V;
 
         reflectPulseID = reflectPulse.ID;
         reflectPulseIDs = [reflectPulseIDs,reflectPulseID];
