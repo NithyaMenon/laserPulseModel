@@ -37,7 +37,7 @@ for inputPulseID = inputs(1:end-size_of_timings-2)
             dt = min(abs(inputPulse.time - timings));
             sDt = dt/(onTime/2 + riseFallTime);
             sCurveFall = @(t) (0.0876+1-((-0.135)+ 1.2348./(1+2*exp(-0.012*(t))).^2))/1.0876;
-            sCurve = @(sDt) 1*(sTau*600<100) + sCurveFall(sDt*600 - 100).*(sDt*600>=100);
+            sCurve = @(sDt) 1*(sDt*600<100) + sCurveFall(sDt*600 - 100).*(sDt*600>=100);
             sCurveVal = sCurve(sDt);
             Tau = sCurveVal*pi/2;
         else
@@ -55,15 +55,18 @@ for inputPulseID = inputs(1:end-size_of_timings-2)
         % Source for Mueller mx:
         % Polarization of Light: Basics to Instruments
         % N. Manset / CFHT
+        display(M)
         
         % Apply Mueller mx
         S = [inputPulse.I; inputPulse.Q; inputPulse.U; inputPulse.V];
         Sout = PCTrasmittence*M*S;
         resultPulse = inputPulse;
-        resultPulse.I = Sout.I;
-        resultPulse.Q = Sout.Q;
-        resultPulse.U = Sout.U;
-        resultPulse.V = Sout.V;
+        resultPulse.I = Sout(1);
+        resultPulse.Q = Sout(2);
+        resultPulse.U = Sout(3);
+        resultPulse.V = Sout(4);
+        display(S)
+        display(resultPulse)
         
         
          
