@@ -10,8 +10,8 @@ Ivec = [ zeropad, I, I, zeropad];
 % plot(timevec,vertvec,'r+');
 
 plotdata = transpose([timevec;Ivec]);
-[Y,I] = sort(plotdata(:,1));
-plotdata = plotdata(I,:);
+[Y,Inds] = sort(plotdata(:,1));
+plotdata = plotdata(Inds,:);
 
 graphPulseFancy(plotdata,1);
 
