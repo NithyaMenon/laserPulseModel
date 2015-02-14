@@ -11,7 +11,7 @@ classdef Pulse < handle
         % Pulse parameters
         time;
         width;
-        DeadPulse;
+        %DeadPulse;
         ID;
     end
     
@@ -64,7 +64,7 @@ classdef Pulse < handle
             end
             id = Pulse.managePulseArray(obj, 'add');
             obj.ID = id;
-            obj.DeadPulse = 0;
+            %obj.DeadPulse = 0;
         end
     end
     methods( Static = true, Access = 'private')

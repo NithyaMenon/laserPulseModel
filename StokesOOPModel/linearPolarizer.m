@@ -1,4 +1,4 @@
-function [ result ] = linearPolarizer( inputs )
+function [ results ] = linearPolarizer( inputs )
 % linearPolarizer - Attenuates polarizations not aligned with the \
 % angle of the polarizer
 %       Inputs: [input pulses, angle of linear polarizer]
@@ -12,6 +12,7 @@ if(size_inputs(2)<size_inputs(1))
 end
 
 psi = inputs(end);
+
 % Compute Jones Matrix
 J = [cos(psi)^2, cos(psi)*sin(psi);...
     sin(psi)*cos(psi), sin(psi)^2];
@@ -23,12 +24,12 @@ A = [ 1 0 0 1;...
 M = A*kron(J,conj(J))*inv(A);
 
 
-outputPulseIDs = [];
+results = [];
 
  for inputPulseID = inputs(1:end-1)
         
         if(inputPulseID <1)
-            reflectPulseIDs = [reflectPulseIDs,0];
+            results = [results,0];
             continue
         end
         
@@ -42,15 +43,9 @@ outputPulseIDs = [];
         inputPulse.U = Sout(3);
         inputPulse.V = Sout(4);
         
+        results = [results,inputPulse.ID];
         % Apply extinction ratio
          % TODO
-        
-        
-%        if polarizationAngle = 90; 
-%         outputPulse = inputPulse;
-%         outputPulse.verticalPower = inputPulse.verticalPower *...
-%                                     cos(pi/2-polarizationAngle)^2;
-%         
  end
  
 end
