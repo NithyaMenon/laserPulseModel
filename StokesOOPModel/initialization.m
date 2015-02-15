@@ -4,7 +4,7 @@ clc;
 
 % Delay Specification
 
-T = 100e-9; % s
+T = 1e-6; % s
 n = 8; % Do not change -- specific to slx file.
 tim = @(T,n,k) T.*sin(k*pi./(2*n + 2) ).^2;
 delays = tim(T,n,1:n);

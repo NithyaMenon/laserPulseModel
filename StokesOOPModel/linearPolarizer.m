@@ -19,6 +19,10 @@ Transmittence = 0.9; % CHANGE
 Extinction = 100000;
 
 
+% Algorithm Soruce
+% http://en.wikipedia.org/wiki/Mueller_calculus#Mueller_vs._Jones_calculi
+% http://en.wikipedia.org/wiki/Jones_calculus#Jones_matrices
+
 % Compute Jones Matrix
 J_pass = [cos(psi)^2, cos(psi)*sin(psi);...
     sin(psi)*cos(psi), sin(psi)^2];
