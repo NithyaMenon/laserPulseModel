@@ -36,7 +36,7 @@ results = [];
             continue
         end
         
-        inputPulse = Pulse.getPulse(inputPulseID);
+        inputPulse = Pulse.clonePulse(inputPulseID);
         
          % Apply Mueller matrix
         S = [inputPulse.I;inputPulse.Q;inputPulse.U;inputPulse.V];
