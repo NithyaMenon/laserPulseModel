@@ -1,9 +1,9 @@
-function [ result ] = polBeamSplitterReflect( inputs )
-%beamSplitter - returns reflect pulse based on
+function [ result ] = polBeamSplitterTransmit( inputs )
+%beamSplitter - returns transmitted pulse based on
 %input pulse and transmission percentage
 %   Inputs: [input pulses, transmission percentage]
-%   Outputs: [reflect pulses]
-%This is a 50-50 beam splitter.
+%   Outputs: [transmitted pulses]
+%Notes: This is a 50-50 beam splitter
 
 % Ensure row vector
 size_inputs = size(inputs);
@@ -11,21 +11,20 @@ if(size_inputs(2)<size_inputs(1))
     inputs = transpose(inputs);
 end
 
-attenuationFactor = inputs(end);
+attenuatationFactor = inputs(end);
 
-% Specify the reflect axis
-psi_2 = pi/2;
+transmitPulseIDs = [];
 
-J_stop = [cos(psi_2)^2, cos(psi_2)*sin(psi_2);...
-    sin(psi_2)*cos(psi_2), sin(psi_2)^2];
+% Define the transmit axis
+psi = 0;
 
-% Compute Mueller Matrix
+J_pass = [cos(psi)^2, cos(psi)*sin(psi);...
+    sin(psi)*cos(psi), sin(psi)^2];
 A = [ 1 0 0 1;...
     1 0 0 -1;...
     0 1 1 0;...
     0 1i -1i 0];
-
-M_stop = A*kron(J_stop,conj(J_stop))*inv(A);
+M_pass = A*kron(J_pass,conj(J_pass))*inv(A);
 
 results = [];
 
@@ -38,16 +37,16 @@ results = [];
         
         inputPulse = Pulse.getPulse(inputPulseID);
         
-         % Apply Mueller matrix
         S = [inputPulse.I;inputPulse.Q;inputPulse.U;inputPulse.V];
-        Sout = attenuationFactor*M_stop*S;
+        Sout = attenuationFactor*(M_pass)*S;
         inputPulse.I = Sout(1);
         inputPulse.Q = Sout(2);
         inputPulse.U = Sout(3);
         inputPulse.V = Sout(4);
         
         results = [results,inputPulse.ID];
-         
+        
     end
 
 end
+
