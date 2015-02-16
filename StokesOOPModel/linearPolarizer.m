@@ -15,9 +15,9 @@ psi = inputs(end);
 psi_2 = psi + pi/2; % psi_2 is the block axis
 
 % -- Hard Coded Specs
-Transmittence = 0.9; % CHANGE
-Extinction = 100000;
-
+Transmittence = 0.81; % CHANGE
+Extinction = 200000000;
+% Current Specs: http://www.thorlabs.us/images/TabImages/LPVIS_Series_780.gif
 
 % Algorithm Soruce
 % http://en.wikipedia.org/wiki/Mueller_calculus#Mueller_vs._Jones_calculi
