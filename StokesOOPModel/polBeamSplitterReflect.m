@@ -1,4 +1,4 @@
-function [ result ] = polBeamSplitterReflect( inputs )
+function [ results ] = polBeamSplitterReflect( inputs )
 %beamSplitter - returns reflect pulse based on
 %input pulse and transmission percentage
 %   Inputs: [input pulses, transmission percentage]
@@ -36,7 +36,7 @@ results = [];
             continue
         end
         
-        inputPulse = Pulse.clonePulse(inputPulseID);
+        inputPulse = Pulse.clonePulse(Pulse.getPulse(inputPulseID));
         
          % Apply Mueller matrix
         S = [inputPulse.I;inputPulse.Q;inputPulse.U;inputPulse.V];

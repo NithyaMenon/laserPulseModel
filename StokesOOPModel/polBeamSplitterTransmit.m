@@ -1,4 +1,4 @@
-function [ result ] = polBeamSplitterTransmit( inputs )
+function [ results ] = polBeamSplitterTransmit( inputs )
 %beamSplitter - returns transmitted pulse based on
 %input pulse and transmission percentage
 %   Inputs: [input pulses, transmission percentage]
@@ -11,9 +11,9 @@ if(size_inputs(2)<size_inputs(1))
     inputs = transpose(inputs);
 end
 
-attenuatationFactor = inputs(end);
+attenuationFactor = inputs(end);
 
-transmitPulseIDs = [];
+results = [];
 
 % Define the transmit axis
 psi = 0;
