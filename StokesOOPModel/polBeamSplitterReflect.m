@@ -11,7 +11,7 @@ if(size_inputs(2)<size_inputs(1))
     inputs = transpose(inputs);
 end
 
-attenuationFactor = inputs(end);
+attenuationFactor = inputs(end); % both get attenuated the same
 
 % Specify the reflect axis
 psi_2 = 0;
