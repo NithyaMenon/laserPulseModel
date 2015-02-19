@@ -11,11 +11,10 @@ delays = tim(T,n,1:n);
 
 
 % Vector of input pulse timings
-num_pulses_start = 50;
+num_pulses_start = 1;
 timings = 0:13e-9:(num_pulses_start-1)*13e-9;
 
-PCtimings = [13e-9 ]; % Change based on application.
-% Note on PCtimings: Last element must indicate number of timings
+PCtimings = [0 ]; % Change based on application.
 
 % Pulse sequence creation
 Pulse.clearPulses();

@@ -23,6 +23,13 @@ for i = u
     widths = [widths, p.width];
 end
 
+[~,inds] = sort(times);
+times = times(inds);
+I = I(inds);
+Q = Q(inds);
+U = U(inds);
+V = V(inds);
+widths = widths(inds);
 
 
 
