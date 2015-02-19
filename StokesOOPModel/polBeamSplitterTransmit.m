@@ -16,7 +16,7 @@ attenuationFactor = inputs(end);
 results = [];
 
 % Define the transmit axis
-psi = 0;
+psi = pi/2;
 
 J_pass = [cos(psi)^2, cos(psi)*sin(psi);...
     sin(psi)*cos(psi), sin(psi)^2];

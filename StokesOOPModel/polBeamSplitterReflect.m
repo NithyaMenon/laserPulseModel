@@ -14,7 +14,7 @@ end
 attenuationFactor = inputs(end);
 
 % Specify the reflect axis
-psi_2 = pi/2;
+psi_2 = 0;
 
 J_stop = [cos(psi_2)^2, cos(psi_2)*sin(psi_2);...
     sin(psi_2)*cos(psi_2), sin(psi_2)^2];
