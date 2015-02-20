@@ -26,7 +26,7 @@ for inputPulseID = inputs(1:end-1)
         
         inputPulse = Pulse.getPulse(inputPulseID);
         
-        PlateTrasmittence = 0.1; % Hard-coded
+        PlateTrasmittence = 1; %0.1; % Hard-coded
         Tau = pi; % Hard-coded for QWP
  
         

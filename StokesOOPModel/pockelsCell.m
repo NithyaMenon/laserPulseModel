@@ -12,10 +12,9 @@ end
 % Pull off non-inputPulse arguments
 
 psi = inputs(end); % position angle
-size_of_timings = int8(inputs(end-1));
+size_of_timings = int32(inputs(end-1));
 timings = inputs(end-1-size_of_timings:end-2);
 result = [];
-
 
 % iterate through inputPulseIDs
 for inputPulseID = inputs(1:end-size_of_timings-2)
