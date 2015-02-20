@@ -71,7 +71,8 @@ for inputPulseID = inputs(1:end-size_of_timings-2)
         
          
         % Concatenate resultPulseID to result array
-        
+        state_creator = sprintf('Pockels Cell: Tau = %0.3f pi',Tau/pi);
+        Pulse.saveStateHistory(resultPulse,state_creator);
         result = [result, resultPulse.ID];
         
         

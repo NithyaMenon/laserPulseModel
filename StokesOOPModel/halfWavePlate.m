@@ -57,7 +57,8 @@ for inputPulseID = inputs(1:end-1)
         
          
         % Concatenate resultPulseID to result array
-        
+        state_creator = sprintf('Half Wave Plate');
+        Pulse.saveStateHistory(resultPulse,state_creator);
         result = [result, resultPulse.ID];
         
         

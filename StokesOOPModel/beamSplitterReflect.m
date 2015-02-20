@@ -34,6 +34,8 @@ reflectPulseIDs = [];
         reflectPulseID = reflectPulse.ID;
         reflectPulseIDs = [reflectPulseIDs,reflectPulseID];
         
+        state_creator = sprintf('Beam Splitter Reflect');
+        Pulse.saveStateHistory(reflectPulse,state_creator);
         
     end
     result = reflectPulseIDs;

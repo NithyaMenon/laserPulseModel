@@ -11,12 +11,14 @@ classdef Pulse < handle
         % Pulse parameters
         time;
         width;
-        %DeadPulse;
         ID;
+        stateHistoryArray = [];
     end
     
     methods
         function obj = Pulse( inputArgs )
+            id = Pulse.managePulseArray(obj, 'add');
+            obj.ID = id;
             switch length(inputArgs)
                 case 0
                     obj.time = 0; % Standard 0 s start time
@@ -62,9 +64,8 @@ classdef Pulse < handle
                     obj.width = 5e-12; % Standard 5 ps width
                     display('Invalid Pulse constructor for number of input arguments')
             end
-            id = Pulse.managePulseArray(obj, 'add');
-            obj.ID = id;
-            %obj.DeadPulse = 0;
+            obj.stateHistoryArray = [obj.stateHistoryArray,...
+                StateHistory(obj,'creation')];
         end
     end
     methods( Static = true, Access = 'private')
@@ -92,6 +93,7 @@ classdef Pulse < handle
                     result = 1;
             end
         end
+        
     end
     methods(Static)
         function pulseArray =  getPulseArray()
@@ -106,13 +108,6 @@ classdef Pulse < handle
         function pulse = getPulse(id)
             pulse = Pulse.managePulseArray(id, 'getPulse');
         end
-        function killPulse(id)
-            if(id==0)
-                return
-            end
-            p1 = Pulse.getPulse(id);
-            p1.DeadPulse = 1;
-        end
         function pulseArray = getLivePulseArray()
             pulses = Pulse.getPulseArray();
             pulseArray = [];
@@ -126,6 +121,20 @@ classdef Pulse < handle
         function outPulse = clonePulse(inPulse)
             outPulse = Pulse([inPulse.time,inPulse.I,...
                 inPulse.Q,inPulse.U,inPulse.V,inPulse.width]);
+            outPulse.stateHistoryArray = inPulse.stateHistoryArray;
+           
+        end
+        function saveStateHistory(pulse,state_creator)
+            pulse.stateHistoryArray = [pulse.stateHistoryArray, StateHistory(pulse,state_creator)];
+        end
+        function printStateHistory(input)
+            if(~isa(input,'Pulse'))
+                input = Pulse.getPulse(input);
+            end
+            sHArray = input.stateHistoryArray;
+            for i = 1:length(sHArray)
+                display(sHArray(i))
+            end
         end
     end
     

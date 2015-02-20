@@ -46,6 +46,8 @@ results = [];
         inputPulse.U = Sout(3);
         inputPulse.V = Sout(4);
         
+        state_creator = sprintf('Polarizing Beam Splitter Reflect');
+        Pulse.saveStateHistory(inputPulse,state_creator);
         results = [results,inputPulse.ID];
          
     end

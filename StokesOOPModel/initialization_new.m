@@ -9,8 +9,6 @@ delays = [10e-9, 14.33e-9, 18.66e-9];
 PCtimings1 = [0, 39, 104, 169, 221, 273]*1e-9;
 PCtimings2 = [43:2:93, 183:2:243]*1e-9;
 
-% PCtimings1 = [0:1:78]*1e-9;
-% PCtimings2 = [0:1:60]*1e-9;
 
 % Vector of input pulse timings
 num_pulses_start = 100;

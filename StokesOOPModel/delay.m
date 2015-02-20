@@ -15,6 +15,9 @@ for inputID = u(1:end-1)
     if(inputID >=1)
         inPulse = Pulse.getPulse(inputID);
         inPulse.time = inPulse.time + delayAmt;
+        
+        state_creator = sprintf('Delay: %0.3e',delayAmt);
+        Pulse.saveStateHistory(inPulse,state_creator);
     end
 end
 

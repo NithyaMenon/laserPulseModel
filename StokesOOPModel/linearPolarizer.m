@@ -57,7 +57,9 @@ results = [];
         inputPulse.U = Sout(3);
         inputPulse.V = Sout(4);
         
+        Pulse.saveStateHistory(inputPulse,'LinearPolarizer');
         results = [results,inputPulse.ID];
+        
         % Apply extinction ratio
          % TODO
  end

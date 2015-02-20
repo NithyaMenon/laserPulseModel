@@ -34,6 +34,8 @@ transmitPulseIDs = [];
         transmitPulseID = transmitPulse.ID;
         transmitPulseIDs = [transmitPulseIDs,transmitPulseID ];
         
+        state_creator = sprintf('Beam Splitter Transmit');
+        Pulse.saveStateHistory(transmitPulse,state_creator);
         
     end
     result = transmitPulseIDs;

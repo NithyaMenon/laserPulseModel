@@ -1,7 +1,7 @@
 clc
 close all
 
-[ times,I,Q,U,V,widths ] = IDtoPulseData( simout );
+[ times,I,Q,U,V,widths,IDs,StateHistoryArrays ] = IDtoPulseData( simout );
 zeropad = zeros(size(times));
 timevec = [ times-widths/2-eps, times-widths/2, times+widths/2,times+widths/2+eps];
 Ivec = [ zeropad, I, I, zeropad];

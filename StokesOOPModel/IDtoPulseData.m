@@ -1,4 +1,4 @@
-function [ times,I,Q,U,V,widths ] = IDtoPulseData( simout )
+function [ times,I,Q,U,V,widths,IDs,StateHistoryArrays ] = IDtoPulseData( simout )
 %UNTITLED6 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -12,6 +12,8 @@ Q = [];
 U = [];
 V = [];
 widths = [];
+IDs = [];
+StateHistoryArrays = [];
 
 for i = u
     p = Pulse.getPulse(i);
@@ -21,6 +23,8 @@ for i = u
     U = [ U, p.U];
     V = [ V, p.V];
     widths = [widths, p.width];
+    IDs = [IDs, p.ID];
+    StateHistoryArrays = [StateHistoryArrays, p.stateHistoryArray];
 end
 
 [~,inds] = sort(times);
@@ -30,6 +34,8 @@ Q = Q(inds);
 U = U(inds);
 V = V(inds);
 widths = widths(inds);
+IDs = IDs(inds);
+StateHistoryArrays = StateHistoryArrays(inds);
 
 
 
