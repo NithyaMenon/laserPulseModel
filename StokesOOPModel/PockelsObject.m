@@ -8,12 +8,11 @@ classdef PockelsObject < handle
         PCcurve;
         PCTransmittence;
         RFTime;
-        Sigma;
+        Error;
         
         ID;
         onTimes = [];
         offTimes = [];
-        Errors = [];
         
     end
     
@@ -30,17 +29,16 @@ classdef PockelsObject < handle
             
             obj.RFTime = 8e-9; % (Rise-Fall Time) Hard-coded
             obj.PCTransmittence = 0.85; % Hard-coded
-            obj.Sigma = 2.5*pi/180; 
+            obj.Error = 2.5*pi/180; 
             
-            obj.sCurveFall = @(t) (0.0876+1-((-0.135)+ 1.2348./(1+2*exp(-0.012*(t/1e9))).^2))/1.0876;
-            obj.PCcurve = @(t,tStart,tEnd) obj.sCurveFall(-(t-tStart))*(t<tStart) + ...
-                1*(tStart<=t && t<tEnd) + ...
-                obj.sCurveFall(t-tEnd)*(t>=tEnd);
+            obj.sCurveFall = @(t) (0.0112+(0.0876+1-((-0.135)+ 1.2348./(1+2*exp(-0.012*(t*1e11))).^2))/1.0876)/1.0092;
+            obj.PCcurve = @(t,tStart,tEnd) obj.sCurveFall(-(t-tStart)).*(t<tStart) + ...
+                1.*(tStart<=t && t<tEnd) + ...
+                obj.sCurveFall(t-tEnd).*(t>=tEnd);
             
             obj.onTimes = times(1:2:end);
             obj.offTimes = times(2:2:end);
             
-            obj.Errors = obj.Sigma*randn(size(obj.onTimes));
             
             
             
@@ -53,10 +51,12 @@ classdef PockelsObject < handle
             
             t = inputPulse.time;
             calculatedValues = zeros(1,length(obj.onTimes));
-            for i = length(obj.onTimes)
-                calculatedValues(i) = (pi+obj.Errors(i))*...
+            for i = 1:length(obj.onTimes)
+                calculatedValues(i) = (pi-obj.Error)*...
                     obj.PCcurve(t,obj.onTimes(i),obj.offTimes(i));
+                
             end
+            
             Tau = max(calculatedValues);
             
             % Compute Mueller matrix

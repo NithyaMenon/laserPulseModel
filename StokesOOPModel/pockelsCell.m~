@@ -13,12 +13,12 @@ end
 
 psi = inputs(end); % position angle
 PCID = inputs(end-1);
-pockObject = PockelsObject.getPockelsObject(PCID);
+pockObject = PockelsObject.getPockels(poc
 
 result = [];
 
 % iterate through inputPulseIDs
-for inputPulseID = inputs(1:end-2)
+for inputPulseID = inputs(1:end-size_of_timings-2)
         
         if(inputPulseID <1)
             result = [result, 0];
@@ -28,7 +28,7 @@ for inputPulseID = inputs(1:end-2)
         
         inputPulse = Pulse.getPulse(inputPulseID);
         
-        resultPulse = pockObject.applyPockels(inputPulse,psi);
+        resultPulse = 
         
         result = [result, resultPulse.ID];
         
