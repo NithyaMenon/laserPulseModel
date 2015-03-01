@@ -1,4 +1,4 @@
-function  data = graphTwoPulseFancy(inputPulse, idealOutput, n)
+function  data = graphTwoPulsesFancy(inputPulse, idealOutput, T)
 %   Inputs: inputPulse [ N x 3] matrix containing time, value_vert, and value_horiz in each row
 %   Outputs: plots  time vs. value 
 
@@ -18,7 +18,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
 % Here we go, final figure.  Declare the figure
 %figure(n);
 % Set the axes
-axis([tVector(1) tVector(end) 0.00001 2]);
+axis([0 T 0.000000001 2]);
 % set the y-axis to log
 set(gca,'YScale','log');
 % Turn "hold on" to tell it that we're going to add a couple patches
