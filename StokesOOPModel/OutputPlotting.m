@@ -18,3 +18,18 @@ graphPulseFancy(plotdata,1);
 % diffs = sort(diff(sort(times)));
 % plot(diffs,'r+');
 % mintime = mean(diffs(100:1000));
+
+T = 300.0*10^(-9);
+n = 6;
+
+idealOutput = idealPulse(T,n,1,0);
+
+fixfonts = @(h) set(h,'FontName','Arial',...
+                      'FontSize',12,...
+                      'FontWeight','bold');
+                  
+idealOutput = process_output_list(idealOutput);
+
+figure(2)
+fixfonts(title('Output Pulse'));
+graphTwoPulsesFancy(plotdata, idealOutput, T*10^9);
