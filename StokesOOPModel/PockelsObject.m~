@@ -13,12 +13,12 @@ classdef PockelsObject < handle
         ID;
         onTimes = [];
         offTimes = [];
-        controlPowers = [];
+        halfPower = [];
         
     end
     
     methods
-        function obj = PockelsObject( times, controlPowers )
+        function obj = PockelsObject( times, halfPower )
             % Expected format for times:
             %  [ontime1, offtime1, ontime2, offtime2,...]
             %  Assumption: onTime referes to risetime (8 ns) AFTER
@@ -31,9 +31,7 @@ classdef PockelsObject < handle
             if(mod(length(times), 2) ~= 0)
                 display('Error in PC instantiation: Unequal on, off times');
             end
-            if(length(times)/2 ~= length(controlPowers))
-                display('Error in PC instantiation: Not enough control powers');
-            end
+            if(length(times)/2 ~= cont
             
             obj.RFTime = 8e-9; % (Rise-Fall Time) Hard-coded
             obj.PCTransmittence = 0.85; % Hard-coded
@@ -46,7 +44,7 @@ classdef PockelsObject < handle
             
             obj.onTimes = times(1:2:end);
             obj.offTimes = times(2:2:end);
-            obj.controlPowers = controlPowers;
+            
             
             
             
@@ -60,7 +58,7 @@ classdef PockelsObject < handle
             t = inputPulse.time;
             calculatedValues = zeros(1,length(obj.onTimes));
             for i = 1:length(obj.onTimes)
-                calculatedValues(i) = (obj.controlPowers(i)*pi-obj.Error)*...
+                calculatedValues(i) = (pi-obj.Error)*...
                     obj.PCcurve(t,obj.onTimes(i),obj.offTimes(i));
                 
             end
