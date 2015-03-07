@@ -1,7 +1,10 @@
 function [ result ] = quarterWavePlate( inputs )
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-
+%QUARTER WAVE PLATE Applies effect of a quarter wave plate to pulse
+%   Usage: resultPulseIDs =
+%   quarterWavePlate([inputPulseID1,inputPulseID2,...,psi]);
+%   The last argument, psi, specifies the axis angle.
+%   The function interprets any arguments except for the last (which as 
+%   input pulse IDs, and treats only 0 as a 'null pulse' (doesn't act). 
 
 % Ensure row vector
 size_inputs = size(inputs);

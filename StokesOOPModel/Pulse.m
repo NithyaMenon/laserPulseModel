@@ -1,6 +1,28 @@
 classdef Pulse < handle
-    %UNTITLED11 Summary of this class goes here
-    %   Detailed explanation goes here
+    %PULSE Object 
+    %   The pulse object can be called with the following example piece of
+    %   code: p1 = Pulse([time,I,Q,U,V,width]) . The if not all arguments
+    %   are passed, default values will be assigned. 
+    %
+    %   Argument Descriptions:
+    %    time - pulse creation time (default = 0 ns)
+    %    I - intensitiy of pulse (default = 1 W)
+    %    Q,U,V - polarization parameters. (default = 0,0,0 (unpolarized))
+    %      See http://en.wikipedia.org/wiki/Stokes_parameters
+    %    width - pulse width (default = 5 ps)
+    %
+    %   Relevant Static Methods:
+    %     Pulse.getPulse(pulseID) - returns pulse object handle for
+    %         specified ID.
+    %     Pulse.saveStateHistory(pulse,state_creator) - appends a
+    %         StateHistory object labelled with the state creator to the 
+    %         pulse's state history array.
+    %     Pulse.printStateHistory(pulse or pulseID) - prints to command
+    %         window the StateHistory objects assigned to a pulse.
+    %     Pulse.clonePulse(inputPulse) - returns a new pulse with the same
+    %         properties as the input pulse.
+    %     Pulse.clearPulses() - clears references from the Pulse object's
+    %         static fields. Should be used at the start of any simulation.
     
     properties 
         % Stokes Parameters
@@ -108,16 +130,7 @@ classdef Pulse < handle
         function pulse = getPulse(id)
             pulse = Pulse.managePulseArray(id, 'getPulse');
         end
-        function pulseArray = getLivePulseArray()
-            pulses = Pulse.getPulseArray();
-            pulseArray = [];
-            for i = 1:length(pulses);
-                p = pulses(i);
-                if(p.DeadPulse ~= 1)
-                    pulseArray = [pulseArray,p];
-                end
-            end
-        end
+        
         function outPulse = clonePulse(inPulse)
             outPulse = Pulse([inPulse.time,inPulse.I,...
                 inPulse.Q,inPulse.U,inPulse.V,inPulse.width]);

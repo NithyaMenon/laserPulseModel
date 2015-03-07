@@ -1,6 +1,10 @@
 function [ result ] = delay( u )
-%UNTITLED13 Summary of this function goes here
-%   Detailed explanation goes here
+%DELAY Applies a specified delay to input pulses
+%   Usage: resultPulseIDs =
+%   delay([inputPulseID1,inputPulseID2,...,delayAmt]);
+%   The function interprets any arguments except for the last (which 
+%   specifies delay amout) as input pulse IDs, and treats only 0 as 
+%   a 'null pulse' (doesn't act). 
 
 % Ensure row vector
 size_inputs = size(u);

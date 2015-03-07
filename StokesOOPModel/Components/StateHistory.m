@@ -1,6 +1,10 @@
 classdef StateHistory<handle
     %STATEHISTORY Holds state of a pulse
-    %   Detailed explanation goes here
+    %   StateHistory returns an object that hold the properties of the
+    %   input pulse when the StateHistory object is created. It also holds
+    %   information regarding the process which induced the state
+    %   (state_creator). The usage is: stateHistoryObj =
+    %   StateHistory(inputPulse, state_creator).
     
     properties
         state_creator;
