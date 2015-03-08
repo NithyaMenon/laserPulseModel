@@ -7,7 +7,7 @@ addpath('./Graphing','./Components');
 % Delay Specification
 
 T = 300e-9; % s
-n = 8; % Do not change -- specific to slx file.
+n = 20; % Do not change -- specific to slx file.
 tim = @(T,n,k) T.*sin(k*pi./(2*n + 2) ).^2;
 delays = tim(T,n,1:n);
 
@@ -20,7 +20,6 @@ PCtimings = [-1,1]*1e-9;
 controlPowers = ones(1,length(PCtimings)/2);
 % controlPowers(1) = 0.5;
 % controlPowers(end) = 0.5;
-
 
 PockelsObject.clearPockels();
 PC1 = PockelsObject(PCtimings,controlPowers);

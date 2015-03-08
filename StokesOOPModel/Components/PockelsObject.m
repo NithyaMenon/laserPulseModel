@@ -1,6 +1,16 @@
 classdef PockelsObject < handle
-    %UNTITLED11 Summary of this class goes here
-    %   Detailed explanation goes here
+    %POCKELSOBJECT 
+    %   The PockelsObject can be called with the following example piece of
+    %   code: PC1 = PockelsObject([timings,controlpowers]) . The timings
+    %   argument is expected to be [onTime1,offTime1,onTime2,offTime2,...]
+    %   and the controlPowers argument is expected to be
+    %   [controlPower1,...controlPowerN], where N is the number of onTimes
+    %   in timings.
+    %
+    %   Relevant Static Methods:
+    %     Pulse.curve(timesVec) returns a vector curvesVec that gives you
+    %     the corresponding PC Tau value at time values specified by
+    %     timesVec.
     
     properties 
         
@@ -14,6 +24,9 @@ classdef PockelsObject < handle
         onTimes = [];
         offTimes = [];
         controlPowers = [];
+        
+        inputStream = [];
+        outputStream = [];
         
     end
     
@@ -57,6 +70,8 @@ classdef PockelsObject < handle
         function resultPulse = applyPockels(obj,inputPulse, psi)
             % Input: the input pulse, not just reference ID
             
+            obj.inputStream = [obj.inputStream,samplePulseObject(inputPulse)];
+            
             t = inputPulse.time;
             calculatedValues = zeros(1,length(obj.onTimes));
             for i = 1:length(obj.onTimes)
@@ -93,7 +108,63 @@ classdef PockelsObject < handle
                 obj.ID,Tau/pi);
             Pulse.saveStateHistory(resultPulse,state_creator);
             
+            
+            obj.outputStream = [obj.outputStream,samplePulseObject(resultPulse)];
         end
+        function curveData = curve(obj, timings)
+            
+            curveData = -ones(size(timings));
+            for j = 1:length(curveData)
+                t = timings(j);
+                calculatedValues = zeros(1,length(obj.onTimes));
+                for i = 1:length(obj.onTimes)
+                    calculatedValues(i) = (obj.controlPowers(i)*pi-obj.Error)*...
+                        obj.PCcurve(t,obj.onTimes(i),obj.offTimes(i));
+
+                end
+                
+                curveData(j) = max(calculatedValues);
+            end  
+        
+        end
+        function plotIO(obj,maxTime)
+            tt = 0:0.1e-9:maxTime;
+            curveData = obj.curve(tt);
+            
+            inputTimes = -ones(length(obj.inputStream),1);
+            inputI = -ones(length(obj.inputStream),1);
+            inputQ = -ones(length(obj.inputStream),1);
+            inputU = -ones(length(obj.inputStream),1);
+            inputV = -ones(length(obj.inputStream),1);
+            inputWidths = -ones(length(obj.inputStream),1);
+            
+            for i = 1:length(obj.inputStream)
+                inputTimes(i) = obj.inputStream(i).time;
+                inputI(i) = obj.inputStream(i).I;
+                inputQ(i) = obj.inputStream(i).Q;
+                inputU(i) = obj.inputStream(i).U;
+                inputV(i) = obj.inputStream(i).V;
+                inputWidths(i) = obj.inputStream(i).width;
+            end
+%             display(inputTimes)
+            
+            % ALL THIS IS BROKEN.
+            
+            zeropad = zeros(size(inputTimes));
+            timevec = [ inputTimes-inputWidths/2-eps, inputTimes-inputWidths/2, inputTimes+inputWidths/2,inputTimes+inputWidths/2+eps];
+            Ivec = [ zeropad, inputI, inputI, zeropad];
+            plotdata = transpose([timevec;Ivec]);
+            [Y,Inds] = sort(plotdata(:,1));
+            plotdata = plotdata(Inds,:);
+            
+            figure();
+%             graphPulseFancy(plotdata,1);
+            plot(inputTimes,inputI,'+');
+            hold on
+            plot(tt,curveData);
+            hold off
+        end
+        
     end
     methods( Static = true, Access = 'private')
         function result = managePockelsArray( pObj, operation)
@@ -120,6 +191,7 @@ classdef PockelsObject < handle
                     result = 1;
             end
         end
+        
         
     end
     methods(Static)
