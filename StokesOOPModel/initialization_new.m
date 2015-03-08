@@ -13,8 +13,8 @@ PCtimings1 = [-1,1,38,40,103,105,168,170,220,222,272,274]*1e-9;
 controlPowers1 = ones(1,length(PCtimings1)/2);
 % controlPowers1(1) = 0.5;
 % controlPowers1(end) = 0.5;
-PCtimings2 = [43+8,93,183+8,243]*1e-9;
-controlPowers2 = ones(1,length(PCtimings2)/2);
+PCtimings2 = [43+8,93,183+8,243]*1e-9
+controlPowers2 = ones(1,length(PCtimings2)/2)
 
 PC1 = PockelsObject(PCtimings1,controlPowers1);
 PC2 = PockelsObject(PCtimings2,controlPowers2);

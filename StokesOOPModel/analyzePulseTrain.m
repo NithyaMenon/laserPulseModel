@@ -1,4 +1,4 @@
-function [ timeError, powerError, timeErrorSum, powerErrorSum  ] = analyzePulseTrain( IDs, T, n )
+function [ timeError, powerError, residualPowerError, timeMSE, powerMSE, residualPowerMSE] = analyzePulseTrain( IDs, T, n )
 % analyzePulseTrain
 % Quick Script to pull out error in timings and power of a given pulse 
 % sequence compared to the ideal pulse train
@@ -22,8 +22,13 @@ idealTimes = [idealData.time];
 data = Pulse.getPulse(IDs);
 data = data([data.I] > 10^-5);
 
-power = [data.I]
+residualData = Pulse.getPulse(IDs);
+residualData = residualData([residualData.I] > 10^-5);
+
+power = [data.I];
 times = [data.time];
+
+residualPower = [residualData.I];
 
 % Compute the error relative to the ideal times
 % Note that negative values correspond to an ideal time before the actual
@@ -35,8 +40,12 @@ avgPower = mean(power);
 squaredError = (power - avgPower).^2;
 [minError, minIndex] = min(squaredError);
 powerError = (power - power(minIndex)).^2;
-powerErrorSum = sum(powerError);
-timeErrorSum = sum(timeError);
+powerMSE = sum(powerError)/size(powerError,2);
+timeMSE = sum(timeError)/size(powerError,2);
+
+residualPowerError = (residualPower).^2;
+residualPowerMSE = sum(residualPowerError)/size(powerError,2);
+
 
 end
 
