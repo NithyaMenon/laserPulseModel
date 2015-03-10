@@ -39,6 +39,7 @@ controlPowers1(end) = 0.5;
 PCtimings1
 controlPowers1
 
+PockelsObject.clearPockels();
 PC1 = PockelsObject(PCtimings1,controlPowers1);
 
 
