@@ -1,30 +1,22 @@
-function [actualT, idealTimes, actualTimes, err, passes, eomOnTimes, eomOffTimes] = automate(T,N)
+function [idealTimes, actualTimes, err, passes, eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes] = automate(T,N,delTimes,bestDelays)
 % Inputs:
 %  T - the overall length of the UDD sequence to be approximated, in
 %      nanoseconds
 %  n - the number of pi pulses in the UDD sequence
 
 
-
-
 %call delay optimization stuff
 repRate = 13;
-actualT = 299;
-idealTimes = [0; uddTimes(T,N,0); actualT];
-delTimes = 13+[0;(repRate/3);(2*repRate/3)];
-bestDelays = [1;1;2;1;1;3;1;1];
+idealTimes = [0; uddTimes(T,N,0); T];
+offset = 0;
 
 
-
-
-offset = min(delTimes-10);
-actualDelTimes = delTimes - offset;
 
 bestDelTimes = delTimes(bestDelays);
 pulseNum = round((idealTimes-bestDelTimes)/repRate);
 actualTimes = (pulseNum*repRate)+bestDelTimes;
 err = actualTimes-idealTimes;
-passes = [(actualTimes-actualDelTimes(bestDelays)), actualTimes];
+passes = [(actualTimes-delTimes(bestDelays)), actualTimes];
 
 %this part determines how the EOM should start out
 eomOnTimes = [];
@@ -73,6 +65,8 @@ for i=1:length(bestDelays)
     end
 end
 
+ppEomOffTimes = passes(:,1)- offset+1;
+ppEomOnTimes = ppEomOffTimes - 10;
 
 %error = actualTimes-idealTimes;
 %maxErr=0;
@@ -84,3 +78,11 @@ end
 
 
 %msd = sum(error.^2);
+
+autoplot(T, N, idealTimes, actualTimes, err, passes, eomOnTimes, eomOffTimes);
+
+if length(unique(ppEomOffTimes))~=length(ppEomOffTimes) ...
+        || length(unique(ppEomOnTimes))~=length(ppEomOnTimes)
+    fprintf('\nErr: Multiple pulses created from one input pulse\n\n');
+end
+    

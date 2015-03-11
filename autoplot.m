@@ -1,9 +1,9 @@
-function data = autoplot(actualT, N, idealTimes, actualTimes, err, passes, eomOnTimes, eomOffTimes)
+function data = autoplot(T, N, idealTimes, actualTimes, err, passes, eomOnTimes, eomOffTimes)
 %   Inputs: inputPulse [ N x 3] matrix containing time, value_vert, and value_horiz in each row
 %   Outputs: plots  time vs. value 
 
 
-tVector = linspace(0,actualT,3000);
+tVector = linspace(0,T,3000);
 idealTimes = idealTimes(idealTimes>0);
 actualTimes = actualTimes(actualTimes>0);
 firstPasses = passes(passes(:,1)>0,1);
@@ -16,12 +16,12 @@ eomOffTimes = [eomOffTimes ; (temp+6)];
 
 [idealTimesPlot,actualTimesPlot,firstPassesPlot,secondPassesPlot,eomTimesPlot] = deal(zeros(3000,1));
 
-idealTimesPlot(round(idealTimes*3000/actualT))=1;
-actualTimesPlot(round(actualTimes*3000/actualT))=1;
-firstPassesPlot(round(firstPasses*3000/actualT))=1;
-secondPassesPlot(round(secondPasses*3000/actualT))=1;
-eomTimesPlot(round(eomOnTimes*3000/actualT))=1.2;
-eomTimesPlot(round(eomOffTimes*3000/actualT))=1.5;
+idealTimesPlot(round(idealTimes*3000/T))=1;
+actualTimesPlot(round(actualTimes*3000/T))=1;
+firstPassesPlot(round(firstPasses*3000/T))=1;
+secondPassesPlot(round(secondPasses*3000/T))=1;
+eomTimesPlot(round(eomOnTimes*3000/T))=1.2;
+eomTimesPlot(round(eomOffTimes*3000/T))=1.5;
 
 
 fixfonts = @(h) set(h,'FontName','Arial',...
