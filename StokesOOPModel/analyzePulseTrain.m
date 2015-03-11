@@ -28,12 +28,16 @@ residualData = residualData([residualData.I] > 10^-5);
 power = [data.I];
 times = [data.time];
 
-residualPower = [residualData.I];
+%residualPower = [residualData.I];
 
 % Compute the error relative to the ideal times
 % Note that negative values correspond to an ideal time before the actual
 % pulse, and a positive value corresponds to an ideal time after the actual
 % pulse
+%idealTimes
+%times
+
+%THIS WILL ONLY WORK IF IDEALTIMES AND TIMES HAVE THE SAME DIMENSIONS
 timeError = idealTimes - times;
 
 avgPower = mean(power);
@@ -43,7 +47,7 @@ powerError = (power - power(minIndex)).^2;
 powerMSE = sum(powerError)/size(powerError,2);
 timeMSE = sum(timeError)/size(powerError,2);
 
-residualPowerError = (residualPower).^2;
+residualPowerError = (residualData).^2;
 residualPowerMSE = sum(residualPowerError)/size(powerError,2);
 
 

@@ -34,12 +34,11 @@ figure(2)
 fixfonts(title('Output Pulse'));
 graphTwoPulsesFancy(plotdata, idealOutput, T*10^9);
 
-[timeError, powerError, residualPowerError, timeMSE, powerMSE, ...
-    residualPowerMSE] = analyzePulseTrain(IDs, T, n);
+[timeError, powerError, residualPowerError, timeMSE, powerMSE, residualPowerMSE] = analyzePulseTrain(IDs, T, n);
 
-powerError
+%powerError
 %residualPowerError
-timeError
-timeMSE
-powerMSE
-residualPowerMSE
+%timeError
+%timeMSE
+%powerMSE
+%residualPowerMSE
