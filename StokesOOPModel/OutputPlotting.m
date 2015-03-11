@@ -13,7 +13,7 @@ plotdata = transpose([timevec;Ivec]);
 [Y,Inds] = sort(plotdata(:,1));
 plotdata = plotdata(Inds,:);
 
-graphPulseFancy(plotdata,1);
+%graphPulseFancy(plotdata,1);
 
 % diffs = sort(diff(sort(times)));
 % plot(diffs,'r+');
@@ -33,3 +33,12 @@ idealOutput = process_output_list(idealOutput);
 figure(2)
 fixfonts(title('Output Pulse'));
 graphTwoPulsesFancy(plotdata, idealOutput, T*10^9);
+
+[timeError, powerError, residualPowerError, timeMSE, powerMSE, residualPowerMSE] = analyzePulseTrain(IDs, T, n);
+
+%powerError
+%residualPowerError
+%timeError
+%timeMSE
+%powerMSE
+%residualPowerMSE
