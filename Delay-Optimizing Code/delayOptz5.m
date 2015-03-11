@@ -1,6 +1,6 @@
-function [delTimes, digTimes, bestDelays, msd] = delayOptz3(T,n,plotCheck)
-% finds the optimal delays for an optical network with eight digital delays
-% (constructed from three tunable delays) for a UDD sequence of length T
+function [delTimes, digTimes, bestDelays, msd] = delayOptz5(T,n,plotCheck)
+% finds the optimal delays for an optical network with twelve digital delays
+% (constructed from five tunable delays) for a UDD sequence of length T
 % and order n
 %
 % Inputs:
@@ -18,23 +18,24 @@ function [delTimes, digTimes, bestDelays, msd] = delayOptz3(T,n,plotCheck)
 %
 % Required files:
 %  uddTimes.m
-%  pulseMSD3.m
+%  pulseMSD5.m
+%  compositeDelays5.m
 
 if nargin<3
     plotCheck = true;
 end
 
 repRate = 13; % input pulse repetition rate, in nanoseconds
-stepSize = 0.25; % size (as fraction of repRate) of steps for optimization
+stepSize = 0.125; % size (as fraction of repRate) of steps for optimization
 
 idealTimes = uddTimes(T,n,0); % UDD sequence times
 msd = Inf; % starting value
-delTimes = [0; 1/6; 1/3; 1/2]; % a uniformly-spaced default
+delTimes = [0; 1/4; 1/2; 1/12; 1/12]; % a uniformly-spaced default
 options = optimset('Algorithm','active-set','Display','off'); % suppress output
 
-% constraint matrices that specify 0<x0<1, 0<x1<x2<x3<2
-A = [0 1 -1 0; 0 0 1 -1];
-b = [0; 0];
+% constraint matrices that specify x2<x3
+A = [0 1 -1 0 0];
+b = [0];
 
 % performs nested for-loop to try all sorts of initial conditions
 for x0 = 0:stepSize:1
@@ -58,38 +59,8 @@ end
 %  added at the end
 digTimes = compositeDelays(delTimes);
 
-% matches each pulse to the closest delay line
-bestDelays = dsearchn(repRate*mod(digTimes,1),mod(idealTimes,repRate));
-
-
 % plotting
-if plotCheck == 1
-    fixfonts = @(h) set(h,'FontName','Arial',...
-                      'FontSize',10,...
-                      'FontWeight','bold');
-    figure
-    hold on
-    fixfonts(xlabel('\pi Pulse Number'));
-    fixfonts(ylabel('Pulse Arrival Time Error, ns'));
-    fixfonts(title(strcat('Pulse Error Comparison for Optimized and Evenly-Spaced Delays',...
-        ', T=',int2str(T),', n=',int2str(n))));
-    fixfonts(gca);
-    
-    % error from uniform delays
-    uniTimes = digitizer(idealTimes,T,repRate,6);
-    uniErrs = uniTimes - idealTimes;
-    
-    % error from optimized delays
-    digModTimes = [digTimes+ones(size(digTimes,1),1); digTimes;...
-        digTimes-ones(size(digTimes,1),1)];
-    bestModDelays = dsearchn(repRate*digModTimes,mod(idealTimes,repRate));
-    digErrs = repRate*digModTimes(bestModDelays) - mod(idealTimes,repRate);
-    plot((1:n)',uniErrs,(1:n)',digErrs,'LineWidth',2)
-    
-    ymax = max(abs(ylim(gca)));
-    ylim([-ymax ymax]);
-    legend('Evenly-Spaced Delays','Optimized Delays');
-elseif plotCheck == 2
+if plotCheck
     fixfonts = @(h) set(h,'FontName','Arial',...
                       'FontSize',10,...
                       'FontWeight','bold');
@@ -118,3 +89,5 @@ elseif plotCheck == 2
     hold off
 end
 
+% matches each pulse to the closest delay line
+bestDelays = dsearchn(repRate*mod(digTimes,1),mod(idealTimes,repRate));

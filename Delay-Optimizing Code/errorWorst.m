@@ -1,6 +1,6 @@
-function [msd, absolute] = errorCalc(Tmin,Tmax,n,plotCheck)
+function [msd, absolute] = errorWorst(Tmin,Tmax,n,plotCheck)
 % computes mean-square-displacement and absolute-error data for
-% optimized delay options across [Tmin, Tmax] and for order n
+% only choosing the closest input pulse, with no modifications
 %
 % Inputs:
 %  Tmin - the minimum length of the UDD sequence, in nanoseconds
@@ -10,11 +10,11 @@ function [msd, absolute] = errorCalc(Tmin,Tmax,n,plotCheck)
 %
 % Outputs:
 %  For each value of T between Tmin and Tmax (that is an increment of 13),
-%  errorBase computes the total mean-square displacemnt of the digitized
+%  errorBase computes the total mean-square displacemnt of the pulse-picked
 %  times from the ideal times, output in "msd." It also computes the
 %  average absolute error, output in "absolute." Both msd vs T and absolute
 %  vs T can be plotted by setting plotCheck = 1.
-tic
+
 if nargin<4
     plotCheck = true;
 end
@@ -27,9 +27,10 @@ T = (Tmin:repRate:Tmax)';
 
 for i = 1:length(T)
     idealTimes = uddTimes(T(i),n,0);
-    delTimes = delayOptz3(T(i),n,0);
-    msd(i) = pulseMSD3(delTimes,idealTimes,repRate);
-    absolute(i) = pulseAVG3(delTimes,idealTimes,repRate);
+    digTimes = digitizer(idealTimes,T(i),repRate,1);
+    diffs = abs(digTimes - idealTimes);
+    absolute(i) = sum(diffs)/n;
+    msd(i) = sum(diffs.^2)/n;
 end
 
 if plotCheck
@@ -39,12 +40,9 @@ if plotCheck
                       'FontWeight','bold');
                   
     plot([T T],[msd absolute],'LineWidth',2);
-    ylim([0 13/12]);
     fixfonts(xlabel('UDD Sequence Length, T'));
     fixfonts(ylabel('Size of error (ns or ns^2)'));
-    fixfonts(title(strcat('Error of Optimized Delay Spacing, for Order n=',int2str(n))));
+    fixfonts(title(strcat('Error of Uniform Delay Spacing, for Order n=',int2str(n))));
     fixfonts(gca);
     fixfonts(legend('MSD','Avg. Abs. Val.'));
 end
-t=toc
-beep

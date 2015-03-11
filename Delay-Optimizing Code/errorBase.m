@@ -34,6 +34,7 @@ for i = 1:length(T)
 end
 
 if plotCheck
+    figure
     fixfonts = @(h) set(h,'FontName','Arial',...
                       'FontSize',10,...
                       'FontWeight','bold');

@@ -14,14 +14,16 @@ function out = minFun(x,idealTimes,repRate,compositeDelays)
 %  
 %
 % Outputs:
-%  The function computes the sum of the squared time differences between
-%  each ideal pulse and its nearest digital pulse. This function is
-%  intended to be used as the input for a call to fmincon, which will
-%  optimize the choice of digital arrival times.
+%  The function computes an error function of a non-ideal pulse sequence
+%  relative to an ideal sequence for the purposes of minimization via
+%  fmincon. Currently, the function is
+%       error = mean-squared error + switching function error (weighted)
+
 
 % relative weights of switching function to mean-squared errors
-relWT = 10;
+relWT = 100;
 
+% the ideal times
 modTimes = mod(idealTimes,repRate);
 
 % construct the possible delay lines in subfunction; add preceding and
@@ -34,6 +36,6 @@ allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
 % adjacent one, for each real pulse
 nearPulses = dsearchn(allTimes,modTimes);
 
-% sum individual MSDs
-errs = allTimes(nearPulses,1) - modTimes(nearPulses,1);
-out = errs'.*errs + relWT*((-1).^([0:length(errs)-1])*errs);
+% error metric (out) is (RMS error + relWT)*SF error
+errs = allTimes(nearPulses,1) - modTimes((1:length(idealTimes))',1);
+out = (sqrt(errs'*errs) + relWT)*abs((-1).^(0:(length(errs)-1))*errs);
