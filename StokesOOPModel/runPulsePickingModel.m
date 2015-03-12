@@ -2,8 +2,12 @@ clear;
 close all;
 clc;
 
-nArray = [18,20]; %, 14, 18, 22];
-TArray = [962, 2028, 2951]*10^-9;
+nArray = 6:2:30; %, 14, 18, 22];
+TArray = 299:130:2899; 
+TArray = TArray*10^-9;
+
+%nArray = [6, 8];
+%TArray = (299+2*130)*10^-9;
 
 %[260, 624, 962, 2028, 2951]*10^-9;
 
@@ -42,7 +46,13 @@ for j = 1:length(nArray)
             offTime = onTime + 2*10^-9;
             PCtimings1 = [PCtimings1 onTime offTime];
         end
-
+    
+        seqFail = 0;
+        if length(unique(PCtimings1)) ~= length(PCtimings1)
+            seqFail = 1;
+            fprintf('Problem Detected');
+        end
+        
         controlPowers1 = ones(1,length(PCtimings1)/2);
         controlPowers1(1) = 0.5;
         controlPowers1(end) = 0.5;
@@ -64,15 +74,25 @@ for j = 1:length(nArray)
             inputsignal(i) = pulse.ID;
         end
         
-        sim('PulsePickingModel.slx')
+        if seqFail == 0
+            sim('PulsePickingModel.slx')
         
-        timeMSEMatrix(j, k) = timeMSE;
-        powerMSEMatrix(j, k) = powerMSE;
-        residualPowerMSEMatrix(j, k) = residualPowerMSE;
+            timeMSEMatrix(j, k) = timeMSE;
+            powerMSEMatrix(j, k) = powerMSE;
+            residualPowerMSEMatrix(j, k) = residualPowerMSE;
 
-        timeAbsMatrix(j, k) = timeAbsError;
-        powerAbsMatrix(j, k) = powerAbsError;
-        residualAbsMatrix(j, k) = residualAbsError;
-        
+            timeAbsMatrix(j, k) = timeAbsError;
+            powerAbsMatrix(j, k) = powerAbsError;
+            residualAbsMatrix(j, k) = residualAbsError;
+        else
+            timeMSEMatrix(j, k) = 0;
+            powerMSEMatrix(j, k) = 0;
+            residualPowerMSEMatrix(j, k) = 0;
+
+            timeAbsMatrix(j, k) = 0;
+            powerAbsMatrix(j, k) = 0;
+            residualAbsMatrix(j, k) = 0;
+        end
+       
     end
 end

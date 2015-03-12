@@ -39,16 +39,19 @@ residualPower = [residualData.I];
 %times
 
 %THIS WILL ONLY WORK IF IDEALTIMES AND TIMES HAVE THE SAME DIMENSIONS
-timeError = (idealTimes - times).^2;
+timeError = (idealTimes - times);
+timeErrorSquare = (idealTimes - times).^2;
 avgPower = mean(power);
 squaredError = (power - avgPower).^2;
 [minError, minIndex] = min(squaredError);
-powerError = (power - power(minIndex)).^2;
-powerMSE = sum(powerError)/size(powerError,2);
-timeMSE = sum(timeError)/size(timeError,2);
+powerError = (power - power(minIndex));
+powerErrorSquare = (power - power(minIndex)).^2;
+powerMSE = sum(powerErrorSquare)/size(powerErrorSquare,2);
+timeMSE = sum(timeErrorSquare)/size(timeErrorSquare,2);
 
-residualPowerError = (residualPower).^2;
-residualPowerMSE = sum(residualPowerError)/size(powerError,2);
+residualPowerError = (residualPower);
+residualPowerErrorSquare = (residualPower).^2;
+residualPowerMSE = sum(residualPowerErrorSquare)/size(powerErrorSquare,2);
 
 timeAbsError = sum(timeError);
 powerAbsError = sum(powerError);
