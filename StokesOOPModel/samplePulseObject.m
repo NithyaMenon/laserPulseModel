@@ -10,6 +10,7 @@ classdef samplePulseObject < handle
         V;
         time;
         width;
+        PulseID;
         
         % samplePulseObject parameters
         ID;
@@ -26,6 +27,7 @@ classdef samplePulseObject < handle
             obj.V = pulseToSample.V;
             obj.time = pulseToSample.time;
             obj.width = pulseToSample.width;
+            obj.PulseID = pulseToSample.ID;
             
             
         end

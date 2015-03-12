@@ -7,7 +7,7 @@ classdef PockelsObject < handle
     %   [controlPower1,...controlPowerN], where N is the number of onTimes
     %   in timings.
     %
-    %   Relevant Static Methods:
+    %   Relevant Methods:
     %     Pulse.curve(timesVec) returns a vector curvesVec that gives you
     %     the corresponding PC Tau value at time values specified by
     %     timesVec.
@@ -127,42 +127,80 @@ classdef PockelsObject < handle
             end  
         
         end
+        function [Times,Is,Qs,Us,Vs,Widths,IDs] = streamData(obj,stream)
+            
+            Times = -ones(length(stream),1);
+            Is = -ones(length(stream),1);
+            Qs = -ones(length(stream),1);
+            Us = -ones(length(stream),1);
+            Vs = -ones(length(stream),1);
+            Widths = -ones(length(stream),1);
+            IDs = -ones(length(stream),1);
+            
+            for i = 1:length(stream)
+                Times(i) = stream(i).time;
+                Is(i) = stream(i).I;
+                Qs(i) = stream(i).Q;
+                Us(i) = stream(i).U;
+                Vs(i) = stream(i).V;
+                Widths(i) = stream(i).width;
+                IDs(i) = stream(i).PulseID;
+            end
+            
+            [Times,Inds] = sort(Times);
+            Is = Is(Inds);
+            Qs = Qs(Inds);
+            Us = Us(Inds);
+            Vs = Vs(Inds);
+            Widths = Widths(Inds);
+            IDs = IDs(Inds);
+            
+        end
         function plotIO(obj,maxTime)
-            tt = 0:0.1e-9:maxTime;
+            tt = -10e-9:0.1e-9:maxTime;
             curveData = obj.curve(tt);
             
-            inputTimes = -ones(length(obj.inputStream),1);
-            inputI = -ones(length(obj.inputStream),1);
-            inputQ = -ones(length(obj.inputStream),1);
-            inputU = -ones(length(obj.inputStream),1);
-            inputV = -ones(length(obj.inputStream),1);
-            inputWidths = -ones(length(obj.inputStream),1);
+            [inputTimes,inputI,inputQ,inputU,inputV,inputWidths,inputIDs] = ...
+                obj.streamData(obj.inputStream);
+%             [outputTimes,outputI,outputQ,outputU,outputV,outputWidths,outputIDs] = ...
+%                 obj.streamData(obj.outputStream);
             
-            for i = 1:length(obj.inputStream)
-                inputTimes(i) = obj.inputStream(i).time;
-                inputI(i) = obj.inputStream(i).I;
-                inputQ(i) = obj.inputStream(i).Q;
-                inputU(i) = obj.inputStream(i).U;
-                inputV(i) = obj.inputStream(i).V;
-                inputWidths(i) = obj.inputStream(i).width;
-            end
-%             display(inputTimes)
             
-            % ALL THIS IS BROKEN.
+            inputIV = inputI.*(inputQ>=0);
+            inputIH = inputI.*(inputQ<0);
             
             zeropad = zeros(size(inputTimes));
-            timevec = [ inputTimes-inputWidths/2-eps, inputTimes-inputWidths/2, inputTimes+inputWidths/2,inputTimes+inputWidths/2+eps];
-            Ivec = [ zeropad, inputI, inputI, zeropad];
-            plotdata = transpose([timevec;Ivec]);
-            [Y,Inds] = sort(plotdata(:,1));
-            plotdata = plotdata(Inds,:);
+            timevec = [ inputTimes-inputWidths/2-eps; inputTimes-inputWidths/2; inputTimes+inputWidths/2;inputTimes+inputWidths/2+eps];
+            IVvec = [ zeropad; inputIV; inputIV; zeropad];
+            IHvec = [ zeropad; inputIH; inputIH; zeropad];
+%             plotdata = transpose([timevec;Ivec]);
+%             [Y,Inds] = sort(plotdata(:,1));
+%             plotdata = plotdata(Inds,:);
+            [timevec,Inds] = sort(timevec);
+            IVvec = IVvec(Inds);
+            IHvec = IHvec(Inds);
+            
+            
+            
             
             figure();
-%             graphPulseFancy(plotdata,1);
-            plot(inputTimes,inputI,'+');
+            plot(timevec*1e9,0.5*IVvec/max(inputI),'LineWidth',2);
             hold on
-            plot(tt,curveData);
+            plot(timevec*1e9,0.5*IHvec/max(inputI),'LineWidth',2);
+            plot(tt*1e9,curveData/pi,'LineWidth',2);
+%             h = area(tt*1e9,curveData/pi, 'FaceColor', [0.9290    0.6940    0.1250],'EdgeColor','None');
+%             set(h(1),'FaceAlpha',0.3);
             hold off
+            axis([-1,maxTime*1e9,0,1])
+            h = legend('Vertically Polarized Input', 'Horizontally Polarized Input', 'Tau/\pi');
+            set(h,'FontSize',14);
+            
+            titl = sprintf('Input Plot for Pockels Cell %i', obj.ID);
+            title(titl,'FontSize',16);
+            xlabel('Time [ns]','FontSize',14);
+            ylabel('Scaled Amplitude','FontSize',14);
+            
+            
         end
         
     end
