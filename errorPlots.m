@@ -5,8 +5,8 @@ repRate = 13;
 riseTime = 8;
 
 
-T=299:130:2899;
-N=6:2:16;
+T=299:13:2990;
+N=6:2:6;
 
 errs = zeros(length(N),length(T));
 errs2 = zeros(length(N),1);
@@ -20,10 +20,13 @@ for n=N
         [~, delTimes, bestDelays, ~] = delOp(t,n,0);
         %err is given by the function in automate now,which
         %is currently a (1+RMS/WT)*SFE
-        [~, ~, ~, ~,seqFail,err]= automate(t,n,delTimes,bestDelays);
+        [~, ~, ~, ~,seqFail,err,ffResult]= automate(t,n,delTimes,bestDelays);
         if seqFail==0
-            errs(i,j)=err;
+            errs(i,j)=log10(ffResult);
         end
+        %if seqFail==1
+        %    break
+        %end
     end
     errs2(i) = sum(errs(i,:))/nnz(errs(i,:));
 end

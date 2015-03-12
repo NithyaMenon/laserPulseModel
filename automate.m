@@ -1,4 +1,4 @@
-function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail,err] = automate(T,N,delTimes,bestDelays)
+function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail,err, ffResult] = automate(T,N,delTimes,bestDelays)
 % Inputs:
 %  T - the overall length of the UDD sequence to be approximated, in
 %      nanoseconds
@@ -18,6 +18,7 @@ function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail,err] = a
 %    N=6;
 
 
+
 repRate = 13;
 riseTime = 8;
 idealTimes = [0; uddTimes(T,N,0); T];
@@ -34,7 +35,6 @@ end
 bestDelTimes = delTimes(bestDelays);
 pulseNum = round((idealTimes-bestDelTimes)/repRate);
 actualTimes = (pulseNum*repRate)+bestDelTimes;
-err = actualTimes-idealTimes;
 passes = [(actualTimes-delTimes(bestDelays)), actualTimes];
 
 %this part determines how the EOM should start out
@@ -97,6 +97,13 @@ error = actualTimes-idealTimes;
 relWT=100;
 err = (sqrt(sum(error.*error))/relWT + 1) * abs(sum(((-1).^([0:length(error)-1])*error)));   
 
+
+n=1:N;
+omegaT = logspace(-2,2,300)';
+filter_function = @(timings) abs(1+(-1)^(N+1)*exp(1i*omegaT) + ...
+        sum(2*exp(1i*bsxfun(@plus,n*pi,omegaT*timings)),2)).^2;
+F = filter_function(actualTimes(2:end-1)'/T);
+ffResult=F(1);
 
 %autoplot(T, N, idealTimes, actualTimes, err, passes, eomOnTimes, eomOffTimes);
 seqFail=0;

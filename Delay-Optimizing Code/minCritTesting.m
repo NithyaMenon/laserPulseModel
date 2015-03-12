@@ -41,15 +41,15 @@ for i = 1:X
     
     idealTimes = uddTimes(T,N,0)';
     % Randomly generate some error and some times with error
-    %error = (rand(N,1)*sqrt(X))-(sqrt(X)/2);
-    %UDD_timings = (idealTimes + error')/T;
+    error = (rand(N,1)*sqrt(X))-(sqrt(X)/2);
+    UDD_timings = (idealTimes + error')/T;
     
     
     % Or generate some times that are not at all a UDD sequence, but
     % have a near-zero switching function
-    UDD_timings = [T/10; 2*T/10; 5*T/10; 7*T/10; 7.5*T/10; 9.5*T/10]'+ ...
-        (rand(N,1)'*sqrt(X))-(sqrt(X)/2);
-    error = UDD_timings'-idealTimes';
+    %UDD_timings = [T/10; 2*T/10; 5*T/10; 7*T/10; 7.5*T/10; 9.5*T/10]'+ ...
+    %    (rand(N,1)'*sqrt(X))-(sqrt(X)/2);
+    %error = UDD_timings'-idealTimes';
     
     % Calculate various errors
     msd = sum(error.*error)/N;
