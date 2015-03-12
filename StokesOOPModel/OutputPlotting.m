@@ -19,8 +19,8 @@ plotdata = plotdata(Inds,:);
 % plot(diffs,'r+');
 % mintime = mean(diffs(100:1000));
 
-T = 300.0*10^(-9);
-n = 6;
+%T = 600.0*10^(-9);
+%n = 10;
 
 idealOutput = idealPulse(T,n,1,0);
 
@@ -34,11 +34,12 @@ figure(2)
 fixfonts(title('Output Pulse'));
 graphTwoPulsesFancy(plotdata, idealOutput, T*10^9);
 
-[timeError, powerError, residualPowerError, timeMSE, powerMSE, residualPowerMSE] = analyzePulseTrain(IDs, T, n);
 
-%powerError
-%residualPowerError
-%timeError
-%timeMSE
-%powerMSE
-%residualPowerMSE
+[timeAbsError, powerAbsError, residualAbsError, timeMSE, powerMSE, residualPowerMSE] = analyzePulseTrain(IDs, T, n);
+
+% powerError
+% residualPowerError
+% timeError
+% timeMSE
+% powerMSE
+% residualPowerMSE

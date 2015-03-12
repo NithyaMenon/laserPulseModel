@@ -1,4 +1,4 @@
-function [ timeError, powerError, residualPowerError, timeMSE, powerMSE, residualPowerMSE] = analyzePulseTrain( IDs, T, n )
+function [ timeAbsError, powerAbsError, residualAbsError, timeMSE, powerMSE, residualPowerMSE] = analyzePulseTrain( IDs, T, n )
 % analyzePulseTrain
 % Quick Script to pull out error in timings and power of a given pulse 
 % sequence compared to the ideal pulse train
@@ -13,6 +13,7 @@ function [ timeError, powerError, residualPowerError, timeMSE, powerMSE, residua
 %                  the mean power of the output pulse sequence
 
 % Compute ideal sequence for reference
+
 idealOutput = idealPulse(T,n,1,0);
 idealData = Pulse.getPulse(idealOutput);
 idealTimes = [idealData.time];
@@ -23,12 +24,12 @@ data = Pulse.getPulse(IDs);
 data = data([data.I] > 10^-5);
 
 residualData = Pulse.getPulse(IDs);
-residualData = residualData([residualData.I] > 10^-5);
+residualData = residualData([residualData.I] < 10^-5);
 
 power = [data.I];
 times = [data.time];
 
-%residualPower = [residualData.I];
+residualPower = [residualData.I];
 
 % Compute the error relative to the ideal times
 % Note that negative values correspond to an ideal time before the actual
@@ -38,18 +39,20 @@ times = [data.time];
 %times
 
 %THIS WILL ONLY WORK IF IDEALTIMES AND TIMES HAVE THE SAME DIMENSIONS
-timeError = idealTimes - times;
-
+timeError = (idealTimes - times).^2;
 avgPower = mean(power);
 squaredError = (power - avgPower).^2;
 [minError, minIndex] = min(squaredError);
 powerError = (power - power(minIndex)).^2;
 powerMSE = sum(powerError)/size(powerError,2);
-timeMSE = sum(timeError)/size(powerError,2);
+timeMSE = sum(timeError)/size(timeError,2);
 
-residualPowerError = (residualData).^2;
+residualPowerError = (residualPower).^2;
 residualPowerMSE = sum(residualPowerError)/size(powerError,2);
 
+timeAbsError = sum(timeError);
+powerAbsError = sum(powerError);
+residualAbsError = sum(residualPowerError);
 
 end
 

@@ -3,8 +3,8 @@ close all;
 clc;
 
 % Specify a desired n and T
-n = 6;
-T = 300*10^-9;
+n = 12;
+T = 800*10^-9;
 
 % Delay Specification
 
