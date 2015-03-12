@@ -3,7 +3,8 @@ function [idealTimes, actualTimes, err, passes, eomOnTimes, eomOffTimes, ppEomOn
 %  T - the overall length of the UDD sequence to be approximated, in
 %      nanoseconds
 %  n - the number of pi pulses in the UDD sequence
-%  delTimes - column vector of delay times, in ns. 1st delay should be 0
+%  delTimes - column vector of delay times, as fractions of repRate.
+%             1st delay should be 0
 %  bestDelays - column vector of delay corresponding to each pulse
 
 %  example input:
@@ -22,6 +23,7 @@ riseTime = 8;
 idealTimes = [0; uddTimes(T,N,0); T];
 offset = 0;
 
+delTimes = delTimes*repRate;
 if delTimes(2)<riseTime
     delTimes(2) = delTimes(2)+repRate;    
 end
