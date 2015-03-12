@@ -27,7 +27,7 @@ delTimes = delTimes*repRate;
 if delTimes(2)<riseTime
     delTimes(2) = delTimes(2)+repRate;    
 end
-if length(bestDelays)==n
+if length(bestDelays)==N
     bestDelays = [1;bestDelays;1];
 end
 
@@ -99,10 +99,10 @@ ppEomOnTimes = ppEomOffTimes - 10;
 
 %msd = sum(error.^2);
 
-autoplot(T, N, idealTimes, actualTimes, err, passes, eomOnTimes, eomOffTimes);
+%autoplot(T, N, idealTimes, actualTimes, err, passes, eomOnTimes, eomOffTimes);
 
 if length(unique(ppEomOffTimes))~=length(ppEomOffTimes) ...
         || length(unique(ppEomOnTimes))~=length(ppEomOnTimes)
-    fprintf('\nErr: Multiple pulses created from one input pulse\n\n');
+    fprintf('\nErr: Multiple pulses created from one input pulse, for sequence with T=%d and N=%d.\n\n',T,N);
 end
     
