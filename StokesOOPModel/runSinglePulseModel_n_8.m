@@ -4,7 +4,7 @@ clc;
 
 addpath('./Graphing','./Components');
 
-nArray = 6; % Do NOT change -- specific to slx file
+nArray = 8; % Do NOT change -- specific to slx file
 TArray = 299:130:2899; 
 TArray = TArray*10^-9;
 
@@ -14,14 +14,12 @@ TArray = TArray*10^-9;
 %[260, 624, 962, 2028, 2951]*10^-9;
 
 timeMSEMatrix = [];
-powerSSEMatrix = [];
-residualPowerSSEMatrix = [];
+powerMSEMatrix = [];
+residualPowerMSEMatrix = [];
 
 timeAbsMatrix = [];
 powerAbsMatrix = [];
 residualAbsMatrix = [];
-
-ffResultMatrix = [];
 
 for j = 1:length(nArray)
     for k = 1:length(TArray)
@@ -30,7 +28,7 @@ for j = 1:length(nArray)
         T = TArray(k);
         
         tim = @(T,n,k) T.*sin(k*pi./(2*n + 2) ).^2;
-        delays = tim(T,n,1:n);
+        delays = tim(T,n,1:n)
 
 
         % Vector of input pulse timings
@@ -55,16 +53,15 @@ for j = 1:length(nArray)
             inputsignal(i) = pulse.ID;
         end
     
-        sim('SinglePulseModel_n_6.slx')
+        sim('SinglePulseModel_n_8.slx')
         
         timeMSEMatrix(j, k) = timeMSE;
-        powerSSEMatrix(j, k) = powerMSE;
-        residualPowerSSEMatrix(j, k) = residualPowerMSE;
+        powerMSEMatrix(j, k) = powerMSE;
+        residualPowerMSEMatrix(j, k) = residualPowerMSE;
 
         timeAbsMatrix(j, k) = timeAbsError;
         powerAbsMatrix(j, k) = powerAbsError;
         residualAbsMatrix(j, k) = residualAbsError;
-        ffResultMatrix = ffResult;
        
     end
 end

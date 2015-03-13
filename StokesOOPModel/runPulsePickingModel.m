@@ -18,6 +18,7 @@ residualPowerMSEMatrix = [];
 timeAbsMatrix = [];
 powerAbsMatrix = [];
 residualAbsMatrix = [];
+ffResultMatrix = [];
 
 for j = 1:length(nArray)
     for k = 1:length(TArray)
@@ -31,7 +32,7 @@ for j = 1:length(nArray)
 
     % Vector of input pulse timings
         %num_pulses_start = 800;
-        num_pulses_start = T/(13e-9)
+        num_pulses_start = T/(13e-9);
         timings = 0:13e-9:(num_pulses_start-1)*13e-9;
 
         uddTimes =(pi/(2*n+2):pi/(2*n+2):n*pi/(2*n+2))';
@@ -76,7 +77,7 @@ for j = 1:length(nArray)
         
         if seqFail == 0
             sim('PulsePickingModel.slx')
-        
+            
             timeMSEMatrix(j, k) = timeMSE;
             powerMSEMatrix(j, k) = powerMSE;
             residualPowerMSEMatrix(j, k) = residualPowerMSE;
@@ -84,6 +85,8 @@ for j = 1:length(nArray)
             timeAbsMatrix(j, k) = timeAbsError;
             powerAbsMatrix(j, k) = powerAbsError;
             residualAbsMatrix(j, k) = residualAbsError;
+        
+            ffResultMatrix(j, k) = ffResult;
         else
             timeMSEMatrix(j, k) = 0;
             powerMSEMatrix(j, k) = 0;
@@ -92,6 +95,8 @@ for j = 1:length(nArray)
             timeAbsMatrix(j, k) = 0;
             powerAbsMatrix(j, k) = 0;
             residualAbsMatrix(j, k) = 0;
+            
+            ffResultMatrix(j, k) = 0;
         end
        
     end

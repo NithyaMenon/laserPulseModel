@@ -1,4 +1,4 @@
-function [ timeAbsError, powerAbsError, residualAbsError, timeMSE, powerMSE, residualPowerMSE] = analyzePulseTrain( IDs, T, n )
+function [ timeAbsError, powerAbsError, residualAbsError, timeMSE, powerSSE, residualPowerSSE, ffResult] = analyzePulseTrain( IDs, T, n )
 % analyzePulseTrain
 % Quick Script to pull out error in timings and power of a given pulse 
 % sequence compared to the ideal pulse train
@@ -39,6 +39,8 @@ residualPower = [residualData.I];
 %times
 
 %THIS WILL ONLY WORK IF IDEALTIMES AND TIMES HAVE THE SAME DIMENSIONS
+idealTimes
+times
 timeError = (idealTimes - times);
 timeErrorSquare = (idealTimes - times).^2;
 avgPower = mean(power);
@@ -46,16 +48,23 @@ squaredError = (power - avgPower).^2;
 [minError, minIndex] = min(squaredError);
 powerError = (power - power(minIndex));
 powerErrorSquare = (power - power(minIndex)).^2;
-powerMSE = sum(powerErrorSquare)/size(powerErrorSquare,2);
+powerSSE = sum(powerErrorSquare);
 timeMSE = sum(timeErrorSquare)/size(timeErrorSquare,2);
 
 residualPowerError = (residualPower);
 residualPowerErrorSquare = (residualPower).^2;
-residualPowerMSE = sum(residualPowerErrorSquare)/size(powerErrorSquare,2);
+residualPowerSSE = sum(residualPowerErrorSquare);
 
 timeAbsError = sum(timeError);
 powerAbsError = sum(powerError);
 residualAbsError = sum(residualPowerError);
+
+n=n-2;
+nn=1:n
+omegaT = logspace(-2,2,300)'
+filter_function = @(timings) abs(1+(-1)^(n+1)*exp(1i*omegaT) + sum(2*exp(1i*bsxfun(@plus,nn*pi,omegaT*timings)),2)).^2;
+F = filter_function(times(2:end-1)'/T)
+ffResult=F(1);
 
 end
 

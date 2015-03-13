@@ -8,7 +8,6 @@
 *.map
 *.autosave
 *.mexw64
-*.mat
 slprj/sl_proj.tmw
 slprj/grt/_sharedutils/shared_file.dmr
 *.tmw
@@ -23,3 +22,4 @@ slprj/grt/_sharedutils/shared_file.dmr
 *.obj
 *.lib
 *.asv
+*.mat
