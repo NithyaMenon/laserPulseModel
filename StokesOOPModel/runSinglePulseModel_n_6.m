@@ -54,7 +54,6 @@ for j = 1:length(nArray)
         end
     
         sim('SInglePulseModel_n_6.slx')
-        
         timeMSEMatrix(j, k) = timeMSE;
         powerMSEMatrix(j, k) = powerMSE;
         residualPowerMSEMatrix(j, k) = residualPowerMSE;

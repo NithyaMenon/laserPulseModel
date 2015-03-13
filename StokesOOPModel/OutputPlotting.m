@@ -34,6 +34,8 @@ figure(2)
 fixfonts(title('Output Pulse'));
 graphTwoPulsesFancy(plotdata, idealOutput, T*10^9);
 
+print -dpng -r500 'TimingDiagram.png'
+
 
 [timeAbsError, powerAbsError, residualAbsError, timeMSE, powerMSE, residualPowerMSE] = analyzePulseTrain(IDs, T, n);
 
