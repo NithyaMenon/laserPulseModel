@@ -68,12 +68,12 @@ timeAbsError = sum(timeError);
 powerAbsError = sum(powerError);
 residualAbsError = sum(residualPowerError);
 
-n=n-2;
-nn=1:n
-omegaT = logspace(-2,2,300)'
-filter_function = @(timings) abs(1+(-1)^(n+1)*exp(1i*omegaT) + sum(2*exp(1i*bsxfun(@plus,nn*pi,omegaT*timings)),2)).^2;
-F = filter_function(times(2:end-1)'/T)
-ffResult=F(1);
+% n=n-2;
+% nn=1:n
+% omegaT = logspace(-2,2,300)'
+% filter_function = @(timings) abs(1+(-1)^(n+1)*exp(1i*omegaT) + sum(2*exp(1i*bsxfun(@plus,nn*pi,omegaT*timings)),2)).^2;
+% F = filter_function(times(2:end-1)'/T)
+% ffResult=F(1);
 
 end
 
