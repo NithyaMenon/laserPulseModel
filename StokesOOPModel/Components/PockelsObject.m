@@ -197,9 +197,10 @@ classdef PockelsObject < handle
             titl = sprintf('Input Plot for Pockels Cell %i', obj.ID);
             title(titl,'FontSize',16);
             xlabel('Time [ns]','FontSize',14);
-            AX(2).YLabel.String = '% of 90 Degree Rotation';
+            AX(2).YLabel.String = 'Fraction of 90 Degree Rotation';
             AX(2).YLabel.FontSize = 14;
             ylabel('Pulse Intensity','FontSize',14);
+            grid on
             
             
         end
