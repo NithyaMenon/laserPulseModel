@@ -156,7 +156,7 @@ classdef PockelsObject < handle
             IDs = IDs(Inds);
             
         end
-        function plotIO(obj,maxTime)
+        function hand = plotIO(obj,maxTime)
             tt = -10e-9:0.1e-9:maxTime;
             curveData = obj.curve(tt);
             
@@ -183,22 +183,23 @@ classdef PockelsObject < handle
             
             
             
-            figure();
-            plot(timevec*1e9,0.5*IVvec/max(inputI),'LineWidth',2);
+            hand = figure();
+            plot(timevec*1e9,IVvec,'LineWidth',2);
             hold on
-            plot(timevec*1e9,0.5*IHvec/max(inputI),'LineWidth',2);
-            plot(tt*1e9,curveData/pi,'LineWidth',2);
-%             h = area(tt*1e9,curveData/pi, 'FaceColor', [0.9290    0.6940    0.1250],'EdgeColor','None');
-%             set(h(1),'FaceAlpha',0.3);
-            hold off
-            axis([-1,maxTime*1e9,0,1])
-            h = legend('Vertically Polarized Input', 'Horizontally Polarized Input', 'Tau/\pi');
+            [AX,H1,H2] = plotyy(timevec*1e9,IHvec,tt*1e9,curveData/pi);
+            set(H1,'LineWidth',2);
+            set(H2,'LineWidth',2,'Color',[0.9290    0.6940    0.1250]);
+            set(AX(2),'XLim',[-1,maxTime*1e9],'YLim',[0,1]);
+            set(AX(1),'XLim',[-1,maxTime*1e9],'YLim',[0,2*max(inputI)]);
+            h = legend('Vertically Polarized Input', 'Horizontally Polarized Input', 'Retardation by PC');
             set(h,'FontSize',14);
             
             titl = sprintf('Input Plot for Pockels Cell %i', obj.ID);
             title(titl,'FontSize',16);
             xlabel('Time [ns]','FontSize',14);
-            ylabel('Scaled Amplitude','FontSize',14);
+            AX(2).YLabel.String = '% of 90 Degree Rotation';
+            AX(2).YLabel.FontSize = 14;
+            ylabel('Pulse Intensity','FontSize',14);
             
             
         end

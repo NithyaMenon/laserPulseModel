@@ -5,8 +5,8 @@ repRate = 13;
 riseTime = 8;
 
 
-T=299:13:2990;
-N=6:2:6;
+T=3004:104:3004;
+N=2:2:4;
 
 errs = zeros(length(N),length(T));
 errs2 = zeros(length(N),1);

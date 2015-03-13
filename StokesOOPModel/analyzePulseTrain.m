@@ -20,16 +20,25 @@ idealTimes = [idealData.time];
 
 % Pull out the pulses greater than 10^-5
 % Probably need to come up with a better filtering criteria!! 
-data = Pulse.getPulse(IDs);
-data = data([data.I] > 10^-5);
+pwr = -6;
+while(1)
+    alldata = Pulse.getPulse(IDs);
+    data = alldata([alldata.I] > 10^pwr);
+    residualData = alldata([alldata.I] < 10^-5);
+    power = [data.I];
+    times = [data.time];
+    residualPower = [residualData.I];
+    if(length(times) == length(idealTimes))
+        break;
+    elseif(length(times) < length(idealTimes))
+        pwr = pwr-0.5;
+    else
+        pwr = pwr+0.5;
+    end
+            
+end
+    
 
-residualData = Pulse.getPulse(IDs);
-residualData = residualData([residualData.I] < 10^-5);
-
-power = [data.I];
-times = [data.time];
-
-residualPower = [residualData.I];
 
 % Compute the error relative to the ideal times
 % Note that negative values correspond to an ideal time before the actual

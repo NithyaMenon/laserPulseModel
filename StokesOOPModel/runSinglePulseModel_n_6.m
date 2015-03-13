@@ -55,8 +55,9 @@ for j = 1:length(nArray)
             inputsignal(i) = pulse.ID;
         end
     
+
         sim('SinglePulseModel_n_6.slx')
-        
+
         timeMSEMatrix(j, k) = timeMSE;
         powerSSEMatrix(j, k) = powerMSE;
         residualPowerSSEMatrix(j, k) = residualPowerMSE;
