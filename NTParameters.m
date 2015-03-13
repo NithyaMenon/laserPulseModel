@@ -2,7 +2,7 @@ clear
 clc
 close all
 
-parpool(16);
+parpool(2);
 
 
 repRate = 13;
