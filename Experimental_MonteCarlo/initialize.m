@@ -1,9 +1,12 @@
 paths;
 clearAll;
 
-
 p = PulseArray();
 p.addPulse(Pulse([]));
+
+% Allow Variation (1)
+global montecarlo;
+montecarlo = 0;
 
 % Vector of input pulse timings
 num_pulses_start = 100;
@@ -19,3 +22,5 @@ for i = 1:length(timings)
     
     inputsignal(i) = pA.ID;
 end
+
+

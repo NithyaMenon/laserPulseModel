@@ -29,6 +29,9 @@ fixfonts = @(h) set(h,'FontName','Arial',...
 figure(2)
 fixfonts(title('Output Pulse'));
 
-plot(plotdata(:,1),plotdata(:,2),'LineWidth',2);
+plot(plotdata(:,1)*1e9,plotdata(:,2),'LineWidth',2);
 hold on
-plot(uddTimes,uddPowers,'--','LineWidth',2);
+plot(uddTimes*1e9,uddPowers,'--','LineWidth',2);
+grid on
+
+print -dpng -r500 'Ghost Pulses.png'
