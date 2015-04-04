@@ -207,21 +207,19 @@ classdef PockelsCell < Component
             
         end
         
-        function inputpulses = checkInterference(obj)
+        function inputpulses = checkInterference(obj,threshold)
             [Times,Is,~,~,~,Widths,IDs] = obj.streamData([obj.LeftInputStream,obj.RightInputStream]);
             [Times,Inds] = sort(Times);
             IDs = IDs(Inds);
             Widths = Widths(Inds);
+            Is = Is(Inds);
             dTimes = diff(Times);
             dWidths = (Widths(1:end-1) + Widths(2:end))/2;
             dLogPowers = abs(log10(Is(1:end-1)) - log10(Is(2:end)));
-            BigPulse = Is(1:end-1) > 1e-7 | Is(2:end) > 1e-7;
+            BigPulse = Is(1:end-1) > threshold | Is(2:end) > threshold;
             Interferes = dTimes<dWidths & dLogPowers < 3 & BigPulse; % Interference, of pulses than can affect eachother, that we actually care about.
             inputpulses.first = IDs([Interferes;logical(0)]);
             inputpulses.second = IDs([logical(0);Interferes]);
-            
-            
-            
         end
     end
     methods( Static )
