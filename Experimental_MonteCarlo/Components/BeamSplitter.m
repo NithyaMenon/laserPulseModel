@@ -19,6 +19,7 @@ classdef BeamSplitter < Component
         Transmittance;
         Reflectance;
         Ghost;
+        BackReflectance;
         
         Cutoff_Power = 1e-10; % HardCoded
         
@@ -26,7 +27,7 @@ classdef BeamSplitter < Component
     end
     
     methods
-        function obj = BeamSplitter(Transmittance,Reflectance,Ghost)
+        function obj = BeamSplitter(Transmittance,Reflectance,Ghost,BackReflectance)
             id = BeamSplitter.manageComponentArray(obj, 'add');
             obj.ID = id;
             
@@ -34,11 +35,14 @@ classdef BeamSplitter < Component
             global montecarlo;
             TransRefsd = 0.02;
             Ghostsd = 0.005;
+            BackRefsd = 0.0005;
             
             
             obj.Reflectance = Reflectance + montecarlo*TransRefsd*randn(1,1);
             obj.Transmittance = Transmittance + montecarlo*TransRefsd*randn(1,1);
             obj.Ghost = Ghost + montecarlo*Ghostsd*randn(1,1);
+            obj.BackReflectance = BackReflectance + montecarlo*BackRefsd*randn(1,1);
+            
 
             obj.TopInputStream = [];
             obj.LeftInputStream = [];
@@ -82,7 +86,8 @@ classdef BeamSplitter < Component
             
             for p = leftPulses
                 obj.LeftInputStream = [obj.LeftInputStream,samplePulseObject(p)];
-                [LT,LR,LG] = obj.action(p);
+                [LT,LR,LG,LBR] = obj.action(p);
+                addAPulse('Left',LBR);
                 addAPulse('Right',LT);
                 addAPulse('Bottom',LG);
                 addAPulse('Top',LR);
@@ -91,7 +96,8 @@ classdef BeamSplitter < Component
             
             for p = topPulses
                 obj.TopInputStream = [obj.TopInputStream,samplePulseObject(p)];
-                [TT,TR,TG] = obj.action(p);
+                [TT,TR,TG,TBR] = obj.action(p);
+                addAPulse('Top',TBR);
                 addAPulse('Right',TG);
                 addAPulse('Bottom',TT);
                 addAPulse('Left',TR);
@@ -100,7 +106,8 @@ classdef BeamSplitter < Component
             
             for p = bottomPulses
                 obj.BottomInputStream = [obj.BottomInputStream,samplePulseObject(p)];
-                [BT,BR,BG] = obj.action(p);
+                [BT,BR,BG,BBR] = obj.action(p);
+                addAPulse('Bottom',BBR);
                 addAPulse('Right',BR);
                 addAPulse('Top',BT);
                 addAPulse('Left',BG);
@@ -108,7 +115,8 @@ classdef BeamSplitter < Component
             end
             for p = rightPulses
                 obj.RightInputStream = [obj.RightInputStream,samplePulseObject(p)];
-                [RT,RR,RG] = obj.action(p);
+                [RT,RR,RG,RBR] = obj.action(p);
+                addAPulse('Right',RBR);
                 addAPulse('Top',RG);
                 addAPulse('Bottom',RR);
                 addAPulse('Left',RT);
@@ -120,11 +128,12 @@ classdef BeamSplitter < Component
         end
         
         
-        function [transmitPulse,reflectPulse,ghostPulse] = action(obj,inputPulse)
+        function [transmitPulse,reflectPulse,ghostPulse, backreflectPulse] = action(obj,inputPulse)
             
             transmitPulse = inputPulse;
             reflectPulse = Pulse.clonePulse(inputPulse);
             ghostPulse = Pulse.clonePulse(inputPulse);
+            backreflectPulse = Pulse.clonePulse(inputPulse);
             
             transmitPulse.I = obj.Transmittance*transmitPulse.I;
             transmitPulse.Q = obj.Transmittance*transmitPulse.Q;
@@ -141,6 +150,11 @@ classdef BeamSplitter < Component
             ghostPulse.U = obj.Ghost*ghostPulse.U;
             ghostPulse.V = obj.Ghost*ghostPulse.V;
             
+            backreflectPulse.I = obj.BackReflectance*backreflectPulse.I;
+            backreflectPulse.Q = obj.BackReflectance*backreflectPulse.Q;
+            backreflectPulse.U = obj.BackReflectance*backreflectPulse.U;
+            backreflectPulse.V = obj.BackReflectance*backreflectPulse.V;
+            
             
             
             
@@ -156,6 +170,9 @@ classdef BeamSplitter < Component
             state_creator = sprintf('BeamSplitterGhost %i',...
                 obj.ID);
             Pulse.saveStateHistory(ghostPulse,state_creator);
+            state_creator = sprintf('BeamSplitterBackReflect %i',...
+                obj.ID);
+            Pulse.saveStateHistory(backreflectPulse,state_creator);
         end
         
         function [Times,Is,Qs,Us,Vs,Widths,IDs] = streamData(obj,stream)

@@ -13,10 +13,10 @@ switch ComponentType
         component = HalfWavePlate(ComponentParams.Psi, ComponentParams.Transmittence);
     case 'BeamSplitter'
         component = BeamSplitter(ComponentParams.Transmittance, ComponentParams.Reflectance,...
-            ComponentParams.Ghost);
+            ComponentParams.Ghost, ComponentParams.BackReflectance);
     case 'PolarizingBeamSplitter'
         component = PolarizingBeamSplitter(ComponentParams.Psi,ComponentParams.Transmittance, ComponentParams.Reflectance,...
-            ComponentParams.Ghost);
+            ComponentParams.Ghost, ComponentParams.BackReflectance);
 end
 
 
