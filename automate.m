@@ -17,8 +17,6 @@ function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail, err, ff
 %    T=2028;
 %    N=6;
 
-
-
 repRate = 13;
 riseTime = 8;
 idealTimes = [0; uddTimes(T,N,0); T];
@@ -56,9 +54,10 @@ end
 if temp==1
     eomOnTimes = [0];
 end
-if temp==-1
-    eomOffTimes = [0];
-end
+%commented out to make output work with MC_run
+%if temp==-1
+%    eomOffTimes = [0];
+%end
 
 for i=1:length(bestDelays)
     if bestDelays(i)==1;
@@ -121,7 +120,8 @@ if length(unique(ppEomOffTimes))~=length(ppEomOffTimes) ...
     seqFail=1;
 end
 
-ppEomOffTimes = ppEomOffTimes'*10^-9;
-ppEomOnTimes = ppEomOnTimes'*10^-9;
-eomOnTimes = (eomOnTimes + 8)'*10^-9;
-eomOffTimes = eomOffTimes'*10^-9;
+ppEomOffTimes = sort(ppEomOffTimes'*10^-9);
+ppEomOnTimes = sort(ppEomOnTimes'*10^-9);
+eomOnTimes = sort((eomOnTimes + 8)'*10^-9);
+eomOffTimes = sort(eomOffTimes'*10^-9);
+
