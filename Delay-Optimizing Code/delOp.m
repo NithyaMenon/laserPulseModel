@@ -1,4 +1,4 @@
-function [delTimes, digTimes, bestDelays, msd] = delOp(T,n,plotCheck)
+function [delTimes, digTimes, bestDelays, minVal] = delOp(T,n,plotCheck)
 % finds the optimal delays for an optical network with digital delay
 % options for a UDD sequence of length T and order n
 %
@@ -18,37 +18,38 @@ function [delTimes, digTimes, bestDelays, msd] = delOp(T,n,plotCheck)
 % Required files:
 %  uddTimes.m
 
+repRate = 13; % input pulse repetition rate, in nanoseconds
 
-compDels = @compositeDelays3b;
-conFun = @constraintFunction;
+
+[compDels, conFun, nDelays] = experimentFile();
+
+ff = @(w,timings) abs(1+(-1)^(n+1)*exp(1i*w*T) + ...
+        sum(2*exp(1i*bsxfun(@plus,(1:n)'*pi,timings*w)),1)).^2;
 
 if nargin<3
-    plotCheck = true;
+    plotCheck = 2;
 end
 
-repRate = 13; % input pulse repetition rate, in nanoseconds
-stepSize = 0.25; % size (as fraction of repRate) of steps for optimization
-
-idealTimes = uddTimes(T,n,0); % UDD sequence times
-msd = Inf; % starting value
-delTimes = [1/3; 2/3]; % a uniformly-spaced default
+idealTimes = uddTimes(T,n); % UDD sequence times
+delTimes = (0:1/nDelays:(1-1/nDelays))'; % a uniformly-spaced default
+minVal = minFun(delTimes,idealTimes,ff,T,repRate,compDels); % starting value
 options = optimset('Algorithm','active-set','Display','off'); % suppress output
 
 % constraint matrices that specify 0<x0<x1<x2<2
-A = [1 -1];
-b = [0];
+[A,B,Aeq,Beq,lb,ub] = conFun();
 
-% performs nested for-loop to try all sorts of initial conditions
-for x1 = 0:stepSize:1
-    for x0 = 0:stepSize/2:1
-        delTry = fmincon(@(x)minFun(x,idealTimes,repRate,compDels),[x0;x1],...
-            A,b,[],[],zeros(2,1),ones(2,1),[],options);
-        msdTry = minFun(delTry,idealTimes,repRate,compDels);
-            
-        if msdTry < msd % we've done better!
-            msd = msdTry;
-            delTimes = delTry;
-        end
+% get initial conditions
+ICs = ICmatrix(nDelays);
+
+% performs optimization
+for ind = 1:size(ICs,2)
+    delTry = fmincon(@(x)minFun(x,idealTimes,ff,T,repRate,compDels),ICs(:,ind),...
+        A,B,Aeq,Beq,lb,ub,[],options);
+    minTry = minFun(delTry,idealTimes,ff,T,repRate,compDels);
+        
+    if minTry < minVal % we've improved!
+        minVal = minTry;
+        delTimes = delTry;
     end
 end
 
@@ -115,4 +116,64 @@ elseif plotCheck == 2
 
     hold off
 end
+end
 
+
+function out = minFun(x,idealTimes,ff,T,repRate,compositeDelays)
+% calculates a quantity for minimization via fmincon for the purpose of
+% optimizing a set of digital delays
+%
+% All times are in nanoseconds.
+%
+% Inputs:
+%  x - input from fmincon, containing the fractions of the repetition rate
+%      at which the digital pulses will arrive, mod rep rate
+%  idealTimes - the theoretically ideal pulse arrival times
+%  repRate - the repetition time of the laser
+%  compositeDelays - handle of function to construct the set of usable
+%                    delays from the set of tunable delays
+%  
+%
+% Outputs:
+%  The function computes an error function of a non-ideal pulse sequence
+%  relative to an ideal sequence for the purposes of minimization via
+%  fmincon. Currently, the function is
+%       error = mean-squared error + switching function error (weighted)
+
+% the ideal times
+target = 17.317171337233528;
+modTimes = mod(idealTimes,repRate);
+
+% construct the possible delay lines in subfunction; add preceding and
+% succeeding pulses as well for wraparound boundary conditions
+digTimes = repRate*compositeDelays(x);
+perShift = repRate*ones(length(digTimes),1); % time of one repetition of laser
+allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
+
+% here we find the nearest pulse, either in this set of digital pulses or an
+% adjacent one, for each real pulse
+nearPulses = dsearchn(allTimes,modTimes);
+
+% compute filter function
+out = quad(@(w)ff(w,allTimes(nearPulses,1)).*lorentzian(w)./w.^2,0,target/T);
+end
+
+
+function ICs = ICmatrix(nDelays)
+% returns a matrix of sets of initial conditions to be used in fmincon
+%
+
+ICs = rand(nDelays,1);
+end
+
+
+function out = lorentzian(w)
+% lorentzian function with correlation time 10^6 ns
+out = 10^6*2/pi./(1+(w*10^6).^2);
+end
+
+
+function out = uddTimes(T,n)
+% constructs a vector of ideal times in a UDD pulse sequence
+out = T*sin((pi/(2*n+2):pi/(2*n+2):n*pi/(2*n+2))').^2;
+end
