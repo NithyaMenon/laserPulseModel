@@ -6,6 +6,7 @@ Delay.clearComponent();
 LinearPolarizer.clearComponent();
 HalfWavePlate.clearComponent();
 BeamSplitter.clearComponent();
+BeamSplitterRotated.clearComponent();
 PolarizingBeamSplitter.clearComponent();
 
 

@@ -14,6 +14,9 @@ switch ComponentType
     case 'BeamSplitter'
         component = BeamSplitter(ComponentParams.Transmittance, ComponentParams.Reflectance,...
             ComponentParams.Ghost, ComponentParams.BackReflectance);
+    case 'BeamSplitterRotated'
+        component = BeamSplitterRotated(ComponentParams.Transmittance, ComponentParams.Reflectance,...
+            ComponentParams.Ghost, ComponentParams.BackReflectance);
     case 'PolarizingBeamSplitter'
         component = PolarizingBeamSplitter(ComponentParams.Psi,ComponentParams.Transmittance, ComponentParams.Reflectance,...
             ComponentParams.Ghost, ComponentParams.BackReflectance);

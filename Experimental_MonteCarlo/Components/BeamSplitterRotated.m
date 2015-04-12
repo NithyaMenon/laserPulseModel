@@ -1,4 +1,4 @@
-classdef PolarizingBeamSplitter < Component
+classdef BeamSplitterRotated < Component
     %UNTITLED5 Summary of this class goes here
     %   Detailed explanation goes here
     
@@ -15,13 +15,11 @@ classdef PolarizingBeamSplitter < Component
         BottomOutputStream;
         
         % Component Specific Params
-        Psi;
+        
         Transmittance;
         Reflectance;
         Ghost;
         BackReflectance;
-        M_trans;
-        M_ref;
         
         Cutoff_Power = 1e-8; % HardCoded
         
@@ -29,44 +27,23 @@ classdef PolarizingBeamSplitter < Component
     end
     
     methods
-        function obj = PolarizingBeamSplitter(Psi,Transmittance,Reflectance,Ghost,BackReflectance)
-            id = PolarizingBeamSplitter.manageComponentArray(obj, 'add');
+        function obj = BeamSplitterRotated(Transmittance,Reflectance,Ghost,BackReflectance)
+            id = BeamSplitterRotated.manageComponentArray(obj, 'add');
             obj.ID = id;
             
             % Hard Coded Jitter
             global montecarlo;
             TransRefsd = 0.02;
             Ghostsd = 0.005;
-            Psisd = pi*0.02;
             BackRefsd = 0.0005;
             
-            obj.Psi = Psi + montecarlo*Psisd*randn(1,1);
+            
             obj.Reflectance = Reflectance + montecarlo*TransRefsd*randn(1,1);
             obj.Transmittance = Transmittance + montecarlo*TransRefsd*randn(1,1);
             obj.Ghost = Ghost + montecarlo*Ghostsd*randn(1,1);
             obj.BackReflectance = BackReflectance + montecarlo*BackRefsd*randn(1,1);
             
-            J_pass = [cos(Psi)^2, cos(Psi)*sin(Psi);...
-                sin(Psi)*cos(Psi), sin(Psi)^2];
-            A = [ 1 0 0 1;...
-                1 0 0 -1;...
-                0 1 1 0;...
-                0 1i -1i 0];
-            obj.M_trans = A*kron(J_pass,conj(J_pass))*inv(A);
-            
-            Psi_2 = Psi-pi/2;
 
-            J_stop = [cos(Psi_2)^2, cos(Psi_2)*sin(Psi_2);...
-                sin(Psi_2)*cos(Psi_2), sin(Psi_2)^2];
-
-            % Compute Mueller Matrix
-            A = [ 1 0 0 1;...
-                1 0 0 -1;...
-                0 1 1 0;...
-                0 1i -1i 0];
-
-            obj.M_ref = A*kron(J_stop,conj(J_stop))*inv(A);
-            
             streamSize = 5000; % For Preallocation
             obj.TopInputStream = StreamArray(streamSize);
             obj.LeftInputStream = StreamArray(streamSize);
@@ -109,12 +86,12 @@ classdef PolarizingBeamSplitter < Component
             end
             
             for p = leftPulses
-                obj.LeftInputStream.add(p);
+                obj.LeftInputStrea.add(p);
                 [LT,LR,LG,LBR] = obj.action(p);
                 addAPulse('Left',LBR);
                 addAPulse('Right',LT);
-                addAPulse('Bottom',LG);
-                addAPulse('Top',LR);
+                addAPulse('Bottom',LR);
+                addAPulse('Top',LG);
                 
             end
             
@@ -122,9 +99,9 @@ classdef PolarizingBeamSplitter < Component
                 obj.TopInputStream.add(p);
                 [TT,TR,TG,TBR] = obj.action(p);
                 addAPulse('Top',TBR);
-                addAPulse('Right',TG);
+                addAPulse('Right',TR);
                 addAPulse('Bottom',TT);
-                addAPulse('Left',TR);
+                addAPulse('Left',TG);
                 
             end
             
@@ -132,17 +109,17 @@ classdef PolarizingBeamSplitter < Component
                 obj.BottomInputStream.add(p);
                 [BT,BR,BG,BBR] = obj.action(p);
                 addAPulse('Bottom',BBR);
-                addAPulse('Right',BR);
+                addAPulse('Right',BG);
                 addAPulse('Top',BT);
-                addAPulse('Left',BG);
+                addAPulse('Left',BR);
 %                 
             end
             for p = rightPulses
                 obj.RightInputStream.add(p);
                 [RT,RR,RG,RBR] = obj.action(p);
                 addAPulse('Right',RBR);
-                addAPulse('Top',RG);
-                addAPulse('Bottom',RR);
+                addAPulse('Top',RR);
+                addAPulse('Bottom',RG);
                 addAPulse('Left',RT);
                 
             end
@@ -152,61 +129,55 @@ classdef PolarizingBeamSplitter < Component
         end
         
         
-        function [transmitPulse,reflectPulse,ghostPulse,backreflectPulse] = action(obj,inputPulse)
+        function [transmitPulse,reflectPulse,ghostPulse, backreflectPulse] = action(obj,inputPulse)
             
             transmitPulse = inputPulse;
             reflectPulse = Pulse.clonePulse(inputPulse);
             ghostPulse = Pulse.clonePulse(inputPulse);
             backreflectPulse = Pulse.clonePulse(inputPulse);
             
-            S = [inputPulse.I;inputPulse.Q;inputPulse.U;inputPulse.V];
+            transmitPulse.I = obj.Transmittance*transmitPulse.I;
+            transmitPulse.Q = obj.Transmittance*transmitPulse.Q;
+            transmitPulse.U = obj.Transmittance*transmitPulse.U;
+            transmitPulse.V = obj.Transmittance*transmitPulse.V;
             
-            Sout = obj.Transmittance*(obj.M_trans)*S;
+            reflectPulse.I = obj.Reflectance*reflectPulse.I;
+            reflectPulse.Q = obj.Reflectance*reflectPulse.Q;
+            reflectPulse.U = obj.Reflectance*reflectPulse.U;
+            reflectPulse.V = obj.Reflectance*reflectPulse.V;
             
-            transmitPulse.I = Sout(1);
-            transmitPulse.Q = Sout(2);
-            transmitPulse.U = Sout(3);
-            transmitPulse.V = Sout(4);
+            ghostPulse.I = obj.Ghost*ghostPulse.I;
+            ghostPulse.Q = obj.Ghost*ghostPulse.Q;
+            ghostPulse.U = obj.Ghost*ghostPulse.U;
+            ghostPulse.V = obj.Ghost*ghostPulse.V;
             
-            Sout = obj.BackReflectance*(obj.M_trans)*S;
+            backreflectPulse.I = obj.BackReflectance*backreflectPulse.I;
+            backreflectPulse.Q = obj.BackReflectance*backreflectPulse.Q;
+            backreflectPulse.U = obj.BackReflectance*backreflectPulse.U;
+            backreflectPulse.V = obj.BackReflectance*backreflectPulse.V;
             
-            backreflectPulse.I = Sout(1);
-            backreflectPulse.Q = Sout(2);
-            backreflectPulse.U = Sout(3);
-            backreflectPulse.V = Sout(4);
             
-            Sout = obj.Reflectance*(obj.M_ref)*S;
-            
-            reflectPulse.I = Sout(1);
-            reflectPulse.Q = Sout(2);
-            reflectPulse.U = Sout(3);
-            reflectPulse.V = Sout(4);
-            
-            Sout = obj.Ghost*(obj.M_ref)*S;
-            
-            ghostPulse.I = Sout(1);
-            ghostPulse.Q = Sout(2);
-            ghostPulse.U = Sout(3);
-            ghostPulse.V = Sout(4);
             
             
             
             %% State Saving
-           
-            state_creator = sprintf('PolarizingBeamSplitterTransmit %i',...
+            
+            
+            state_creator = sprintf('BeamSplitterTransmit %i',...
                 obj.ID);
             Pulse.saveStateHistory(transmitPulse,state_creator);
-            state_creator = sprintf('PolarizingBeamSplitterReflect %i',...
+            state_creator = sprintf('BeamSplitterReflect %i',...
                 obj.ID);
             Pulse.saveStateHistory(reflectPulse,state_creator);
-            state_creator = sprintf('PolarizingBeamSplitterGhost %i',...
+            state_creator = sprintf('BeamSplitterGhost %i',...
                 obj.ID);
             Pulse.saveStateHistory(ghostPulse,state_creator);
-            state_creator = sprintf('PolarizingBeamSplitterBackReflect %i',...
+            state_creator = sprintf('BeamSplitterBackReflect %i',...
                 obj.ID);
             Pulse.saveStateHistory(backreflectPulse,state_creator);
-        
+            
         end
+        
         function [Times,Is,Qs,Us,Vs,Widths,IDs] = streamData(~,stream)
             
             [Times,Is,Qs,Us,Vs,Widths,IDs] = StreamArray.StreamData(stream);
@@ -281,16 +252,16 @@ classdef PolarizingBeamSplitter < Component
         end
   
         function componentArray =  getComponentArray()
-            componentArray = PolarizingBeamSplitter.manageComponentArray([], 'getArray');
+            componentArray = BeamSplitterRotated.manageComponentArray([], 'getArray');
         end
         function componentArray =  clearComponent()
-            componentArray = PolarizingBeamSplitter.manageComponentArray([], 'clear');
+            componentArray = BeamSplitterRotated.manageComponentArray([], 'clear');
         end
         function componentArray = clearComponentArray()
-            componentArray = PolarizingBeamSplitter.manageComponentArray('clear');
+            componentArray = BeamSplitterRotated.manageComponentArray('clear');
         end
         function comp = getComponent(id)
-            comp = PolarizingBeamSplitter.manageComponentArray(id, 'getComponent');
+            comp = BeamSplitterRotated.manageComponentArray(id, 'getComponent');
         end
     end
     

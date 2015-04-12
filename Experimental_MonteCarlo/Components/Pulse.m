@@ -147,7 +147,10 @@ classdef Pulse < handle
            
         end
         function saveStateHistory(pulse,state_creator)
-            pulse.stateHistoryArray = [pulse.stateHistoryArray, StateHistory(pulse,state_creator)];
+            global savestatehistory;
+            if(savestatehistory)
+                pulse.stateHistoryArray = [pulse.stateHistoryArray, StateHistory(pulse,state_creator)];
+            end
         end
         function printStateHistory(input)
             if(~isa(input,'Pulse'))
@@ -156,6 +159,17 @@ classdef Pulse < handle
             sHArray = input.stateHistoryArray;
             for i = 1:length(sHArray)
                 display(sHArray(i))
+            end
+        end
+        function result = wasAeverB(pulseAID,pulseBID)
+            pulseA = Pulse.getPulse(pulseAID);
+            pulseB = Pulse.getPulse(pulseBID);
+            sh = pulseA.stateHistoryArray;
+            result = 0;
+            for p = sh
+                if(pulseB.ID == p.ID)
+                    result =  1;
+                end
             end
         end
     end

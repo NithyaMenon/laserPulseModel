@@ -13,6 +13,8 @@ switch ComponentType
         component = HalfWavePlate.getComponent(ComponentID);
     case 'BeamSplitter'
         component = BeamSplitter.getComponent(ComponentID);
+    case 'BeamSplitterRotated'
+        component = BeamSplitterRotated.getComponent(ComponentID);
     case 'PolarizingBeamSplitter'
         component = PolarizingBeamSplitter.getComponent(ComponentID);
 end

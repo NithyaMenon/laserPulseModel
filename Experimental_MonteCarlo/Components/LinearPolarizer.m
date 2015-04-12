@@ -33,10 +33,11 @@ classdef LinearPolarizer < Component
             obj.Psi = Psi + montecarlo*Psisd*randn(1,1);
             obj.Transmittence = Transmittence + montecarlo*Transsd*randn(1,1);
             obj.ExtinctionRatio = ExtinctionRatio;
-            obj.LeftInputStream = [];
-            obj.RightInputStream = [];
-            obj.LeftOutputStream = [];
-            obj.RightOutputStream = [];
+            streamSize = 5000; % For Preallocation
+            obj.LeftInputStream = StreamArray(streamSize);
+            obj.RightInputStream = StreamArray(streamSize);
+            obj.LeftOutputStream = StreamArray(streamSize);
+            obj.RightOutputStream = StreamArray(streamSize);
             
             %% Compute and save Mueller matrix
             % Algorithm Soruce
@@ -62,15 +63,15 @@ classdef LinearPolarizer < Component
             leftPulses = PulseArray.getPulses(pulseArrayIDs(1));
             rightPulses = PulseArray.getPulses(pulseArrayIDs(2));
             for p = leftPulses
-                obj.LeftInputStream = [obj.LeftInputStream,samplePulseObject(p)];
+                obj.LeftInputStream.add(p);
                 obj.action(p);
-                obj.LeftOutputStream = [obj.LeftOutputStream,samplePulseObject(p)];
+                obj.LeftOutputStream.add(p);
                 
             end
             for p = rightPulses
-                obj.RightInputStream = [obj.RightInputStream,samplePulseObject(p)];
+                obj.RightInputStream.add(p);
                 obj.action(p);
-                obj.RightOutputStream = [obj.RightOutputStream,samplePulseObject(p)];
+                obj.RightOutputStream.add(p);
                 
             end
             result = pulseArrayIDs;
@@ -91,30 +92,16 @@ classdef LinearPolarizer < Component
             
             %% State Saving
             
+            
             state_creator = sprintf('LinearPolarizer %i',...
                 obj.ID);
             Pulse.saveStateHistory(resultPulse,state_creator);
+            
             result = 1;
         end
-        function [Times,Is,Qs,Us,Vs,Widths,IDs] = streamData(obj,stream)
+        function [Times,Is,Qs,Us,Vs,Widths,IDs] = streamData(~,stream)
             
-            Times = -ones(length(stream),1);
-            Is = -ones(length(stream),1);
-            Qs = -ones(length(stream),1);
-            Us = -ones(length(stream),1);
-            Vs = -ones(length(stream),1);
-            Widths = -ones(length(stream),1);
-            IDs = -ones(length(stream),1);
-            
-            for i = 1:length(stream)
-                Times(i) = stream(i).time;
-                Is(i) = stream(i).I;
-                Qs(i) = stream(i).Q;
-                Us(i) = stream(i).U;
-                Vs(i) = stream(i).V;
-                Widths(i) = stream(i).width;
-                IDs(i) = stream(i).PulseID;
-            end
+            [Times,Is,Qs,Us,Vs,Widths,IDs] = StreamArray.StreamData(stream);
             
             [Times,Inds] = sort(Times);
             Is = Is(Inds);
@@ -125,7 +112,7 @@ classdef LinearPolarizer < Component
             IDs = IDs(Inds);
             
         end
-        function inputpulses = checkInterference(obj,threshold)
+        function numCollisions = checkInterference(obj,importantPulses)
             [Times,Is,~,~,~,Widths,IDs] = obj.streamData([obj.LeftInputStream,obj.RightInputStream]);
             [Times,Inds] = sort(Times);
             IDs = IDs(Inds);
@@ -133,10 +120,22 @@ classdef LinearPolarizer < Component
             dTimes = diff(Times);
             dWidths = (Widths(1:end-1) + Widths(2:end))/2;
             dLogPowers = abs(log10(Is(1:end-1)) - log10(Is(2:end)));
-            BigPulse = Is(1:end-1) > threshold | Is(2:end) > threshold;
-            Interferes = dTimes<dWidths & dLogPowers < 3 & BigPulse; % Interference, of pulses than can affect eachother, that we actually care about.
-            inputpulses.first = IDs([Interferes;logical(0)]);
-            inputpulses.second = IDs([logical(0);Interferes]);
+            Interferes = dTimes<dWidths & dLogPowers < 3; % Interference, of pulses than can affect eachother, that we actually care about.
+            firstIDs = IDs([Interferes;logical(0)]);
+            secondIDs = IDs([logical(0);Interferes]);
+            firstIDmatches = [];
+            secondIDmatches = [];
+            for i = 1:length(firstIDs)
+                for j = 1:length(importantPulses)
+                    if(Pulse.wasAeverB(importantPulses(j),firstIDs(i)))
+                        firstIDmatches = [firstIDmatches,[firstIDs(i);secondIDs(i)]];
+                    end
+                    if(Pulse.wasAeverB(importantPulses(j),secondIDs(i)))
+                        secondIDmatches = [secondIDmatches,[firstIDs(i);secondIDs(i)]];
+                    end
+                end
+            end
+            numCollisions = size(firstIDmatches,2) + size(secondIDmatches,2);
         end
     end
     
