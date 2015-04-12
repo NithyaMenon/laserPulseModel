@@ -93,7 +93,10 @@ end
 ppEomOffTimes = passes(:,1)- offset+1;
 ppEomOnTimes = ppEomOffTimes - 2;
 
-eomOnTimes = eomOnTimes + 8;
+ppEomOffTimes = ppEomOffTimes'*10^-9;
+ppEomOnTimes = ppEomOnTimes'*10^-9;
+eomOnTimes = (eomOnTimes + 8)'*10^-9;
+eomOffTimes = eomOffTimes'*10^-9;
 
 error = actualTimes-idealTimes;
 %maxErr=0;
