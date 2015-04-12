@@ -17,20 +17,53 @@ function [delTimes, digTimes, bestDelays, minVal] = delOp(T,n,plotCheck)
 %
 % Required files:
 %  uddTimes.m
-
-repRate = 13; % input pulse repetition rate, in nanoseconds
-
-
-[compDels, conFun, nDelays] = experimentFile();
-
-ff = @(w,timings) abs(1+(-1)^(n+1)*exp(1i*w*T) + ...
-        sum(2*exp(1i*bsxfun(@plus,(1:n)'*pi,timings*w)),1)).^2;
-
 if nargin<3
     plotCheck = 2;
 end
 
+repRate = 13; % input pulse repetition rate, in nanoseconds
 idealTimes = uddTimes(T,n); % UDD sequence times
+
+[compDels, conFun, nDelays] = experimentFile();
+
+%use Pulse Picking Design if the number of delays is zero
+if nDelays==0
+digTimes=digitizer(idealTimes,T,repRate,1);
+
+if plotCheck==2
+ fixfonts = @(h) set(h,'FontName','Arial',...
+                      'FontSize',10,...
+                      'FontWeight','bold');
+    figure
+    hold on
+    xlim([0 T])
+    ylim([0 n+1])
+    fixfonts(xlabel('Pulse Arrival Time, in ns'));
+    fixfonts(ylabel('\pi Pulse Number'));
+    fixfonts(title(strcat('Pulse Picking Times for T=',int2str(T),...
+        ' and n=',int2str(n))));
+    fixfonts(gca);
+
+    % markers for ideal times
+    plot(idealTimes,(1:n)','o')
+
+    % lines for pulse picking times
+    for j = 1:length(digTimes)
+        plot(digTimes(j)*[1 1],[0 n+1],...
+            'Color','red',...
+            'LineWidth',2)
+    end
+    
+    fixfonts(legend('Ideal Pulses','Picked Pulses'));
+
+    hold off
+end
+
+%otherwise attempt delay optimization
+else
+ff = @(w,timings) abs(1+(-1)^(n+1)*exp(1i*w*T) + ...
+        sum(2*exp(1i*bsxfun(@plus,(1:n)'*pi,timings*w)),1)).^2;
+
 delTimes = (0:1/nDelays:(1-1/nDelays))'; % a uniformly-spaced default
 minVal = minFun(delTimes,idealTimes,ff,T,repRate,compDels); % starting value
 options = optimset('Algorithm','active-set','Display','off'); % suppress output
@@ -117,6 +150,7 @@ elseif plotCheck == 2
     hold off
 end
 end
+end
 
 
 function out = minFun(x,idealTimes,ff,T,repRate,compositeDelays)
@@ -166,6 +200,19 @@ function ICs = ICmatrix(nDelays)
 ICs = rand(nDelays,1);
 end
 
+function tp = digitizer(pulses,Tmax,repRate,frac)
+% adjusts a series of pulse timings, 'pulses', to the nearest repRate/frac,
+% where repRate is a repeated pulse rate and frac is some fraction of that
+% rate
+
+digs = (0:repRate/frac:Tmax)';
+inds = dsearchn(digs,pulses);
+tp = zeros(length(pulses),1);
+
+for j = 1:length(pulses)
+    tp(j) = digs(inds(j));
+end
+end
 
 function out = lorentzian(w)
 % lorentzian function with correlation time 10^6 ns
