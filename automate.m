@@ -1,4 +1,4 @@
-function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail,err, ffResult] = automate(T,N,delTimes,bestDelays)
+function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail, err, ffResult] = automate(T,N,delTimes,bestDelays)
 % Inputs:
 %  T - the overall length of the UDD sequence to be approximated, in
 %      nanoseconds
@@ -84,8 +84,16 @@ for i=1:length(bestDelays)
     end
 end
 
+%adj = 0;
+%if length(unique([pulseNum;pulseNum+1]))~=2*length(pulseNum)
+%    fprintf('\nErr: Warning, adjacent pulses needed, for sequence with T=%d and N=%d.\n',T,N);
+%    adj = 1;
+%end
+
 ppEomOffTimes = passes(:,1)- offset+1;
-ppEomOnTimes = ppEomOffTimes - 10;
+ppEomOnTimes = ppEomOffTimes - 2;
+
+eomOnTimes = eomOnTimes + 8;
 
 error = actualTimes-idealTimes;
 %maxErr=0;
@@ -112,4 +120,4 @@ if length(unique(ppEomOffTimes))~=length(ppEomOffTimes) ...
     fprintf('\nErr: Multiple pulses created from one input pulse, for sequence with T=%d and N=%d.\n',T,N);
     seqFail=1;
 end
-    
+
