@@ -93,10 +93,7 @@ end
 ppEomOffTimes = passes(:,1)- offset+1;
 ppEomOnTimes = ppEomOffTimes - 2;
 
-ppEomOffTimes = ppEomOffTimes'*10^-9;
-ppEomOnTimes = ppEomOnTimes'*10^-9;
-eomOnTimes = (eomOnTimes + 8)'*10^-9;
-eomOffTimes = eomOffTimes'*10^-9;
+
 
 error = actualTimes-idealTimes;
 %maxErr=0;
@@ -124,3 +121,7 @@ if length(unique(ppEomOffTimes))~=length(ppEomOffTimes) ...
     seqFail=1;
 end
 
+ppEomOffTimes = ppEomOffTimes'*10^-9;
+ppEomOnTimes = ppEomOnTimes'*10^-9;
+eomOnTimes = (eomOnTimes + 8)'*10^-9;
+eomOffTimes = eomOffTimes'*10^-9;
