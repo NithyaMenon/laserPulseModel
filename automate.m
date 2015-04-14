@@ -17,6 +17,10 @@ function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail, err, ff
 %    T=2028;
 %    N=6;
 
+if mod(T,N)~=0
+   warning('T (currently T=%d) must be a multiple of 13 ns',T); 
+end
+
 repRate = 13;
 riseTime = 8;
 idealTimes = [0; uddTimes(T,N,0); T];
@@ -108,7 +112,7 @@ ffResult=F(1);
 seqFail=0;
 if length(unique(ppEomOffTimes))~=length(ppEomOffTimes) ...
         || length(unique(ppEomOnTimes))~=length(ppEomOnTimes)
-    fprintf('\nErr: Multiple pulses created from one input pulse, for sequence with T=%d and N=%d.\n',T,N);
+    warning('\nErr: Multiple pulses created from one input pulse, for sequence with T=%d and N=%d.\n',T,N);
     seqFail=1;
 end
 
