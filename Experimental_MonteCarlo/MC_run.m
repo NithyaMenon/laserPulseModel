@@ -59,13 +59,10 @@ for l = 1:montecarloruns
     TimingPerformances(l) = calculateTimingPerformance(ImportantPulses_Is,...
         ImportantPulses_times,ResidualPulses_Is,ResidualPulses_times,N,T);
 
-    PowerPerformances(l) = calculatePowerPerformance(ImportantPulses_Is,...
-        ImportantPulses_times,ResidualPulses_Is,ResidualPulses_times);
-
 end
 
 FinalResultSet(1).TimingPerformances = TimingPerformances;
-FinalResultSet(1).PowerPerformances = PowerPerformances;
+FinalResultSet(1).PowerPerformances = calculatePowerPerformance(AllOutputData,N);
 FinalResultSet(1).TimingStatistics = struct('Mean',mean(TimingPerformances),...
     'StdDevation', std(TimingPerformances));
 FinalResultSet(1).PowerStatistics = struct('Mean',mean(PowerPerformances),...

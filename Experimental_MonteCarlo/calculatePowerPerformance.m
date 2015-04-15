@@ -1,10 +1,17 @@
-function PowerPerformance = calculatePowerPerformance(ImportantPulses_Is,...
-    ImportantPulses_times,ResidualPulses_Is,ResidualPulses_times)
+function PowerPerformance = calculatePowerPerformance(AllOutputData,N)
 
-    idealPi2 = ImportantPulses_Is(1);
-    idealPi = 2*idealPi2;
-    PowerErrorImportant = [ImportantPulses_Is(1) - idealPi2,...
-        ImportantPulses_Is(2:end-1) - idealPi, ImportantPulses_Is(end) - idealPi2];
-    PowerErrorResidual = ResidualPulses_Is;
-    PowerPerformance = sqrt(sum(PowerErrorImportant.^2) + sum(PowerErrorResidual.^2));    
+    AllPi = zeros(length(AllOutputData)*N,1);
+    % Calculate Avg Intensity of Pi over all runs
+    for p = 1:length(AllOutputData)
+        AllPi(N*(p-1)+1:N*p) = AllOutputData(p).ImportantPulse_Is(2:end-1);
+    end
+    
+    IdealPiIntensity = mean(AllPi);
+    PowerPerformance = -ones(1,length(AllOutputData));
+    for p = 1:length(AllOutputData)
+        PowerErrorImportant = AllOutputData(p).ImportantPulse_Is(2:end-1)...
+            - IdealPiIntensity;
+        PowerErrorResidual = AllOutputData(p).ResidualPulses_Is;
+        PowerPerformance(p) = sqrt(sum(PowerErrorImportant.^2) + sum(PowerErrorResidual.^2));
+    end   
 end
