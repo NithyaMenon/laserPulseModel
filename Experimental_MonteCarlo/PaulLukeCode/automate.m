@@ -8,7 +8,7 @@ function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail, err, ff
 %  bestDelays - column vector of delay corresponding to each pulse
 
 %  example input:
-%    delTimes = repRate*[0;1.3334;0.6667]; 
+%    delTimes = 13*[0;1.3334;0.6667]; 
 % note second delay time is greater than the rise time. if the supplied
 % delay 2 is not greater, the repRate will be added to it automatically
 %    bestDelays = [1;3;2;3;2;3;2;1];
@@ -16,6 +16,10 @@ function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail, err, ff
 % will be fixed automatically
 %    T=2028;
 %    N=6;
+
+if mod(T,N)~=0
+   warning('T (currently T=%d) must be a multiple of 13 ns',T); 
+end
 
 repRate = 13;
 riseTime = 8;
@@ -83,16 +87,8 @@ for i=1:length(bestDelays)
     end
 end
 
-%adj = 0;
-%if length(unique([pulseNum;pulseNum+1]))~=2*length(pulseNum)
-%    fprintf('\nErr: Warning, adjacent pulses needed, for sequence with T=%d and N=%d.\n',T,N);
-%    adj = 1;
-%end
-
 ppEomOffTimes = passes(:,1)- offset+1;
 ppEomOnTimes = ppEomOffTimes - 2;
-
-
 
 error = actualTimes-idealTimes;
 %maxErr=0;
@@ -116,12 +112,26 @@ ffResult=F(1);
 seqFail=0;
 if length(unique(ppEomOffTimes))~=length(ppEomOffTimes) ...
         || length(unique(ppEomOnTimes))~=length(ppEomOnTimes)
-    fprintf('\nErr: Multiple pulses created from one input pulse, for sequence with T=%d and N=%d.\n',T,N);
+    warning('\nErr: Multiple pulses created from one input pulse, for sequence with T=%d and N=%d.\n',T,N);
     seqFail=1;
 end
+
 
 ppEomOffTimes = sort(ppEomOffTimes'*10^-9);
 ppEomOnTimes = sort(ppEomOnTimes'*10^-9);
 eomOnTimes = sort((eomOnTimes + 8)'*10^-9);
 eomOffTimes = sort(eomOffTimes'*10^-9);
+
+%changes first EOM timings such that when adjacent pulses are
+%picked, EOM just stays on for that time
+if length(unique([pulseNum;pulseNum+1]))~=2*length(pulseNum)
+    %fprintf('\nWarning, adjacent pulses needed, for sequence with T=%d and N=%d.\n',T,N);
+    for i=length(ppEomOnTimes):-1:2
+        if abs(ppEomOnTimes(i)-(ppEomOnTimes(i-1)+13*10^-9))<10^-15
+            ppEomOnTimes(i)=[];
+            ppEomOffTimes(i-1)=[];
+        end 
+    end
+end
+
 

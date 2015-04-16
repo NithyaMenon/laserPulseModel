@@ -15,7 +15,7 @@ T = 2028e-9;
 FinalResultSet(1).N = N;
 FinalResultSet(1).T = T;
 
-[PCTimings1,CP1,PCTimings2,CP2,DelayLeft,DelayMiddle,DelayBottom] = ...
+[PCTimings1,CP1,PCTimings2,CP2,DelayLeft,DelayMiddle,DelayBottom,optVal] = ...
     runExperiment(T*1e9,N);
 
 % PCTimings1 = [-1,1,38,40,103,105,168,170,220,222,272,274]*1e-9;
