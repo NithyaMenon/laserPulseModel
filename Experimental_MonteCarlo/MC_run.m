@@ -3,15 +3,17 @@ clearAll;
 
 tic
 
-montecarloruns = 3;
+montecarloruns = 5;
 
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
-    'PowerPerformances',[-1],'TimingStatistics',-1,'PowerStatistics',-1,'AllOutputData',-1),1,1);
+    'PowerPerformances',[-1],'TimingStatistics',-1,'PowerStatistics',-1,...
+    'OptimizationTarget',-1,'IdealPulse',-1,'AllOutputData',-1),1,1);
 
 N = 6; % N Pi Pulses
-% T = 300e-9;
-T = 2028e-9;
+T = 300e-9;
+%T = 2028e-9;
 
+idealPulseTimes = uddTimes(T,N);
 FinalResultSet(1).N = N;
 FinalResultSet(1).T = T;
 
@@ -49,7 +51,7 @@ for l = 1:montecarloruns
     ImportantPulses_times = times(Is>=NthLargestPulse-eps);
     ResidualPulses_times = times(Is<NthLargestPulse-eps);
     
-    AllOutputData(l).ImportantPulse_times = ImportantPulses_times;
+    AllOutputData(l).ImportantPulse_times = ImportantPulses_times*10^9;
     AllOutputData(l).ImportantPulse_Is = ImportantPulses_Is;
     AllOutputData(l).ResidualPulses_times = ResidualPulses_times;
     AllOutputData(l).ResidualPulses_Is = ResidualPulses_Is;
@@ -67,6 +69,9 @@ FinalResultSet(1).TimingStatistics = struct('Mean',mean(TimingPerformances),...
     'StdDevation', std(TimingPerformances));
 FinalResultSet(1).PowerStatistics = struct('Mean',mean(PowerPerformances),...
     'StdDevation', std(PowerPerformances));
-FinalResultSet(1).AllOutputData = AllOutputData;
+FinalResultSet(1).OptimizationTarget = optVal;
+FinalResultSet(1).IdealPulse = idealPulseTimes*10^9;
+FinalResultsSet(1).AllOutputData = AllOutputData;
+
 
 toc

@@ -3,7 +3,7 @@ function [PCTimings1, CP1, PCTimings2, CP2,DelayLeft,DelayMiddle,DelayBottom,opt
 % inputs to the Simulink model
 % example input: T=2028,n=6;
 
-[~,digTimes,bestDelays,minVal] = delOp(T,n,false);
+[~,digTimes,bestDelays,optVal] = delOp(T,n,false);
 
 [eomOnTimes,eomOffTimes, ppEomOnTimes, ppEomOffTimes] = automate(T,n,digTimes,bestDelays);
 
