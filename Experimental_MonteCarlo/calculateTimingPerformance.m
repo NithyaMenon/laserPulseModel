@@ -1,4 +1,4 @@
-function TimingPerformance = calculateTimingPerformance(ImportantPulses_Is,...
+function [TimingPerformance, MSE] = calculateTimingPerformance(ImportantPulses_Is,...
     ImportantPulses_times,ResidualPulses_Is,ResidualPulses_times,n,T)
     
 
@@ -13,4 +13,13 @@ function TimingPerformance = calculateTimingPerformance(ImportantPulses_Is,...
     
     TimingPerformance = integral(@(w)ff(w,timings(2:end-1)).*lorentzian(w)./w.^2,0,target/T);
 
+    idealPulseTimings = uddTimes(T,n);
+    
+    % Add the initial offset to the ideal pulse times
+    idealPulseTimings = idealPulseTimings + timings(1);
+    
+    % Compute MSE 
+    MSE = 1/n * sum((timings(2:end-1) - idealPulseTimings).^2);
+    
+    
 end
