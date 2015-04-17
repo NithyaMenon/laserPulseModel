@@ -1,0 +1,26 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: main.aux
+The style file: unsrt.bst
+Illegal, another \bibstyle command---line 211 of file main.aux
+ : \bibstyle
+ :          {plain}
+I'm skipping whatever remains of this command
+Database file #1: bibliography.bib
+Warning--entry type for "Nuclear_Feedback" isn't style-file defined
+--line 342 of file bibliography.bib
+You're missing a field part---line 401 of file bibliography.bib
+ :    eid = 
+ :          ,
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 448 of file bibliography.bib
+ :     
+ :     year = {2014}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Name 1 in "Nielsen, Michael A., and Isaac L. Chuang" has a comma at the end for entry nielsen_michael_a._quantum_2000
+while executing---line 944 of file unsrt.bst
+Warning--there's a number but no volume in soare_experimental_2014
+Warning--empty author in Properties_of_Prisms
+Warning--empty booktitle in Properties_of_Prisms
+Warning--empty publisher in Properties_of_Prisms
+Warning--empty year in Properties_of_Prisms
+(There were 4 error messages)

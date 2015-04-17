@@ -1,0 +1,45 @@
+\select@language {english}
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
+\contentsline {subsection}{\numberline {1.1}HRL Laboratories}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Project Statement}{4}{subsection.1.2}
+\contentsline {subsubsection}{\numberline {1.2.1}Objectives}{4}{subsubsection.1.2.1}
+\contentsline {subsubsection}{\numberline {1.2.2}Constraints}{4}{subsubsection.1.2.2}
+\contentsline {subsubsection}{\numberline {1.2.3}Functions}{5}{subsubsection.1.2.3}
+\contentsline {subsection}{\numberline {1.3}Deliverables}{5}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}Project Status}{6}{subsection.1.4}
+\contentsline {section}{\numberline {2}Impact}{6}{section.2}
+\contentsline {section}{\numberline {3}Background}{8}{section.3}
+\contentsline {subsection}{\numberline {3.1}Quantum Communication Networks}{8}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Electron Spin Manipulation and Decoherence}{9}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}The Hahn Spin-Echo Sequence}{11}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}The Uhrig Dynamical Decoupling Sequence}{14}{subsection.3.4}
+\contentsline {section}{\numberline {4}Optical Components}{15}{section.4}
+\contentsline {subsection}{\numberline {4.1}Electro-Optic Modulators and Pockels Cells}{16}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Important Specifications and Limitations}{17}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Polarizing Beam Splitters}{19}{subsection.4.3}
+\contentsline {section}{\numberline {5}Computational Tools}{21}{section.5}
+\contentsline {subsection}{\numberline {5.1}Optical Network Simulation}{21}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Delay Optimization}{27}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Filter Function and Error Analysis}{29}{subsection.5.3}
+\contentsline {section}{\numberline {6}Design Evaluation}{34}{section.6}
+\contentsline {section}{\numberline {7}Single Pulse Design}{34}{section.7}
+\contentsline {subsection}{\numberline {7.1}Specific Design (TODO Rename this subsection)}{34}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Evaluation}{36}{subsection.7.2}
+\contentsline {section}{\numberline {8}Digitizing Designs}{37}{section.8}
+\contentsline {section}{\numberline {9}Design Summaries}{37}{section.9}
+\contentsline {section}{\numberline {10}Design Alternatives}{37}{section.10}
+\contentsline {subsection}{\numberline {10.1}Path-per-Pulse Designs}{38}{subsection.10.1}
+\contentsline {subsection}{\numberline {10.2}Single-Pulse Designs}{38}{subsection.10.2}
+\contentsline {subsection}{\numberline {10.3}Digitizing Designs}{38}{subsection.10.3}
+\contentsline {subsection}{\numberline {10.4}Design Alternatives Comparison}{40}{subsection.10.4}
+\contentsline {section}{\numberline {11}Detailed Design}{41}{section.11}
+\contentsline {subsection}{\numberline {11.1}Physical Design Details}{41}{subsection.11.1}
+\contentsline {subsubsection}{\numberline {11.1.1}Simple Design}{41}{subsubsection.11.1.1}
+\contentsline {subsubsection}{\numberline {11.1.2}$\pi /2$ Pulses and Compensation Sequences}{53}{subsubsection.11.1.2}
+\contentsline {subsection}{\numberline {11.2}Design Limitations}{55}{subsection.11.2}
+\contentsline {section}{\numberline {12}Test Plan}{56}{section.12}
+\contentsline {subsection}{\numberline {12.1}Simulation Advancements}{56}{subsection.12.1}
+\contentsline {subsection}{\numberline {12.2}Physical Testing}{57}{subsection.12.2}
+\contentsline {section}{\numberline {13}Project Management}{58}{section.13}
+\contentsline {subsection}{\numberline {13.1}Work Breakdown Structure}{58}{subsection.13.1}
+\contentsline {subsection}{\numberline {13.2}Schedule}{58}{subsection.13.2}

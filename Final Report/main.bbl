@@ -1,0 +1,119 @@
+\begin{thebibliography}{10}
+
+\bibitem{nielsen_michael_a._quantum_2000}
+Michael~A. Nielsen and Isaac~L. Chuang.
+\newblock {\em Quantum Computation and Quantum Information}.
+\newblock Cambridge University Press, 2000.
+
+\bibitem{Nuclear_Feedback}
+Thaddeus~D. Ladd, David Press, Kristiaan De~Greve, Peter~L. McMahon, Benedikt
+  Friess, Christian Schneider, Martin Kamp, Sven Höfling, Alfred Forchel, and
+  Yoshihisa Yamamoto.
+\newblock Nuclear feedback in a single electron-charged quantum dot under
+  pulsed optical control, 2011.
+
+\bibitem{Hahn_Spin_Echo}
+E.~Hahn.
+\newblock Spin {Echoes}.
+\newblock {\em Phys. Rev.}, 80:580--594, Nov 1950.
+
+\bibitem{spin_2014}
+Wikipedia: Spin echo, December 2014.
+\newblock http://en.wikipedia.org/wiki/Spin\_echo.
+
+\bibitem{de_greve_ultrafast_2011}
+Kristiaan De~Greve, Peter~L. McMahon, David Press, Thaddeus~D. Ladd, Dirk
+  Bisping, Christian Schneider, Martin Kamp, Lukas Worschech, Sven Höfling,
+  Alfred Forchel, and Yoshihisa Yamamoto.
+\newblock Ultrafast coherent control and suppressed nuclear feedback of a
+  single quantum dot hole qubit.
+\newblock {\em Nature Physics}, 7(11):872--878, August 2011.
+
+\bibitem{Uhrig}
+G\"otz Uhrig.
+\newblock Keeping a quantum bit alive by optimized $\pi$-pulse sequences.
+\newblock {\em Phys. Rev. Lett.}, 98:100504, Mar 2007.
+
+\bibitem{soare_experimental_2014}
+{A. Soare}, {H. Ball}, {D. Hayes}, {J. Sastrawan}, {M. C. Jarratt}, {X. Zhen},
+  {J. J. McLoughlin}, {T. J. Green}, and {M. J. Biercuk}.
+\newblock Experimental noise filtering by quantum control.
+\newblock {\em Nature Physics}, (10):825--829, 2014.
+
+\bibitem{RP_EOM}
+Rüdiger Dr.~Paschotta.
+\newblock {RP} photonics encyclopedia:electro-optic modulators.
+\newblock http://www.rp-photonics.com/electro\_optic\_modulators.html.
+
+\bibitem{RP_Pockels_Cell}
+Rüdiger Dr.~Paschotta.
+\newblock {RP} photonics encyclopedia:pockels cell.
+\newblock http://www.rp-photonics.com/pockels\_cells.html.
+
+\bibitem{RP_Birefringence}
+Rüdiger Dr.~Paschotta.
+\newblock {RP} photonics encyclopedia:birefringence.
+\newblock http://www.rp-photonics.com/birefringence.html.
+
+\bibitem{simcik_module}
+John Simcik.
+\newblock Module 4-7 electro-optic and acousto-optic devices.
+\newblock Lab Exercise,
+  http://pe2bz.philpem.me.uk/Lights/-20Laser/Info-999-LaserCourse/C04-M07-ElectroOptic+AcoustoOpticDevices/mod04\_07.htm.
+
+\bibitem{United_Crystals}
+United {Crystals}: {Overview} of pockels cells, 2013.
+\newblock http://www.unitedcrystals.com/QSwitch.html.
+
+\bibitem{Sintec}
+Sintec {Optronics}: Pockels cells \& pockels cell drivers ({EO} q-switches),
+  2014.
+\newblock http://www.sintecoptronics.com/qswitcheo.asp.
+
+\bibitem{Properties_of_Prisms}
+Chapter 3 polarization properties of prisms and reflectors.
+\newblock E-Book Chapter, http://spie.org/samples/PM200.pdf.
+
+\bibitem{FTIR}
+S.~Zhu, A.~W. Yu, D.~Hawley, and R.~Roy.
+\newblock Frustrated total internal reflection: A demonstration and review.
+\newblock {\em American Journal of Physics}, 54(7), 1986.
+
+\bibitem{lightgate_pockel}
+{\em LightGate Series BBO Pockels Cell Gooch \& Housego}.
+\newblock
+  http://goochandhousego.com/product/lightgate-series-bbo-pockels-cell/.
+
+\bibitem{bme_pockel}
+{\em {BME} - Bergmann Messgeraete Entwicklung: Lightgate 4 Driver Performance}.
+\newblock http://www.bme-bergmann.de/lightgate4.htm.
+
+\bibitem{ball_walsh-synthesized_2014}
+H.~{Ball} and M.~J. {Biercuk}.
+\newblock {Walsh-synthesized noise-filtering quantum logic}.
+\newblock {\em ArXiv e-prints}, October 2014.
+
+\bibitem{biercuk_optimized_2009}
+Michael~J. Biercuk, Hermann Uys, Aaron~P. VanDevender, Nobuyasu Shiga, Wayne~M.
+  Itano, and John~J. Bollinger.
+\newblock Optimized dynamical decoupling in a model quantum memory.
+\newblock {\em Nature}, 458(7241):996--1000, April 2009.
+
+\bibitem{west_near-optimal_2010}
+Jacob~R. West, Bryan~H. Fong, and Daniel~A. Lidar.
+\newblock Near-optimal dynamical decoupling of a qubit.
+\newblock {\em Physical review letters}, 104(13):130501, 2010.
+
+\bibitem{clark_ultrafast_2009}
+Susan Clark, Kai-Mei Fu, Qiang Zhang, Thaddeus Ladd, Colin Stanley, and
+  Yoshihisa Yamamoto.
+\newblock Ultrafast optical spin echo for electron spins in semiconductors.
+\newblock {\em Physical Review Letters}, 102(24), June 2009.
+
+\bibitem{devitt_requirements_2013}
+{Simon J. Devitt}, {Ashley M. Stephens}, {William J. Munro}, and {Kae Nemoto}.
+\newblock Requirements for fault-tolerant factoring on an atom-optics quantum
+  computer.
+\newblock {\em Nature Communications}, 4:2524, 2013.
+
+\end{thebibliography}
