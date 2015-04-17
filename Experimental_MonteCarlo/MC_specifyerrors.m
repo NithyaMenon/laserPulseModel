@@ -1,6 +1,7 @@
 global ErrorSpecs
 
 % Errors are fractions of nomial values unless otherwise specified
+% These are all std deviations
 
 ErrorSpecs.PolarizingBeamSplitter.TransRef = 0.01; % Ex. This means 1% of 0.5 avg transmission
 ErrorSpecs.PolarizingBeamSplitter.Ghost = 0.01;
