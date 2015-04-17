@@ -4,12 +4,12 @@ MC_specifyerrors;
 
 tic
 
-montecarloruns = 2;
+montecarloruns = 5;
 
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
     'PowerPerformances',[-1],'TimingStatistics',-1,'PowerStatistics',-1,...
     'OptimizationTarget',-1,'IdealPulse',-1,'IdealTimingPerformance',-1,...
-    'AllOutputData',-1),1,1);
+    'AllOutputData',-1,'SimParams',-1),1,1);
 
 N = 6; % N Pi Pulses
 T = 300e-9;
@@ -80,6 +80,17 @@ FinalResultSet(1).OptimizationTarget = optVal;
 FinalResultSet(1).IdealPulse = idealPulseTimes*10^9;
 FinalResultSet(1).AllOutputData = AllOutputData;
 FinalResultSet(1).IdealTimingPerformance = calculateIdealTimingPerformance(N,T);
+
+SimParams = repmat(struct('DelayLeft',-1,'DelayBottom',-1,'DelayMiddle',-1,...
+    'PCTimings1',-1,'PCTimings2',-1),1,1);
+
+SimParams.DelayLeft = DelayLeft;
+SimParams.DelayBottom = DelayBottom;
+SimParams.DelayMiddle = DelayMiddle;
+SimParams.PCTimings1 = PCTimings1;
+SimParams.PCTimings2 = PCTimings2;
+    
+FinalResultSet(1).SimParams = SimParams;
 
 
 toc
