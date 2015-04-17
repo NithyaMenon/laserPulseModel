@@ -1,5 +1,6 @@
 paths;
 clearAll;
+MC_specifyerrors;
 
 p = PulseArray();
 p.addPulse(Pulse([]));

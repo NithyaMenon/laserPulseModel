@@ -21,9 +21,16 @@ classdef Delay < Component
             obj.ID = id;
             
             global montecarlo;
-            DelayAmtsd = 0.1e-9; % Hard-coded component jitter
+            global ErrorSpecs;
+            DelayAmtsd = ErrorSpecs.Delay.Amount; % Hard-coded component jitter
             
-            obj.DelayAmt = DelayAmt + montecarlo*DelayAmtsd*randn(1,1);
+            obj.DelayAmt = DelayAmt*(1 + montecarlo*DelayAmtsd*randn(1,1));
+            
+            global SampledErrors
+            se = struct('ID',obj.ID,'Amount',obj.DelayAmt);
+            SampledErrors.Delay =...
+                [SampledErrors.Delay, se];
+            
             streamSize = 5000; % For Preallocation
             obj.LeftInputStream = StreamArray(streamSize);
             obj.RightInputStream = StreamArray(streamSize);

@@ -19,6 +19,12 @@ p.addPulse(Pulse([]));
 global montecarlo;
 montecarlo = 1;
 
+% Initialize SampledErrors
+global SampledErrors;
+SampledErrors = struct('PolarizingBeamSplitter',[],'PockelsCell',[],...
+    'LinearPolarizer',[],'HalfWavePlate',[],'Delay',[],'BeamSplitter',[],...
+    'BeamSplitterRotated',[]);
+
 % Save State History (1)
 global savestatehistory;
 savestatehistory = 0;

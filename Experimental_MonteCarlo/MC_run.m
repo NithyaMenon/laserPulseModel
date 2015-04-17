@@ -1,9 +1,10 @@
 paths;
 clearAll;
+MC_specifyerrors;
 
 tic
 
-montecarloruns = 5;
+montecarloruns = 2;
 
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
     'PowerPerformances',[-1],'TimingStatistics',-1,'PowerStatistics',-1,...
@@ -37,7 +38,9 @@ AllOutputData = repmat(struct('ImportantPulse_times',-1,'ImportantPulse_Is',-1,.
     'ResidualPulses_times',-1,'ResidualPulses_Is',-1,'DiffImpRes',-1),1,montecarloruns);
 
 for l = 1:montecarloruns
-
+    
+    
+    
     MC_initialize;
     sim('MC_DigitizingDesign.slx',(T/13e-9)+50);
 
@@ -56,6 +59,7 @@ for l = 1:montecarloruns
     AllOutputData(l).ResidualPulses_times = ResidualPulses_times;
     AllOutputData(l).ResidualPulses_Is = ResidualPulses_Is;
     AllOutputData(l).DiffImpRes = log10(min(ImportantPulses_Is) - max(ResidualPulses_Is));
+    AllOutputData(l).SampledErrors = SampledErrors;
     
 
     TimingPerformances(l) = calculateTimingPerformance(ImportantPulses_Is,...
@@ -71,7 +75,7 @@ FinalResultSet(1).PowerStatistics = struct('Mean',mean(PowerPerformances),...
     'StdDevation', std(PowerPerformances));
 FinalResultSet(1).OptimizationTarget = optVal;
 FinalResultSet(1).IdealPulse = idealPulseTimes*10^9;
-FinalResultsSet(1).AllOutputData = AllOutputData;
+FinalResultSet(1).AllOutputData = AllOutputData;
 
 
 toc

@@ -12,34 +12,42 @@ classdef HalfWavePlate < Component
         
         % Component Specific Params
         Psi;
-        Transmittence;
+        Transmittance;
         M;
         
         
     end
     
     methods
-        function obj = HalfWavePlate(Psi,Transmittence)
+        function obj = HalfWavePlate(Psi,Transmittance)
             id = HalfWavePlate.manageComponentArray(obj, 'add');
             obj.ID = id;
             
             % Hard coded jitter
             global montecarlo;
-            Tausd = 0.02*pi;
-            Transsd = 0.01;
-            Psisd = 0.02*pi;
+            global ErrorSpecs;
+            Tausd = ErrorSpecs.HalfWavePlate.Tau;
+            Transsd = ErrorSpecs.HalfWavePlate.Transmission;
+            Psisd = ErrorSpecs.HalfWavePlate.Psi;
             
-            obj.Psi = Psi + montecarlo*Psisd*randn(1,1);
-            obj.Transmittence = Transmittence + montecarlo*Transsd*randn(1,1);
+            obj.Psi = Psi*(1 + montecarlo*Psisd*randn(1,1));
+            obj.Transmittance = Transmittance*(1 + montecarlo*Transsd*randn(1,1));
             streamSize = 5000; % For Preallocation
             obj.LeftInputStream = StreamArray(streamSize);
             obj.RightInputStream = StreamArray(streamSize);
             obj.LeftOutputStream = StreamArray(streamSize);
             obj.RightOutputStream = StreamArray(streamSize);
             
-            Tau = pi + montecarlo*Tausd*randn(1,1); % Hard-coded for HWP
+            Tau = pi*(1 + montecarlo*Tausd*randn(1,1)); % Hard-coded for HWP
  
-        
+            global SampledErrors
+            se = struct('ID',obj.ID,'Psi',obj.Psi,...
+                'Transmittance',obj.Transmittance,...
+                'Tau',Tau);
+            SampledErrors.HalfWavePlate =...
+                [SampledErrors.HalfWavePlate, se];
+            
+            
             % Compute Mueller matrix
             G = (1/2)*(1+cos(Tau));
             H = (1/2)*(1-cos(Tau));
@@ -74,7 +82,7 @@ classdef HalfWavePlate < Component
             
             % Apply Mueller matrix
             S = [inputPulse.I;inputPulse.Q;inputPulse.U;inputPulse.V];
-            Sout = obj.Transmittence*obj.M*S;
+            Sout = obj.Transmittance*obj.M*S;
             inputPulse.I = Sout(1);
             inputPulse.Q = Sout(2);
             inputPulse.U = Sout(3);

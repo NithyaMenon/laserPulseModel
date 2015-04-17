@@ -32,11 +32,12 @@ classdef PockelsCell < Component
             
             % Hard-coded jitter
             global montecarlo;
-            Psisd = 0.02*pi;
-            Transsd = 0.01;
-            scursd = 2.5*pi/180;
+            global ErrorSpecs;
+            Psisd = ErrorSpecs.PockelsCell.Psi;
+            Transsd = ErrorSpecs.PockelsCell.Transmission;
+            scursd = ErrorSpecs.PockelsCell.SCurve;
             
-            obj.Psi = Psi + montecarlo*Psisd*randn(1,1);
+            obj.Psi = Psi*(1 + montecarlo*Psisd*randn(1,1));
             streamSize = 5000; % For Preallocation
             obj.LeftInputStream = StreamArray(streamSize);
             obj.RightInputStream = StreamArray(streamSize);
@@ -51,17 +52,28 @@ classdef PockelsCell < Component
             end
             
             obj.RFTime = 8e-9; % (Rise-Fall Time) Hard-coded
-            obj.PCTransmittence = 0.85 + montecarlo*Transsd*randn(1,1); % Hard-coded
+            obj.PCTransmittence = 0.85*(1 + montecarlo*Transsd*randn(1,1)); % Hard-coded
             obj.Error = 2.5*pi/180*~montecarlo; 
             
+            sampSCurRand = montecarlo*scursd*randn(1,1);
+            
             obj.sCurveFall = @(t) (0.0112+(0.0876+1-((-0.135)+ 1.2348./(1+2*exp(-0.012*(t*1e11))).^2))/1.0876)/1.0092;
-            obj.PCcurve = @(t,tStart,tEnd) (1+ montecarlo*scursd*randn(1,1))*(obj.sCurveFall(-(t-tStart)).*(t<tStart) + ...
+            obj.PCcurve = @(t,tStart,tEnd) (1+ sampSCurRand)*(obj.sCurveFall(-(t-tStart)).*(t<tStart) + ...
                 1.*(tStart<=t && t<tEnd) + ...
                 obj.sCurveFall(t-tEnd).*(t>=tEnd));
             
             obj.onTimes = PCTimings(1:2:end);
             obj.offTimes = PCTimings(2:2:end);
             obj.ControlPowers = ControlPowers;
+            
+            global SampledErrors
+            se = struct('ID',obj.ID,'Psi',obj.Psi,...
+                'Transmittance',obj.PCTransmittence,...
+                'SCurve',sampSCurRand);
+            SampledErrors.PockelsCell =...
+                [SampledErrors.PockelsCell, se];
+            
+            
         end
         function result = apply(obj,pulseArrayIDs)
             leftPulses = PulseArray.getPulses(pulseArrayIDs(1));

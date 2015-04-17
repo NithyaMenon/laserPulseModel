@@ -33,18 +33,28 @@ classdef PolarizingBeamSplitter < Component
             id = PolarizingBeamSplitter.manageComponentArray(obj, 'add');
             obj.ID = id;
             
-            % Hard Coded Jitter
             global montecarlo;
-            TransRefsd = 0.02;
-            Ghostsd = 0.005;
-            Psisd = pi*0.02;
-            BackRefsd = 0.0005;
+            global ErrorSpecs;
+            TransRefsd = ErrorSpecs.PolarizingBeamSplitter.TransRef;
+            Ghostsd = ErrorSpecs.PolarizingBeamSplitter.Ghost;
+            Psisd = ErrorSpecs.PolarizingBeamSplitter.Psi;
+            BackRefsd = ErrorSpecs.PolarizingBeamSplitter.Back;
             
-            obj.Psi = Psi + montecarlo*Psisd*randn(1,1);
-            obj.Reflectance = Reflectance + montecarlo*TransRefsd*randn(1,1);
-            obj.Transmittance = Transmittance + montecarlo*TransRefsd*randn(1,1);
-            obj.Ghost = Ghost + montecarlo*Ghostsd*randn(1,1);
-            obj.BackReflectance = BackReflectance + montecarlo*BackRefsd*randn(1,1);
+            obj.Psi = Psi*(1 + montecarlo*Psisd*randn(1,1));
+            obj.Reflectance = Reflectance*(1 + montecarlo*TransRefsd*randn(1,1));
+            obj.Transmittance = Transmittance*(1 + montecarlo*TransRefsd*randn(1,1));
+            obj.Ghost = Ghost*(1 + montecarlo*Ghostsd*randn(1,1));
+            obj.BackReflectance = BackReflectance*(1 + montecarlo*BackRefsd*randn(1,1));
+            
+            global SampledErrors
+            se = struct('ID',obj.ID,'Psi',obj.Psi,...
+                'Reflectance',obj.Reflectance,...
+                'Transmittance',obj.Transmittance,...
+                'Ghost',obj.Ghost',...
+                'BackReflectance',obj.BackReflectance);
+            SampledErrors.PolarizingBeamSplitter =...
+                [SampledErrors.PolarizingBeamSplitter, se];
+            
             
             J_pass = [cos(Psi)^2, cos(Psi)*sin(Psi);...
                 sin(Psi)*cos(Psi), sin(Psi)^2];

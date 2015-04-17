@@ -12,7 +12,7 @@ classdef LinearPolarizer < Component
         
         % Component Specific Params
         Psi;
-        Transmittence;
+        Transmittance;
         ExtinctionRatio;
         M_pass;
         M_stop;
@@ -21,18 +21,27 @@ classdef LinearPolarizer < Component
     end
     
     methods
-        function obj = LinearPolarizer(Psi,Transmittence,ExtinctionRatio)
+        function obj = LinearPolarizer(Psi,Transmittance,ExtinctionRatio)
             id = LinearPolarizer.manageComponentArray(obj, 'add');
             obj.ID = id;
             
             % Hard-coded Jitter
             global montecarlo;
-            Psisd = 0.02*pi;
-            Transsd = 0.01*pi;
+            global ErrorSpecs;
+            Psisd = ErrorSpecs.LinearPolarizer.Psi;
+            Transsd = ErrorSpecs.LinearPolarizer.Transmission;
             
             obj.Psi = Psi + montecarlo*Psisd*randn(1,1);
-            obj.Transmittence = Transmittence + montecarlo*Transsd*randn(1,1);
+            obj.Transmittance = Transmittance + montecarlo*Transsd*randn(1,1);
             obj.ExtinctionRatio = ExtinctionRatio;
+            
+            global SampledErrors
+            se = struct('ID',obj.ID,'Psi',obj.Psi,...
+                'Transmittance',obj.Transmittance);
+            SampledErrors.LinearPolarizer =...
+                [SampledErrors.LinearPolarizer, se];
+            
+            
             streamSize = 5000; % For Preallocation
             obj.LeftInputStream = StreamArray(streamSize);
             obj.RightInputStream = StreamArray(streamSize);
@@ -80,7 +89,7 @@ classdef LinearPolarizer < Component
             
             % Apply Mueller matrix
             S = [inputPulse.I;inputPulse.Q;inputPulse.U;inputPulse.V];
-            Sout = obj.Transmittence*(obj.M_pass + obj.M_stop/obj.ExtinctionRatio)*S;
+            Sout = obj.Transmittance*(obj.M_pass + obj.M_stop/obj.ExtinctionRatio)*S;
             inputPulse.I = Sout(1);
             inputPulse.Q = Sout(2);
             inputPulse.U = Sout(3);
