@@ -445,6 +445,32 @@ Additional problems include power concerns. Every time a pulse is split, the res
 
 \section{Digitizing Designs}
 \label{sec:digitizing_designs}
+The other type of design has been termed “digitizing” designs. They are so named because instead of having a precisely tuned delay for each pulse, such that every pulse is output exactly where it is supposed to be in the sequence, a number of delays are shared between all pulses, such that only certain discretized pulse output times are possible. This results in discretization error, which reduces the effectiveness of the pulse sequence, but allows for greatly increased flexibility in the variety of sequences a single design can produce.
+
+For example, the simplest digitizing design would be an EOM and nothing else. Although it would not be possible to produce an output pulse at the exact time desired, pulses would be arriving at the EOM every 13 nanoseconds, so by letting through the pulse nearest to the desired time, you would be guaranteed to produce a pulse within 6.5 nanoseconds (half of 13 nanoseconds) of the desired time. If you added to this an optional delay of 6.5 nanoseconds, you could produce output pulses at any integer multiple of 6.5 nanoseconds, increasing your precision. An example of a simple optional delay is shown in Figure ~\ref{fig:simple}. By adding successive smaller optional delays, you could further increase the precision until the sequence would be nearly as effective as one with the exactly desired pulses.
+    
+ \begin{figure}[t]
+\centering
+\includegraphics[width=0.8\textwidth]{simple_digitizing.png}
+\caption{A simple example of a digitizing design. The initial Pockels Cell rotates the incoming pulse's polarization so that it either takes the short path or the long path through the polarizing beam splitters. The Pockels Cell on the right then rotates the pulse's polarization back to its original state, so that all output pulses have the same polarization. Thus, by controlling the Pockels Cells, the experimenter can choose to delay certain pulses while letting other pulses through undelayed.}
+\label{fig:simple}
+\end{figure}
+    
+Because the same collection of delays is used for each pulse in a sequence, this means a sequence can be extended indefinitely without having to change the design. A single design could create a 6-pulse sequence or a 30-pulse sequence. To optimize the precision of the pulse timings, it would be necessary to make slight changes to the delays between different sequences. However, these tunable delays would be simple to implement using retroreflectors on adjustable platforms. Digitizing designs are thus immensely flexible, as a single design could create almost any sequence. 
+    
+Of course, there are disadvantages to digitizing designs. There is a limitation on the type of sequence these designs can create. If the pulse are too closely spaced, problems may arise. For example, our current digitizing design, detailed in Section \ref{sec:detailed_design}, can only create sequences where the pulses are at least 20 nanoseconds apart. Another disadvantage is that the timings of the Pockels Cells become complex and tedious to ascertain by hand, so computer tools had to be developed to assist the timing management. Most importantly, the introduced discretization error decreases the effectiveness of the sequence, so evaluating and minimizing the error is an important consideration.
+
+\subsection{Design Details}
+
+
+ \begin{figure}[t]
+\centering
+\includegraphics[width=0.8\textwidth]{digdesign1.png}
+\caption{Caption goes here.}
+\label{fig:digdesign1}
+\end{figure}
+
+
 
 \section{Design Summaries}
 \label{sec:design_summary}
