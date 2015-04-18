@@ -30,130 +30,134 @@ idealTimes = uddTimes(T,n); % UDD sequence times
 if nDelays==0
 digTimes=digitizer(idealTimes,T,repRate,1);
 
-if plotCheck==2
- fixfonts = @(h) set(h,'FontName','Arial',...
-                      'FontSize',10,...
-                      'FontWeight','bold');
-    figure
-    hold on
-    xlim([0 T])
-    ylim([0 n+1])
-    fixfonts(xlabel('Pulse Arrival Time, in ns'));
-    fixfonts(ylabel('\pi Pulse Number'));
-    fixfonts(title(strcat('Pulse Picking Times for T=',int2str(T),...
-        ' and n=',int2str(n))));
-    fixfonts(gca);
+    if plotCheck==2
+     fixfonts = @(h) set(h,'FontName','Arial',...
+                          'FontSize',10,...
+                          'FontWeight','bold');
+        figure
+        hold on
+        xlim([0 T])
+        ylim([0 n+1])
+        fixfonts(xlabel('Pulse Arrival Time, in ns'));
+        fixfonts(ylabel('\pi Pulse Number'));
+        fixfonts(title(strcat('Pulse Picking Times for T=',int2str(T),...
+            ' and n=',int2str(n))));
+        fixfonts(gca);
 
-    % markers for ideal times
-    plot(idealTimes,(1:n)','o')
+        % markers for ideal times
+        plot(idealTimes,(1:n)','o')
 
-    % lines for pulse picking times
-    for j = 1:length(digTimes)
-        plot(digTimes(j)*[1 1],[0 n+1],...
-            'Color','red',...
-            'LineWidth',2)
+        % lines for pulse picking times
+        for j = 1:length(digTimes)
+            plot(digTimes(j)*[1 1],[0 n+1],...
+                'Color','red',...
+                'LineWidth',2)
+        end
+
+        fixfonts(legend('Ideal Pulses','Picked Pulses'));
+
+        hold off
     end
-    
-    fixfonts(legend('Ideal Pulses','Picked Pulses'));
-
-    hold off
-end
 
 %otherwise attempt delay optimization
 else
-ff = @(w,timings) abs(1+(-1)^(n+1)*exp(1i*w*T) + ...
-        sum(2*exp(1i*bsxfun(@plus,(1:n)'*pi,timings*w)),1)).^2;
+    ff = @(w,timings) abs(1+(-1)^(n+1)*exp(1i*w*T) + ...
+            sum(2*bsxfun(@times,(-1).^(1:n)',exp(1i*timings*w)),1)).^2;
+    
+    w = logspace(-6,8,1000);
+    [~,uLimInd] = max(ff(w,idealTimes)./w.^2);
+    uLim = w(uLimInd);
 
-delTimes = (0:1/nDelays:(1-1/nDelays))'; % a uniformly-spaced default
-minVal = minFun(delTimes,idealTimes,ff,T,repRate,compDels); % starting value
-options = optimset('Algorithm','active-set','Display','off'); % suppress output
+    delTimes = (0:1/nDelays:(1-1/nDelays))'; % a uniformly-spaced default
+    minVal = minFun(delTimes,idealTimes,ff,uLim,repRate,compDels); % starting value
+    options = optimset('Algorithm','active-set','Display','off'); % suppress output
 
-% constraint matrices that specify 0<x0<x1<x2<2
-[A,B,Aeq,Beq,lb,ub] = conFun();
+    % constraint matrices that specify 0<x0<x1<x2<2
+    [A,B,Aeq,Beq,lb,ub] = conFun();
 
-% get initial conditions
-ICs = ICmatrix(nDelays);
+    % get initial conditions
+    ICs = ICmatrix(n,idealTimes,repRate);
 
-% performs optimization
-for ind = 1:size(ICs,2)
-    delTry = fmincon(@(x)minFun(x,idealTimes,ff,T,repRate,compDels),ICs(:,ind),...
-        A,B,Aeq,Beq,lb,ub,[],options);
-    minTry = minFun(delTry,idealTimes,ff,T,repRate,compDels);
-        
-    if minTry < minVal % we've improved!
-        minVal = minTry;
-        delTimes = delTry;
+    % performs optimization
+    for ind = 1:size(ICs,2)
+        delTry = fmincon(@(x)minFun(x,idealTimes,ff,uLim,repRate,compDels),ICs(:,ind),...
+            A,B,Aeq,Beq,lb,ub,[],options);
+        minTry = minFun(delTry,idealTimes,ff,T,repRate,compDels);
+
+        if minTry < minVal % we've improved!
+            minVal = minTry;
+            delTimes = delTry;
+        end
+    end
+
+    % the list of all delays constructed from the optimized delays; offset
+    %  added at the end
+    digTimes = compDels(delTimes);
+
+    % matches each pulse to the closest delay line
+    bestDelays = dsearchn(repRate*mod(digTimes,1),mod(idealTimes,repRate));
+
+
+    % plotting
+    if plotCheck == 1
+        fixfonts = @(h) set(h,'FontName','Arial',...
+                          'FontSize',10,...
+                          'FontWeight','bold');
+        figure
+        hold on
+        fixfonts(xlabel('\pi Pulse Number'));
+        fixfonts(ylabel('Pulse Arrival Time Error, ns'));
+        fixfonts(title(strcat('Pulse Error Comparison for Optimized and Evenly-Spaced Delays',...
+            ', T=',int2str(T),', n=',int2str(n))));
+        fixfonts(gca);
+
+        % error from uniform delays
+        uniTimes = digitizer(idealTimes,T,repRate,6);
+        uniErrs = uniTimes - idealTimes;
+
+        % error from optimized delays
+        digModTimes = [digTimes+ones(size(digTimes,1),1); digTimes;...
+            digTimes-ones(size(digTimes,1),1)];
+        bestModDelays = dsearchn(repRate*digModTimes,mod(idealTimes,repRate));
+        digErrs = repRate*digModTimes(bestModDelays) - mod(idealTimes,repRate);
+        plot((1:n)',uniErrs,(1:n)',digErrs,'LineWidth',2)
+
+        ymax = max(abs(ylim(gca)));
+        ylim([-ymax ymax]);
+        legend('Evenly-Spaced Delays','Optimized Delays');
+    elseif plotCheck == 2
+        fixfonts = @(h) set(h,'FontName','Arial',...
+                          'FontSize',10,...
+                          'FontWeight','bold');
+        figure
+        hold on
+        xlim([0 14])
+        ylim([0 n+1])
+        fixfonts(xlabel('Pulse Arrival Time mod Repetition Rate, in ns'));
+        fixfonts(ylabel('\pi Pulse Number'));
+        fixfonts(title(strcat('Optimized Pulse Delay Lines for T=',int2str(T),...
+            ' and n=',int2str(n))));
+        fixfonts(gca);
+
+        % markers for ideal times
+        plot(mod(idealTimes,repRate),(1:n)','o')
+
+        % lines for digital delays
+        for j = 1:length(digTimes)
+            plot(repRate*mod(digTimes(j),1)*[1 1],[0 n+1],...
+                'Color','red',...
+                'LineWidth',2)
+        end
+
+        fixfonts(legend('Ideal Pulses','Delay Lines'));
+
+        hold off
     end
 end
-
-% the list of all delays constructed from the optimized delays; offset
-%  added at the end
-digTimes = compDels(delTimes);
-
-% matches each pulse to the closest delay line
-bestDelays = dsearchn(repRate*mod(digTimes,1),mod(idealTimes,repRate));
-
-
-% plotting
-if plotCheck == 1
-    fixfonts = @(h) set(h,'FontName','Arial',...
-                      'FontSize',10,...
-                      'FontWeight','bold');
-    figure
-    hold on
-    fixfonts(xlabel('\pi Pulse Number'));
-    fixfonts(ylabel('Pulse Arrival Time Error, ns'));
-    fixfonts(title(strcat('Pulse Error Comparison for Optimized and Evenly-Spaced Delays',...
-        ', T=',int2str(T),', n=',int2str(n))));
-    fixfonts(gca);
-    
-    % error from uniform delays
-    uniTimes = digitizer(idealTimes,T,repRate,6);
-    uniErrs = uniTimes - idealTimes;
-    
-    % error from optimized delays
-    digModTimes = [digTimes+ones(size(digTimes,1),1); digTimes;...
-        digTimes-ones(size(digTimes,1),1)];
-    bestModDelays = dsearchn(repRate*digModTimes,mod(idealTimes,repRate));
-    digErrs = repRate*digModTimes(bestModDelays) - mod(idealTimes,repRate);
-    plot((1:n)',uniErrs,(1:n)',digErrs,'LineWidth',2)
-    
-    ymax = max(abs(ylim(gca)));
-    ylim([-ymax ymax]);
-    legend('Evenly-Spaced Delays','Optimized Delays');
-elseif plotCheck == 2
-    fixfonts = @(h) set(h,'FontName','Arial',...
-                      'FontSize',10,...
-                      'FontWeight','bold');
-    figure
-    hold on
-    xlim([0 14])
-    ylim([0 n+1])
-    fixfonts(xlabel('Pulse Arrival Time mod Repetition Rate, in ns'));
-    fixfonts(ylabel('\pi Pulse Number'));
-    fixfonts(title(strcat('Optimized Pulse Delay Lines for T=',int2str(T),...
-        ' and n=',int2str(n))));
-    fixfonts(gca);
-
-    % markers for ideal times
-    plot(mod(idealTimes,repRate),(1:n)','o')
-
-    % lines for digital delays
-    for j = 1:length(digTimes)
-        plot(repRate*mod(digTimes(j),1)*[1 1],[0 n+1],...
-            'Color','red',...
-            'LineWidth',2)
-    end
-    
-    fixfonts(legend('Ideal Pulses','Delay Lines'));
-
-    hold off
-end
-end
 end
 
 
-function out = minFun(x,idealTimes,ff,T,repRate,compositeDelays)
+function out = minFun(x,idealTimes,ff,uLim,repRate,compositeDelays)
 % calculates a quantity for minimization via fmincon for the purpose of
 % optimizing a set of digital delays
 %
@@ -175,7 +179,6 @@ function out = minFun(x,idealTimes,ff,T,repRate,compositeDelays)
 %       error = mean-squared error + switching function error (weighted)
 
 % the ideal times
-target = 17.317171337233528;
 modTimes = mod(idealTimes,repRate);
 
 % construct the possible delay lines in subfunction; add preceding and
@@ -189,15 +192,15 @@ allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
 nearPulses = dsearchn(allTimes,modTimes);
 
 % compute filter function
-out = quad(@(w)ff(w,allTimes(nearPulses,1)).*lorentzian(w)./w.^2,0,target/T);
+out = quad(@(w)ff(w,allTimes(nearPulses,1)).*lorentzian(w)./w.^2,0,uLim);
 end
 
 
-function ICs = ICmatrix(nDelays)
+function ICs = ICmatrix(n,idealTimes,repRate)
 % returns a matrix of sets of initial conditions to be used in fmincon
 %
-
-ICs = rand(nDelays,1);
+modTimes = sort(mod(idealTimes,repRate));
+ICs = modTimes([floor(n/3);ceil(n*2/3)])/repRate;
 end
 
 function tp = digitizer(pulses,Tmax,repRate,frac)
