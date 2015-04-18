@@ -55,18 +55,20 @@ fixfonts = @(h) set(h,'FontName','Arial',...
 
 figure(2)
 %axis([0 T 0.000000001 2]);
-%set(gca,'YScale','log');
+set(gca,'YScale','log');
+
+grid off; 
 
 fixfonts(title('Output Pulse'));
 
 hold on
-semilogy(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red','Marker','+');
-%plot(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red');
+%semilogy(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red','Marker','+');
+stem(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red','Marker','+');
 
-semilogy(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',1,'Marker','+');
-%plot(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',1);
+%semilogy(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',1,'Marker','+');
+stem(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',2,'Marker','+');
 
-semilogy(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',1);
+stem(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',2,'Marker','+');
 grid on
 
 print -dpng -r500 'Ghost Pulses.png'
