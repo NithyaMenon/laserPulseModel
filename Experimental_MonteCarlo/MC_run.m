@@ -4,7 +4,7 @@ MC_specifyerrors;
 
 tic
 
-montecarloruns = 5;
+montecarloruns = 1;
 
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
     'PowerPerformances',[-1],'TimingStatistics',-1,'PowerStatistics',-1,...

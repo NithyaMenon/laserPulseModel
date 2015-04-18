@@ -7,10 +7,11 @@ Ivec_length = 2*size(zeropad)+ 2;
 T = 300e-9;
 n = 6;
 
-nLargePulses = sort(Is,'descend');
-nLargePulseList = nLargePulse(1:n);
+sortedPulses = sort(Is,'descend');
+nLargePulseList = sortedPulses(1:n);
+nLargePulse = nLargePulseList(end);
 
-    ImportantPulses_Is = Is(Is>=nLargePulse-eps);
+ImportantPulses_Is = Is(Is>=nLargePulse-eps);
 ResidualPulses_Is = Is(Is<nLargePulse-eps);
 
 ImportantPulses_times = times(Is>=nLargePulse-eps);
@@ -53,12 +54,19 @@ fixfonts = @(h) set(h,'FontName','Arial',...
                   
 
 figure(2)
+%axis([0 T 0.000000001 2]);
+%set(gca,'YScale','log');
+
 fixfonts(title('Output Pulse'));
 
 hold on
-plot(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red');
-plot(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',1);
-plot(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',1);
+semilogy(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red','Marker','+');
+%plot(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red');
+
+semilogy(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',1,'Marker','+');
+%plot(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',1);
+
+semilogy(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',1);
 grid on
 
 print -dpng -r500 'Ghost Pulses.png'

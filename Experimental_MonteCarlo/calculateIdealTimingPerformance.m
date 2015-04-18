@@ -5,7 +5,7 @@ function idealTimingPerformance = calculateIdealTimingPerformance(n,T)
     target = 17.317171337233528; % Change. This is only for N=6
     
     idealPulseTimes = uddTimes(T,n);
-    idealTimings = idealPulseTimes*1e9;
+    idealTimings = idealPulseTimes;
     
     ffIdeal =  @(w,idealTimings) abs(1+(-1)^(n+1)*exp(1i*w*T) + ...
         sum(2*exp(1i*bsxfun(@plus,(1:n)'*pi,idealTimings*w)),1)).^2;
