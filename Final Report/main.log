@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2011.11.30)  19 APR 2015 16:03
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2011.11.30)  19 APR 2015 16:24
 entering extended mode
 **main.tex
 ("D:\Documents\Homework\Clinic\Matlab\laserPulseModel\Final Report\main.tex"
@@ -1194,16 +1194,16 @@ Package pdftex.def Info: digdesign1.png used on input line 385.
 File: OpticalComponentLibrary.PNG Graphic file (type png)
 
 <use OpticalComponentLibrary.PNG>
-Package pdftex.def Info: OpticalComponentLibrary.PNG used on input line 406.
+Package pdftex.def Info: OpticalComponentLibrary.PNG used on input line 408.
 (pdftex.def)             Requested size: 407.66833pt x 223.56201pt.
  [30]
 <Digitizing_2Pi.pdf, id=496, 794.97pt x 614.295pt>
 File: Digitizing_2Pi.pdf Graphic file (type pdf)
  <use Digitizing_2Pi.pdf>
-Package pdftex.def Info: Digitizing_2Pi.pdf used on input line 413.
+Package pdftex.def Info: Digitizing_2Pi.pdf used on input line 415.
 (pdftex.def)             Requested size: 635.97687pt x 491.43666pt.
 
-Overfull \hbox (38.46877pt too wide) in paragraph at lines 413--414
+Overfull \hbox (38.46877pt too wide) in paragraph at lines 415--416
  [][] 
  []
 
@@ -1213,7 +1213,7 @@ inal Report/Digitizing_2Pi.pdf, page is rotated 90 degrees>]
 <BergmannPC.PNG, id=522, 372.26578pt x 277.78781pt>
 File: BergmannPC.PNG Graphic file (type png)
  <use BergmannPC.PNG>
-Package pdftex.def Info: BergmannPC.PNG used on input line 422.
+Package pdftex.def Info: BergmannPC.PNG used on input line 424.
 (pdftex.def)             Requested size: 297.81302pt x 222.23053pt.
 
 [33] [34 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/Berg
@@ -1222,14 +1222,14 @@ mannPC.PNG>] [35]
 File: delay_optimization_1us_n20.png Graphic file (type png)
 
 <use delay_optimization_1us_n20.png>
-Package pdftex.def Info: delay_optimization_1us_n20.png used on input line 443.
+Package pdftex.def Info: delay_optimization_1us_n20.png used on input line 445.
 
 (pdftex.def)             Requested size: 317.07614pt x 216.32108pt.
 
 <msd_vs_n.png, id=552, 617.30624pt x 457.71pt>
 File: msd_vs_n.png Graphic file (type png)
  <use msd_vs_n.png>
-Package pdftex.def Info: msd_vs_n.png used on input line 449.
+Package pdftex.def Info: msd_vs_n.png used on input line 451.
 (pdftex.def)             Requested size: 317.07614pt x 235.1052pt.
  [36 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/delay_op
 timization_1us_n20.png (PNG copy)>] [37 <D:/Documents/Homework/Clinic/Matlab/la
@@ -1238,13 +1238,13 @@ serPulseModel/Final Report/msd_vs_n.png (PNG copy)>]
 File: filter_opt_30_3010.png Graphic file (type png)
 
 <use filter_opt_30_3010.png>
-Package pdftex.def Info: filter_opt_30_3010.png used on input line 468.
+Package pdftex.def Info: filter_opt_30_3010.png used on input line 470.
 (pdftex.def)             Requested size: 452.9679pt x 212.3276pt.
  [38]
 <erroranalysis1.png, id=577, 867.24pt x 406.51875pt>
 File: erroranalysis1.png Graphic file (type png)
  <use erroranalysis1.png>
-Package pdftex.def Info: erroranalysis1.png used on input line 478.
+Package pdftex.def Info: erroranalysis1.png used on input line 480.
 (pdftex.def)             Requested size: 452.9679pt x 212.3276pt.
 
 [39 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/filter_op
@@ -1252,25 +1252,25 @@ t_30_3010.png (PNG copy)>]
 <erroranalysis2.png, id=585, 867.24pt x 406.51875pt>
 File: erroranalysis2.png Graphic file (type png)
  <use erroranalysis2.png>
-Package pdftex.def Info: erroranalysis2.png used on input line 487.
+Package pdftex.def Info: erroranalysis2.png used on input line 489.
 (pdftex.def)             Requested size: 452.9679pt x 212.3276pt.
 
 [40 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/erroranal
 ysis1.png (PNG copy)>] [41 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel
 /Final Report/erroranalysis2.png (PNG copy)>] [42]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 522.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 524.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omlcmr.fd"
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 522.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 524.
  [43]
 <digitizing.png, id=617, 1056.94875pt x 747.79375pt>
 File: digitizing.png Graphic file (type png)
  <use digitizing.png>
-Package pdftex.def Info: digitizing.png used on input line 546.
+Package pdftex.def Info: digitizing.png used on input line 548.
 (pdftex.def)             Requested size: 362.37569pt x 256.38025pt.
 
 [44] [45 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/digi
@@ -1278,20 +1278,20 @@ tizing.png>] <input_pulse.png, id=631, 578.16pt x 433.62pt>
 File: input_pulse.png Graphic file (type png)
 
 <use input_pulse.png>
-Package pdftex.def Info: input_pulse.png used on input line 559.
+Package pdftex.def Info: input_pulse.png used on input line 561.
 (pdftex.def)             Requested size: 362.37569pt x 271.77934pt.
  <initialEOMOut.png, id=632, 578.16pt x 433.62pt>
 File: initialEOMOut.png Graphic file (type png)
 
 <use initialEOMOut.png>
-Package pdftex.def Info: initialEOMOut.png used on input line 565.
+Package pdftex.def Info: initialEOMOut.png used on input line 567.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
  [46 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/input_pu
 lse.png (PNG copy)>]
 <pulse5Selection.png, id=642, 578.16pt x 433.62pt>
 File: pulse5Selection.png Graphic file (type png)
  <use pulse5Selection.png>
-Package pdftex.def Info: pulse5Selection.png used on input line 573.
+Package pdftex.def Info: pulse5Selection.png used on input line 575.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 [47 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/initialEO
@@ -1300,26 +1300,26 @@ MOut.png (PNG copy)> <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final
 <stageB.png, id=653, 439.6425pt x 228.855pt>
 File: stageB.png Graphic file (type png)
  <use stageB.png>
-Package pdftex.def Info: stageB.png used on input line 585.
+Package pdftex.def Info: stageB.png used on input line 587.
 (pdftex.def)             Requested size: 263.78752pt x 137.31404pt.
  [48 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/stageB.p
 ng>]
 <horizPCOut.png, id=666, 578.16pt x 433.62pt>
 File: horizPCOut.png Graphic file (type png)
  <use horizPCOut.png>
-Package pdftex.def Info: horizPCOut.png used on input line 595.
+Package pdftex.def Info: horizPCOut.png used on input line 597.
 (pdftex.def)             Requested size: 346.89867pt x 260.17401pt.
  [49]
 <vertPCOut.png, id=675, 578.16pt x 433.62pt>
 File: vertPCOut.png Graphic file (type png)
  <use vertPCOut.png>
-Package pdftex.def Info: vertPCOut.png used on input line 601.
+Package pdftex.def Info: vertPCOut.png used on input line 603.
 (pdftex.def)             Requested size: 346.89867pt x 260.17401pt.
  [50 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/horizPCO
 ut.png (PNG copy)>] <RotatedPulses.png, id=683, 578.16pt x 433.62pt>
 File: RotatedPulses.png Graphic file (type png)
  <use RotatedPulses.png>
-Package pdftex.def Info: RotatedPulses.png used on input line 608.
+Package pdftex.def Info: RotatedPulses.png used on input line 610.
 (pdftex.def)             Requested size: 346.89867pt x 260.17401pt.
 
 [51 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/vertPCOut
@@ -1328,20 +1328,20 @@ ort/RotatedPulses.png (PNG copy)>]
 <stageC.png, id=699, 209.78375pt x 171.64125pt>
 File: stageC.png Graphic file (type png)
  <use stageC.png>
-Package pdftex.def Info: stageC.png used on input line 620.
+Package pdftex.def Info: stageC.png used on input line 622.
 (pdftex.def)             Requested size: 146.84761pt x 120.14804pt.
 
 <PBSDelayOut.png, id=702, 578.16pt x 433.62pt>
 File: PBSDelayOut.png Graphic file (type png)
  <use PBSDelayOut.png>
-Package pdftex.def Info: PBSDelayOut.png used on input line 628.
+Package pdftex.def Info: PBSDelayOut.png used on input line 630.
 (pdftex.def)             Requested size: 346.89867pt x 260.17401pt.
  [52 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/stageC.p
 ng>]
 <pulse5PBSOut.png, id=712, 578.16pt x 433.62pt>
 File: pulse5PBSOut.png Graphic file (type png)
  <use pulse5PBSOut.png>
-Package pdftex.def Info: pulse5PBSOut.png used on input line 635.
+Package pdftex.def Info: pulse5PBSOut.png used on input line 637.
 (pdftex.def)             Requested size: 346.89867pt x 260.17401pt.
  [53 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/PBSDelay
 Out.png (PNG copy)>] [54 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/F
@@ -1349,34 +1349,34 @@ inal Report/pulse5PBSOut.png (PNG copy)>]
 <OutputPulse.png, id=727, 578.16pt x 433.62pt>
 File: OutputPulse.png Graphic file (type png)
  <use OutputPulse.png>
-Package pdftex.def Info: OutputPulse.png used on input line 652.
+Package pdftex.def Info: OutputPulse.png used on input line 654.
 (pdftex.def)             Requested size: 346.89867pt x 260.17401pt.
  [55]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 660.
+(hyperref)                removing `math shift' on input line 662.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\pi' on input line 660.
+(hyperref)                removing `\pi' on input line 662.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 660.
+(hyperref)                removing `math shift' on input line 662.
 
 [56 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/OutputPul
 se.png (PNG copy)>] <digitizing_pi2.png, id=744, 846.0878pt x 598.2546pt>
 File: digitizing_pi2.png Graphic file (type png)
 
 <use digitizing_pi2.png>
-Package pdftex.def Info: digitizing_pi2.png used on input line 670.
+Package pdftex.def Info: digitizing_pi2.png used on input line 672.
 (pdftex.def)             Requested size: 407.66833pt x 288.25438pt.
  [57 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/digitizi
 ng_pi2.png>] [58] [59] [60]
 <workBreakdown.JPG, id=768, 345.08925pt x 424.58624pt>
 File: workBreakdown.JPG Graphic file (type jpg)
  <use workBreakdown.JPG>
-Package pdftex.def Info: workBreakdown.JPG used on input line 719.
+Package pdftex.def Info: workBreakdown.JPG used on input line 721.
 (pdftex.def)             Requested size: 431.3605pt x 530.7315pt.
 
 [61] [62 <D:/Documents/Homework/Clinic/Matlab/laserPulseModel/Final Report/work
@@ -1399,16 +1399,16 @@ m/n/12 .
  []
 
 [65])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 737.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 739.
  [66]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 737.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 739.
 
 ("D:\Documents\Homework\Clinic\Matlab\laserPulseModel\Final Report\main.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 737.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 737.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 739.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 739.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 2B6FB4241DEC6D9B0AF3E1B9681FD8A4;3181.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 737.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 739.
  ) 
 Here is how much of TeX's memory you used:
  17886 strings out of 494045
@@ -1432,7 +1432,7 @@ Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/Mi
 KTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/
 fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
 pe1/public/cm-super/sfrm1200.pfb>
-Output written on main.pdf (67 pages, 1727905 bytes).
+Output written on main.pdf (67 pages, 1728076 bytes).
 PDF statistics:
  881 PDF objects out of 1000 (max. 8388607)
  176 named destinations out of 1000 (max. 500000)
