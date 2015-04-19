@@ -13,7 +13,7 @@ function [TimingPerformance, MSE] = calculateTimingPerformance(ImportantPulses_I
     
     idealPulseTimings = uddTimes(T,n);
     w = logspace(-6,8,1000);
-    [~,uLimInd] = max(ff(w,idealPulseTimes)./w.^2);
+    [~,uLimInd] = max(ff(w,idealPulseTimings)./w.^2);
     uLim = w(uLimInd);
     
     
