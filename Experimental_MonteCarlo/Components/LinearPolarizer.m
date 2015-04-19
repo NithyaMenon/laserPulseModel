@@ -28,18 +28,37 @@ classdef LinearPolarizer < Component
             % Hard-coded Jitter
             global montecarlo;
             global ErrorSpecs;
-            Psisd = ErrorSpecs.LinearPolarizer.Psi;
-            Transsd = ErrorSpecs.LinearPolarizer.Transmission;
+            global SampledErrors;
+            global UseGivenErrors;
             
-            obj.Psi = Psi + montecarlo*Psisd*randn(1,1);
-            obj.Transmittance = Transmittance + montecarlo*Transsd*randn(1,1);
-            obj.ExtinctionRatio = ExtinctionRatio;
+            if (UseGivenErrors == 1);
+                problem = 1;
+                for s = SampledErrors.LinearPolarizer
+                    if(s.ID == obj.ID)
+                        obj.Psi = s.Psi;
+                        obj.Transmittance = s.Transmittance;
+                        problem = 0;
+                        break;
+                    end
+                end
+                if(problem)
+                    display('ERROR: Object not specified by SampledErrors');
+                end
+            else
             
-            global SampledErrors
-            se = struct('ID',obj.ID,'Psi',obj.Psi,...
-                'Transmittance',obj.Transmittance);
-            SampledErrors.LinearPolarizer =...
-                [SampledErrors.LinearPolarizer, se];
+                Psisd = ErrorSpecs.LinearPolarizer.Psi;
+                Transsd = ErrorSpecs.LinearPolarizer.Transmission;
+
+                obj.Psi = Psi + montecarlo*Psisd*randn(1,1);
+                obj.Transmittance = Transmittance + montecarlo*Transsd*randn(1,1);
+                obj.ExtinctionRatio = ExtinctionRatio;
+
+
+                se = struct('ID',obj.ID,'Psi',obj.Psi,...
+                    'Transmittance',obj.Transmittance);
+                SampledErrors.LinearPolarizer =...
+                    [SampledErrors.LinearPolarizer, se];
+            end
             
             
             streamSize = 5000; % For Preallocation
