@@ -60,6 +60,8 @@ set(gca,'YScale','log');
 grid off; 
 
 fixfonts(title('Output Pulse'));
+fixfonts(xlabel('Time (ns)'));
+fixfonts(ylabel('Relative Power'));
 
 hold on
 %semilogy(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red','Marker','+');
@@ -70,5 +72,7 @@ stem(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',2,'Marker
 
 stem(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',2,'Marker','+');
 grid on
+
+legend('Residual Pulses', 'Important Pulses','Ideal Pulses')
 
 print -dpng -r500 'Ghost Pulses.png'

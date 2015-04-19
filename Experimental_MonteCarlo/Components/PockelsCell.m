@@ -57,13 +57,14 @@ classdef PockelsCell < Component
             
             sampSCurRand = montecarlo*scursd*randn(1,1);
             
-            %obj.sCurveFall = @(t) (0.11231664*t);
+            %obj.sCurveFall = @(t,tStart) ((1.1241664308*10^8)*(t-(tStart+obj.RFTime)));
             obj.sCurveFall = @(t) (0.0112+(0.0876+1-((-0.135)+ 1.2348./(1+2*exp(-0.012*(t*1e11))).^2))/1.0876)/1.0092;
-            %obj.PCcurve = @(t,tStart,tEnd) (1+ sampSCurRand)*(obj.sCurveFall(-(t-tStart)).*(t<tStart) + ...
-            %    1.*(tStart<=t && t<tEnd) + ...
-            %    obj.sCurveFall(t-tEnd).*(t>=tEnd));
+            obj.PCcurve = @(t,tStart,tEnd) (1+ sampSCurRand)*(obj.sCurveFall(-(t-tStart)).*(t<tStart) + ...
+                1.*(tStart<=t && t<tEnd) + ...
+                obj.sCurveFall(t-tEnd).*(t>=tEnd));
             
-            obj.PCcurve = @(t, tStart, tEnd) (1+sampSCurRand)*(obj.sCurveFall(-(
+            %obj.PCcurve = @(t, tStart, tEnd) (1+sampSCurRand)*(obj.sCurveFall(t,tStart).*(t<tStart)+...
+            %    1.*(tStart<=t && t<tEnd)+ obj.sCurveFall(-t,-tEnd).*(t>=tEnd));
             
             obj.onTimes = PCTimings(1:2:end);
             obj.offTimes = PCTimings(2:2:end);
@@ -155,6 +156,7 @@ classdef PockelsCell < Component
         end
         function hand = plotIO(obj,maxTime)
             tt = -10e-9:0.1e-9:maxTime;
+            
             curveData = obj.curve(tt);
             
             [inputTimes,inputI,inputQ,inputU,inputV,inputWidths,inputIDs] = ...
