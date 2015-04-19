@@ -35,25 +35,45 @@ classdef PolarizingBeamSplitter < Component
             
             global montecarlo;
             global ErrorSpecs;
-            TransRefsd = ErrorSpecs.PolarizingBeamSplitter.TransRef;
-            Ghostsd = ErrorSpecs.PolarizingBeamSplitter.Ghost;
-            Psisd = ErrorSpecs.PolarizingBeamSplitter.Psi;
-            BackRefsd = ErrorSpecs.PolarizingBeamSplitter.Back;
-            
-            obj.Psi = Psi*(1 + montecarlo*Psisd*randn(1,1));
-            obj.Reflectance = Reflectance*(1 + montecarlo*TransRefsd*randn(1,1));
-            obj.Transmittance = Transmittance*(1 + montecarlo*TransRefsd*randn(1,1));
-            obj.Ghost = Ghost*(1 + montecarlo*Ghostsd*randn(1,1));
-            obj.BackReflectance = BackReflectance*(1 + montecarlo*BackRefsd*randn(1,1));
-            
+            global UseGivenErrors;
             global SampledErrors
-            se = struct('ID',obj.ID,'Psi',obj.Psi,...
-                'Reflectance',obj.Reflectance,...
-                'Transmittance',obj.Transmittance,...
-                'Ghost',obj.Ghost',...
-                'BackReflectance',obj.BackReflectance);
-            SampledErrors.PolarizingBeamSplitter =...
-                [SampledErrors.PolarizingBeamSplitter, se];
+            
+            if (UseGivenErrors == 1);
+                problem = 1;
+                for s = SampledErrors.PolarizingBeamSplitter
+                    if(s.ID == obj.ID)
+                        obj.Psi = s.Psi;
+                        obj.Reflectance = s.Reflectance;
+                        obj.Transmittance = s.Transmittance;
+                        obj.Ghost = s.Ghost;
+                        obj.BackReflectance = s.BackReflectance;
+                        problem = 0;
+                        break;
+                    end
+                end
+                if(problem)
+                    display('ERROR: Object not specified by SampledErrors');
+                end
+            else
+                TransRefsd = ErrorSpecs.PolarizingBeamSplitter.TransRef;
+                Ghostsd = ErrorSpecs.PolarizingBeamSplitter.Ghost;
+                Psisd = ErrorSpecs.PolarizingBeamSplitter.Psi;
+                BackRefsd = ErrorSpecs.PolarizingBeamSplitter.Back;
+
+                obj.Psi = Psi*(1 + montecarlo*Psisd*randn(1,1));
+                obj.Reflectance = Reflectance*(1 + montecarlo*TransRefsd*randn(1,1));
+                obj.Transmittance = Transmittance*(1 + montecarlo*TransRefsd*randn(1,1));
+                obj.Ghost = Ghost*(1 + montecarlo*Ghostsd*randn(1,1));
+                obj.BackReflectance = BackReflectance*(1 + montecarlo*BackRefsd*randn(1,1));
+            
+                se = struct('ID',obj.ID,'Psi',obj.Psi,...
+                    'Reflectance',obj.Reflectance,...
+                    'Transmittance',obj.Transmittance,...
+                    'Ghost',obj.Ghost',...
+                    'BackReflectance',obj.BackReflectance);
+                SampledErrors.PolarizingBeamSplitter =...
+                    [SampledErrors.PolarizingBeamSplitter, se];
+            end
             
             
             J_pass = [cos(Psi)^2, cos(Psi)*sin(Psi);...

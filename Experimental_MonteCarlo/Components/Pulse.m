@@ -44,23 +44,24 @@ classdef Pulse < handle
             
             % Hard-coded Jitter: From pulse source
             global montecarlo; % Will cause jitter on time and power
+            global ErrorSpecs;
             
-            Isd = 0.01; % W
-            timesd = 0.1e-9; % s
+            Isd = ErrorSpecs.Pulse.I; % W
+            timesd = ErrorSpecs.Pulse.Time; % s
             
             
             
             switch length(inputArgs)
                 case 0
                     obj.time = 0 + montecarlo*timesd*randn(1,1); % Standard 0 s start time
-                    obj.I = 1 + montecarlo*Isd*randn(1,1); % Standard 1 W intensity.
+                    obj.I = 1*(1 + montecarlo*Isd*randn(1,1)); % Standard 1 W intensity.
                     obj.Q = 0; % Standard no polarization
                     obj.U = 0;
                     obj.V = 0;
                     obj.width = 5e-12; % Standard 5 ps width
                 case 1
-                    obj.time = inputArgs(1);
-                    obj.I = 1 + montecarlo*Isd*randn(1,1); % Standard 1 W intensity.
+                    obj.time = inputArgs(1) + montecarlo*timesd*randn(1,1);
+                    obj.I = 1*(1 + montecarlo*Isd*randn(1,1)); % Standard 1 W intensity.
                     obj.Q = 0; % Standard no polarization
                     obj.U = 0;
                     obj.V = 0;

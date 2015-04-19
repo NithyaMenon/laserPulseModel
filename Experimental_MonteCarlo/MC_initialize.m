@@ -25,7 +25,11 @@ SampledErrors = struct('PolarizingBeamSplitter',[],'PockelsCell',[],...
     'LinearPolarizer',[],'HalfWavePlate',[],'Delay',[],'BeamSplitter',[],...
     'BeamSplitterRotated',[]);
 
-% Save State History (1)
+% Dont use a specified SampledErrors
+global UseGivenErrors;
+UseGivenErrors = 0;
+
+% Dont save State History (1)
 global savestatehistory;
 savestatehistory = 0;
 
