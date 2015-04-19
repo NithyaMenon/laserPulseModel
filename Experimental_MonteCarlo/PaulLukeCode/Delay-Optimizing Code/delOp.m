@@ -70,7 +70,7 @@ else
 
     delTimes = (0:1/nDelays:(1-1/nDelays))'; % a uniformly-spaced default
     minVal = minFun(delTimes,idealTimes,ff,uLim,repRate,compDels); % starting value
-    options = optimset('Algorithm','active-set','Display','off'); % suppress output
+    options = optimset('Algorithm','active-set','Display','off','UseParallel','always'); % suppress output
 
     % constraint matrices that specify 0<x0<x1<x2<2
     [A,B,Aeq,Beq,lb,ub] = conFun();
@@ -192,7 +192,7 @@ allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
 nearPulses = dsearchn(allTimes,modTimes);
 
 % compute filter function
-out = quad(@(w)ff(w,allTimes(nearPulses,1)).*lorentzian(w)./w.^2,0,uLim);
+out = quad(@(w)ff(w,allTimes(nearPulses,1)).*lorentzian(w)./w.^2,0,uLim,1e-4);
 end
 
 
