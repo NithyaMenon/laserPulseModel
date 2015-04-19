@@ -1,4 +1,4 @@
-function [TimingPerformance, MSE] = calculateTimingPerformance(ImportantPulses_Is,...
+function [TimingPerformance, RMSE] = calculateTimingPerformance(ImportantPulses_Is,...
     ImportantPulses_times,ResidualPulses_Is,ResidualPulses_times,n,T)
     
 
@@ -23,8 +23,8 @@ function [TimingPerformance, MSE] = calculateTimingPerformance(ImportantPulses_I
     % Add the initial offset to the ideal pulse times
     idealPulseTimings = idealPulseTimings + timings(1);
     
-    % Compute MSE 
-    MSE = 1/n * sum((timings(2:end-1) - idealPulseTimings).^2);
+    % Compute RMSE 
+    RMSE = 1/n * sqrt(sum((timings(2:end-1) - (idealPulseTimings - idealPulseTimings(1))).^2));
     
     
 end
