@@ -2,8 +2,6 @@ paths;
 clearAll;
 MC_specifyerrors;
 
-parpool(4);
-
 tic
 
 montecarloruns = 1;
@@ -40,7 +38,7 @@ PowerPerformances = zeros(1,montecarloruns);
 
 AllOutputData = repmat(struct('ImportantPulse_times',-1,'ImportantPulse_Is',-1,...
     'ResidualPulses_times',-1,'ResidualPulses_Is',-1,'DiffImpRes',-1),1,montecarloruns);
-parfor l = 1:montecarloruns
+for l = 1:montecarloruns
     
     
     
@@ -74,7 +72,7 @@ end
 
 FinalResultSet(1).TimingPerformances = [TimingPerformancesFF;TimingPerformancesMSE];
 FinalResultSet(1).PowerPerformances = calculatePowerPerformance(AllOutputData,N);
-FinalResultSet(1).TimingStatistics = struct('Mean',mean(TimingPerformances),...
+FinalResultSet(1).TimingStatistics = struct('Mean',mean([TimingPerformancesFF;TimingPerformancesMSE]),...
     'StdDevation', std(TimingPerformances));
 FinalResultSet(1).PowerStatistics = struct('Mean',mean(PowerPerformances),...
     'StdDevation', std(PowerPerformances));
