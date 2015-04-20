@@ -12,7 +12,7 @@ FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
             'OptimizationTarget',-1,'IdealPulse',-1,'IdealTimingPerformance',-1,...
             'AllOutputData',-1,'SimParams',-1),length(Ns)*length(Ts),1);
 
-montecarloruns = 1;
+montecarloruns = 2;
 
 tic
 
@@ -95,6 +95,9 @@ for N = Ns
         FinalResultSet(ctr).IdealPulse = idealPulseTimes*10^9;
         FinalResultSet(ctr).AllOutputData = AllOutputData;
         FinalResultSet(ctr).IdealTimingPerformance = calculateIdealTimingPerformance(N,T);
+        
+        ctr = ctr + 1;
+        
     end
 end
 
