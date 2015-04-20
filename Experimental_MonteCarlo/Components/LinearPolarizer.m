@@ -51,7 +51,6 @@ classdef LinearPolarizer < Component
 
                 obj.Psi = Psi + montecarlo*Psisd*randn(1,1);
                 obj.Transmittance = Transmittance + montecarlo*Transsd*randn(1,1);
-                obj.ExtinctionRatio = ExtinctionRatio;
 
 
                 se = struct('ID',obj.ID,'Psi',obj.Psi,...
@@ -60,6 +59,8 @@ classdef LinearPolarizer < Component
                     [SampledErrors.LinearPolarizer, se];
             end
             
+            obj.ExtinctionRatio = ExtinctionRatio;
+
             
             streamSize = 5000; % For Preallocation
             obj.LeftInputStream = StreamArray(streamSize);

@@ -35,7 +35,7 @@ classdef HalfWavePlate < Component
                     if(s.ID == obj.ID)
                         obj.Psi = s.Psi;
                         obj.Transmittance = s.Transmittance;
-                        obj.Tau = s.Tau;
+                        Tau = s.Tau;
                         problem = 0;
                         break;
                     end
