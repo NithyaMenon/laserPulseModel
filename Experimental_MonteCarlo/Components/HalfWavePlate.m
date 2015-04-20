@@ -26,26 +26,49 @@ classdef HalfWavePlate < Component
             % Hard coded jitter
             global montecarlo;
             global ErrorSpecs;
-            Tausd = ErrorSpecs.HalfWavePlate.Tau;
-            Transsd = ErrorSpecs.HalfWavePlate.Transmission;
-            Psisd = ErrorSpecs.HalfWavePlate.Psi;
+            global UseGivenErrors;
+            global SampledErrors;
             
-            obj.Psi = Psi*(1 + montecarlo*Psisd*randn(1,1));
-            obj.Transmittance = Transmittance*(1 + montecarlo*Transsd*randn(1,1));
+            if (UseGivenErrors == 1);
+                problem = 1;
+                for s = SampledErrors.HalfWavePlate
+                    if(s.ID == obj.ID)
+                        obj.Psi = s.Psi;
+                        obj.Transmittance = s.Transmittance;
+                        obj.Tau = s.Tau;
+                        problem = 0;
+                        break;
+                    end
+                end
+                if(problem)
+                    display('ERROR: Object not specified by SampledErrors');
+                end
+            else
+            
+                Tausd = ErrorSpecs.HalfWavePlate.Tau;
+                Transsd = ErrorSpecs.HalfWavePlate.Transmission;
+                Psisd = ErrorSpecs.HalfWavePlate.Psi;
+
+                obj.Psi = Psi*(1 + montecarlo*Psisd*randn(1,1));
+                obj.Transmittance = Transmittance*(1 + montecarlo*Transsd*randn(1,1));
+                
+
+                Tau = pi*(1 + montecarlo*Tausd*randn(1,1)); % Hard-coded for HWP
+
+                
+                se = struct('ID',obj.ID,'Psi',obj.Psi,...
+                    'Transmittance',obj.Transmittance,...
+                    'Tau',Tau);
+                SampledErrors.HalfWavePlate =...
+                    [SampledErrors.HalfWavePlate, se];
+                
+            end
+            
             streamSize = 5000; % For Preallocation
             obj.LeftInputStream = StreamArray(streamSize);
             obj.RightInputStream = StreamArray(streamSize);
             obj.LeftOutputStream = StreamArray(streamSize);
             obj.RightOutputStream = StreamArray(streamSize);
-            
-            Tau = pi*(1 + montecarlo*Tausd*randn(1,1)); % Hard-coded for HWP
- 
-            global SampledErrors
-            se = struct('ID',obj.ID,'Psi',obj.Psi,...
-                'Transmittance',obj.Transmittance,...
-                'Tau',Tau);
-            SampledErrors.HalfWavePlate =...
-                [SampledErrors.HalfWavePlate, se];
             
             
             % Compute Mueller matrix

@@ -15,7 +15,7 @@ PCTimings2(1:2:end)=eomOnTimes;
 PCTimings2(2:2:end)=eomOffTimes;
 CP1 = [0.5000, ones(1,length(ppEomOnTimes)-2), 0.5000];
 CP2 = ones(1,length(eomOnTimes));
-DelayLeft=digTimes(1)*10^-9;
-DelayMiddle=digTimes(2)*10^-9;
-DelayBottom=digTimes(3)*10^-9;
+DelayLeft=digTimes(1)*13e-9;
+DelayMiddle=digTimes(2)*13e-9;
+DelayBottom=digTimes(3)*13e-9;
 end

@@ -257,7 +257,7 @@ Pockels Cells are comprised of an electro-optic crystal, which has a refractive 
 
 Pockels Cells can also be used as a polarization modulators if one takes advantage of the crystal's birefringent properties. A material is birefringent when it has an index of refraction that is dependent on the polarization of the incident light. The birefringence of the electro-optic crystal is due to the existence of a fast and a slow optic axis within the crystal. The phase velocity of polarized light propagating through electro-optic crystal is dependent on its alignment with these axes. If the light is not completely aligned with one of these optic axes there will be a change in the phase velocity which changes its polarization \cite{RP_Birefringence}.
 
-\begin{figure}[]
+\begin{figure}[t]
   \centering
     \includegraphics[scale=2.75]{PCschematic}
   \caption{Schematic of a Pockels cell with polarizers at each end. Polarized light is inputted into the Pockels cell, where its polarization is modified. The outgoing light will only be transmitted by the final polarizer if its polarization has been rotated 90 degrees from its initial state. Here the final polarizer is called an analyzer because it analyzes which polarization is transmitted\cite{simcik_module}.}
@@ -292,6 +292,102 @@ As light travels from one medium into another, it will be partially reflected an
 In order to split a beam, we use FTIR at the air gap between the two triangular glass prisms of a cubic beam splitter. One of the outgoing beams produced is created by the TIR at the glass-air interface while the second outgoing beam is the transmitted beam due to effects of FTIR. Different splitting ratios can be obtained by changing the thickness of the air gap since the amount of energy transmitted by the evanescent wave into the glass prism is dependent on this distance \cite{Properties_of_Prisms}. 
 
 Polarizing beam splitters can be created by using birefringent crystals, such as Calcite, for the prism material. The light incident on the beam splitter can be split along its polarization by using the fact that index of refraction is polarization dependent for these materials. One of most common polarizing beam splitters designs is known as the Glan-Foucault prism, which consists of two calcite prisms separated by an air-gap as shown in Figure. In Calcite, the index of refraction for the ordinary ray with p-polarization is 1.6557 while the index of refraction for the extraordinary ray with s-polarization is closer to 1.4852 for 630 nm light. This corresponds with a critical angle of 37.16 and 42.32 degrees for the p-polarized and s-polarized light respectively \cite{Properties_of_Prisms}. Therefore we can separate the light based on its polarization by choosing an angle of incidence that exceed the critical angle for one polarization but not the other. In this case, for the Glan-Foucault beam splitter, the p-polarization is separated using TIR while the s-polarization is transmitted through the air gap \cite{Properties_of_Prisms}. Note that imperfections in the birefringent prism and in the air gap will lead to non-ideal performance. One factor the team is taking into account is an imperfect splitting ratio, meaning that a 50/50 beam splitter may have a ratio closer to 51/49 or worse leading to error in the final pulse sequence.
+
+
+\section{Design Evaluation}
+\label{sec:design_evaluation}
+
+\section{Single Pulse Design}
+\label{sec:single_pulse_design}
+Single-pulse designs are characterized by using only a single pulse as the input to the optical network. An initial EOM will select a single pulse, which will then be split up into multiple pulses by beam splitters. These pulses will travel along different optical paths, encountering different delays and undergoing different attenuations. All the pulses will eventually be redirected onto a single path to produce the final output pulse sequence. 
+
+\subsection{Specific Design (TODO Rename this subsection)}
+As all output pulse are derived from a single pulse, the time delay between the pulses must be produced by time-of-flight delays on the optical table. Recognizing that the table space needed to produce these delays would be the primary fault of this type of design, we created a design that would minimize the delays needed by utilizing the symmetry of the UDD sequence to reuse delays. This single-pulse design, for a sequence of six $\pi$- pulses and two $\pi/2$-pulses, is shown in Figure~\ref{fig:singlepulse}. 
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{singlepulse.png}
+\caption{Example of single-pulse design. The EOM lets in a single pulse, which is split into many pulses by the numerous beamsplitters.}
+\label{fig:singlepulse}
+\end{figure}
+
+In this design, a single pulse enters through the EOM on the left, is split across four paths of different delays, and is recombined on the right. The first beamsplitter splits the pulse along two paths, denoted by red and blue. The red path creates the first half of the sequence, while the blue path creates the second half. Following the leftmost red arrow, we see that the pulse hits another beamsplitter, directing one pulse upward and another pulse forward. The upward-heading pulse is sent into the upper recombination path, and will continue until it exits the system on the right. As it has received no explicit delay, it will be the first $pi/2$-pulse, starting the sequence. Meanwhile, the pulse that was transmitted through the beamsplitter will enter delay 1. In the diagram, this and all other delays are abstracted as generic delays, as depending on their length, the delay could be provided by retroreflectors or Harriott cells. Delay 1 will delay the pulse by a time equal to the time between the first $\pi/2$-pulse and the first $\pi$-pulse of the UDD sequence. The delay times are illustrated in Figure~\ref{fig:UDDseqdelays}. After being delayed, the pulse is sent through another beamsplitter, where the reflected pulse is sent to the recombination line to become the first $\pi$-pulse and the transmitted pulse is sent onwards to go through additional delays and beamsplitters to become the rest of the $\pi$-pulses in the first half of the sequence.
+
+If we look back at the very first beamsplitter, we see the reflected pulse is sent along the blue path. The blue path includes delay 4, which is the longest delay in the design. It must be equal to the time between the first $\pi/2$-pulse and the first $\pi$-pulse of the second half of the sequence. It then passes through the line of delays and beamsplitters that the earlier pulses had, but in the opposite direction. This applies the delays in the opposite order in order to create the symmetrical UDD sequence. The beamsplitters reflect the pulses downwards, where they are combined in this reverse order before being combined with the red path pulses.
+
+The total length of the labeled delays will be equal to the total length of the UDD sequence. Extra path length introduced by the physical setup of the design can either be dealt with by making sure extra path length is added symmetrically to each branch of the design or by decreasing the length of labeled delays by corresponding amounts.
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{singlepulse.png}
+\caption{TODO implement image of UDD sequence and how the delay lengths match up with the sequence times.}
+\label{fig:UDDseqdelays}
+\end{figure}
+
+\subsection{Evaluation}
+
+These designs have several advantages. They generally require only a single EOM, saving greatly on cost and optical table space. Because these designs only use a single pulse, they are not constrained by the pulse repetition rate of the mode-locked laser. And because all the output pulses are derived from a single pulse, it is easy to generate many pulses all closely spaced with each other. However, these designs also have significant drawbacks. While it is easy to generate closely spaced pulses with this type of design, generating distantly spaced pulses requires long delays that require more complex optics or consume large amounts of optical table space. If the total sequence length is over 100 nanoseconds, the delays required are in the tens of nanoseconds. As light travels about one foot in a nanosecond, optical paths of twenty or more feet in length would be required. 
+
+Additional problems include power concerns. Every time a pulse is split, the resulting pulses have half the power of the initial pulse. Additionally, recombining the split pulses along a single path must be done with beamsplitters, losing additional power. Even the best design of this type, shown in Figure~\ref{fig:singlepulse}, has a power loss factor of $2^{-7}$ for an 8 pulse sequence. This means each output pulse will have $1/128$ of the power of the input pulse. For sequences with more pulses, this ratio would only get worse, as it scales by $2^{-3-n/2}$. Therefore, if many pulses are needed, there may be insufficient power to produce them all from the single pulse.
+
+
+
+
+
+
+\section{Digitizing Designs}
+\label{sec:digitizing_designs}
+The other type of design has been termed “digitizing” designs. They are so named because instead of having a precisely tuned delay for each pulse, such that every pulse is output exactly where it is supposed to be in the sequence, a number of delays are shared between all pulses, such that only certain discretized pulse output times are possible. This results in discretization error, which reduces the effectiveness of the pulse sequence, but allows for greatly increased flexibility in the variety of sequences a single design can produce.
+
+For example, the simplest digitizing design would be an EOM and nothing else. Although it would not be possible to produce an output pulse at the exact time desired, pulses would be arriving at the EOM every 13 nanoseconds, so by letting through the pulse nearest to the desired time, you would be guaranteed to produce a pulse within 6.5 nanoseconds (half of 13 nanoseconds) of the desired time. If you added to this an optional delay of 6.5 nanoseconds, you could produce output pulses at any integer multiple of 6.5 nanoseconds, increasing your precision. An example of a simple optional delay is shown in Figure ~\ref{fig:simple}. By adding successive smaller optional delays, you could further increase the precision until the sequence would be nearly as effective as one with the exactly desired pulses.
+    
+ \begin{figure}[t]
+\centering
+\includegraphics[width=0.8\textwidth]{simple_digitizing.png}
+\caption{A simple example of a digitizing design. The initial Pockels Cell rotates the incoming pulse's polarization so that it either takes the short path or the long path through the polarizing beam splitters. The Pockels Cell on the right then rotates the pulse's polarization back to its original state, so that all output pulses have the same polarization. Thus, by controlling the Pockels Cells, the experimenter can choose to delay certain pulses while letting other pulses through undelayed.}
+\label{fig:simple}
+\end{figure}
+    
+Because the same collection of delays is used for each pulse in a sequence, this means a sequence can be extended indefinitely without having to change the design. A single design could create a 6-pulse sequence or a 30-pulse sequence. To optimize the precision of the pulse timings, it would be necessary to make slight changes to the delays between different sequences. However, these tunable delays would be simple to implement using retroreflectors on adjustable platforms. Digitizing designs are thus immensely flexible, as a single design could create almost any sequence. 
+    
+Of course, there are disadvantages to digitizing designs. There is a limitation on the type of sequence these designs can create. If the pulse are too closely spaced, problems may arise. Most importantly, the introduced discretization error decreases the effectiveness of the sequence, so evaluating and minimizing the error is an important consideration.
+
+\subsection{Design Details}
+
+The digitizing design shown in Figure~\ref{fig:digdesign1} could be built with HRL's current equipment. Input laser pulses enter from the top right, and the UDD sequence output pulses are produced from the right side of the figure. The top right EOM, oriented with its linear polarizer at the output end, is used to pick pulses from the mode-locked laser input, so it will be referred to as the pulse-picker EOM. The pulses allowed through will reflect off a beamsplitter towards the EOM in the center of Figure~\ref{fig:digdesign1}. This EOM, which we call the rotator EOM, is oriented such that incoming pulses pass through its linear polarizer before the rest of the EOM, so instead of destroying some pulses and letting others through, it lets all pulses through and rotates the polarization of certain pulses. 
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.8\textwidth]{digdesign1.png}
+\caption{Caption goes here. change colors of paths?}
+\label{fig:digdesign1}
+\end{figure}
+
+The input pulses, which are vertically polarized, after being picked by the pulse-picking EOM, pass through the rotator EOM, and will go along different delay paths depending on their polarization. If the rotator EOM does rotate an incoming pulse, it will become horizontally polarized, and will transmit through the polarizing beamsplitter. The pulse will then be split in two by a regular beamsplitter, with one pulse heading towards delay 1, and the other towards delay 2. One pulse will be delayed by the retroreflector setup labeled delay 1 before being sent directly back through the beamsplitters to the rotator EOM. The other pulse will go through a loop, labeled delay 2, where it will encounter a half-wave plate, rotating it to vertical polarization, before going back to the polarized beamsplitter. As it is now vertically polarized, it will reflect off the polarized beamsplitter and return to the rotator EOM. The other option is for the EOM not to rotate the pulse, so it reflects off the polarizing beamsplitter. Then, a similar split happens, with one pulse going through delay 3 before returning to the rotator EOM, and the other going through delay 2 in the other direction before getting back to the rotator EOM.
+
+Thus, in the first pass through the rotator EOM and the following beamsplitters, two pulses are created. The two pulses will either be delayed by delay 1 and delay 2 respectively, or they will be delayed by delay 3 and delay 2 respectively. As the two pulses are now entering the rotator EOM from the opposite direction as before, the EOM can rotate one of them so it is destroyed on the EOM's linear polarizer, so only one pulse is output. Thus, for each pulse the pulse-picker EOM lets through, one pulse is output, with one of three delays applied.
+
+Choosing a certain delay for a pulse is done by controlling the rotator EOM. If the rotator EOM is kept on (in the state where it will rotate the polarization of incoming pulses) for both the initial pass through it and for the reverse passes as well, it will output the pulse with delay 1. This is because the rotated pulses will go through the polarizing beamsplitter with horizontal polarization, so when they return to the rotator EOM, the delay 1 pulse will still be horizontally polarized while the delay 2 pulse will have vertical polarization. Then, as the EOM is still on, the delay 1 pulse will be rotated to vertical, so it passes through the linear polarizer, while the delay 2 pulse will be rotated to horizontal and destroyed. Similarly, if the EOM is kept off (in a nonrotating state) for both passes, only the pulse with delay 3 will be output. However, if the state of the rotator EOM is changed between the initial pass and the reverse passes, either from on to off or from off to on, the pulse with delay 2 will be output. All of this means that for each pulse, the rotator EOM's state will need to be switched at most once. If delay 1 or delay 3 is desired, the rotator EOM may need to be switched to the correct state if it is not already there, and if the delay 2 is desired, then one switch will have to be made between the passes.
+
+\subsection{Delay Optimization}
+
+\subsection{Evaluation Results}
+
+\subsection{Other Digitizing Designs}
+While the digitizing design discussed above could be created using only components HRL already possesses, the timing precision could be improved if additional components were added or if more complicated design modifications were implemented.
+
+A simple way to improve the design would be to repeat it. If the output of the current design was fed into an section with a second rotator EOM and associated beamsplitters and delays, as shown in Figure~\ref{fig:digdesigndouble}, then the timing precision would be increased significantly. This change would require an additional EOM, as well as almost twice as much optical table space, but would not be too much more complex or use any new principles.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.8\textwidth]{digdesign1.png}
+\caption{Replace this image with the digitizing design schematic with a second rotator EOM and additional set of delays.}
+\label{fig:digdesigndouble}
+\end{figure}
+
+Another way to improve 
 
 \section{Computational Tools}
 \label{sec:results}
@@ -400,77 +496,6 @@ However, insights into how the UDD sequence works have suggested other character
 
 These insights into investigating error and filter functions suggest a few action items to complete next. As the integral of the switching sequence is equivalent to the sum of the timing errors with alternating signs, the team should verify that such an alternating sum is a good metric for filter function performance by taking the filter functions graphed in Figure \ref{fig:filter2} and plotting the value at $\omega T = 10^{-2}$ against the sum of time errors. If the sum of time errors is verified to indicate filter function performance, the optimization code mentioned in Section \ref{sec:optimizing} should be rewritten and re-tested to minimize that instead of MSD. Other places where MSD was used, such as in Figure \ref{fig:msd_vs_n} could also be redone with sum of timing errors in place of MSD. In addition, the team will remake the performance graph of Figure \ref{fig:msd_vs_n} for the full range of pulse sequences $n=1$ to $n=30$, and for a range of different digitizing designs.  This analysis will help clarify the tradeoff between equipment budget and pulse sequence performance.
 
-\section{Design Evaluation}
-\label{sec:design_evaluation}
-
-\section{Single Pulse Design}
-\label{sec:single_pulse_design}
-Single-pulse designs are characterized by using only a single pulse as the input to the optical network. An initial EOM will select a single pulse, which will then be split up into multiple pulses by beam splitters. These pulses will travel along different optical paths, encountering different delays and undergoing different attenuations. All the pulses will eventually be redirected onto a single path to produce the final output pulse sequence. 
-
-\subsection{Specific Design (TODO Rename this subsection)}
-As all output pulse are derived from a single pulse, the time delay between the pulses must be produced by time-of-flight delays on the optical table. Recognizing that the table space needed to produce these delays would be the primary fault of this type of design, we created a design that would minimize the delays needed by utilizing the symmetry of the UDD sequence to reuse delays. This single-pulse design, for a sequence of six $\pi$- pulses and two $\pi/2$-pulses, is shown in Figure~\ref{fig:singlepulse}. 
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\textwidth]{singlepulse.png}
-\caption{Example of single-pulse design. The EOM lets in a single pulse, which is split into many pulses by the numerous beamsplitters.}
-\label{fig:singlepulse}
-\end{figure}
-
-In this design, a single pulse enters through the EOM on the left, is split across four paths of different delays, and is recombined on the right. The first beamsplitter splits the pulse along two paths, denoted by red and blue. The red path creates the first half of the sequence, while the blue path creates the second half. Following the leftmost red arrow, we see that the pulse hits another beamsplitter, directing one pulse upward and another pulse forward. The upward-heading pulse is sent into the upper recombination path, and will continue until it exits the system on the right. As it has received no explicit delay, it will be the first $pi/2$-pulse, starting the sequence. Meanwhile, the pulse that was transmitted through the beamsplitter will enter delay 1. In the diagram, this and all other delays are abstracted as generic delays, as depending on their length, the delay could be provided by retroreflectors or Harriott cells. Delay 1 will delay the pulse by a time equal to the time between the first $\pi/2$-pulse and the first $\pi$-pulse of the UDD sequence. The delay times are illustrated in Figure~\ref{fig:UDDseqdelays}. After being delayed, the pulse is sent through another beamsplitter, where the reflected pulse is sent to the recombination line to become the first $\pi$-pulse and the transmitted pulse is sent onwards to go through additional delays and beamsplitters to become the rest of the $\pi$-pulses in the first half of the sequence.
-
-If we look back at the very first beamsplitter, we see the reflected pulse is sent along the blue path. The blue path includes delay 4, which is the longest delay in the design. It must be equal to the time between the first $\pi/2$-pulse and the first $\pi$-pulse of the second half of the sequence. It then passes through the line of delays and beamsplitters that the earlier pulses had, but in the opposite direction. This applies the delays in the opposite order in order to create the symmetrical UDD sequence. The beamsplitters reflect the pulses downwards, where they are combined in this reverse order before being combined with the red path pulses.
-
-The total length of the labeled delays will be equal to the total length of the UDD sequence. Extra path length introduced by the physical setup of the design can either be dealt with by making sure extra path length is added symmetrically to each branch of the design or by decreasing the length of labeled delays by corresponding amounts.
-
-
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{singlepulse.png}
-\caption{TODO implement image of UDD sequence and how the delay lengths match up with the sequence times.}
-\label{fig:UDDseqdelays}
-\end{figure}
-
-\subsection{Evaluation}
-
-These designs have several advantages. They generally require only a single EOM, saving greatly on cost and optical table space. Because these designs only use a single pulse, they are not constrained by the pulse repetition rate of the mode-locked laser. And because all the output pulses are derived from a single pulse, it is easy to generate many pulses all closely spaced with each other. However, these designs also have significant drawbacks. While it is easy to generate closely spaced pulses with this type of design, generating distantly spaced pulses requires long delays that require more complex optics or consume large amounts of optical table space. If the total sequence length is over 100 nanoseconds, the delays required are in the tens of nanoseconds. As light travels about one foot in a nanosecond, optical paths of twenty or more feet in length would be required. 
-
-Additional problems include power concerns. Every time a pulse is split, the resulting pulses have half the power of the initial pulse. Additionally, recombining the split pulses along a single path must be done with beamsplitters, losing additional power. Even the best design of this type, shown in Figure~\ref{fig:singlepulse}, has a power loss factor of $2^{-7}$ for an 8 pulse sequence. This means each output pulse will have $1/128$ of the power of the input pulse. For sequences with more pulses, this ratio would only get worse, as it scales by $2^{-3-n/2}$. Therefore, if many pulses are needed, there may be insufficient power to produce them all from the single pulse.
-
-
-
-
-
-
-\section{Digitizing Designs}
-\label{sec:digitizing_designs}
-The other type of design has been termed “digitizing” designs. They are so named because instead of having a precisely tuned delay for each pulse, such that every pulse is output exactly where it is supposed to be in the sequence, a number of delays are shared between all pulses, such that only certain discretized pulse output times are possible. This results in discretization error, which reduces the effectiveness of the pulse sequence, but allows for greatly increased flexibility in the variety of sequences a single design can produce.
-
-For example, the simplest digitizing design would be an EOM and nothing else. Although it would not be possible to produce an output pulse at the exact time desired, pulses would be arriving at the EOM every 13 nanoseconds, so by letting through the pulse nearest to the desired time, you would be guaranteed to produce a pulse within 6.5 nanoseconds (half of 13 nanoseconds) of the desired time. If you added to this an optional delay of 6.5 nanoseconds, you could produce output pulses at any integer multiple of 6.5 nanoseconds, increasing your precision. An example of a simple optional delay is shown in Figure ~\ref{fig:simple}. By adding successive smaller optional delays, you could further increase the precision until the sequence would be nearly as effective as one with the exactly desired pulses.
-    
- \begin{figure}[t]
-\centering
-\includegraphics[width=0.8\textwidth]{simple_digitizing.png}
-\caption{A simple example of a digitizing design. The initial Pockels Cell rotates the incoming pulse's polarization so that it either takes the short path or the long path through the polarizing beam splitters. The Pockels Cell on the right then rotates the pulse's polarization back to its original state, so that all output pulses have the same polarization. Thus, by controlling the Pockels Cells, the experimenter can choose to delay certain pulses while letting other pulses through undelayed.}
-\label{fig:simple}
-\end{figure}
-    
-Because the same collection of delays is used for each pulse in a sequence, this means a sequence can be extended indefinitely without having to change the design. A single design could create a 6-pulse sequence or a 30-pulse sequence. To optimize the precision of the pulse timings, it would be necessary to make slight changes to the delays between different sequences. However, these tunable delays would be simple to implement using retroreflectors on adjustable platforms. Digitizing designs are thus immensely flexible, as a single design could create almost any sequence. 
-    
-Of course, there are disadvantages to digitizing designs. There is a limitation on the type of sequence these designs can create. If the pulse are too closely spaced, problems may arise. For example, our current digitizing design, detailed in Section \ref{sec:detailed_design}, can only create sequences where the pulses are at least 20 nanoseconds apart. Another disadvantage is that the timings of the Pockels Cells become complex and tedious to ascertain by hand, so computer tools had to be developed to assist the timing management. Most importantly, the introduced discretization error decreases the effectiveness of the sequence, so evaluating and minimizing the error is an important consideration.
-
-\subsection{Design Details}
-
-
- \begin{figure}[t]
-\centering
-\includegraphics[width=0.8\textwidth]{digdesign1.png}
-\caption{Caption goes here.}
-\label{fig:digdesign1}
-\end{figure}
-
-
 
 \section{Design Summaries}
 \label{sec:design_summary}
@@ -483,27 +508,6 @@ The team started by devising multiple design alternatives. As the project requir
     
 \subsection{Path-per-Pulse Designs}
 Path-per-path designs are characterized by having separate paths for each pulse. This design was considered first, due to its successful use in previous experiments. The design shown previously in Figure~\ref{fig:Stanford} was an example of this type of design, with two separate paths, each with its own EOM. Generally,  for each pulse or pair of pulses in the output sequence, there must be a corresponding branch in the network, with delays customized to that pulse. The specialization of each branch allows these designs to create complex output pulse sequences, but they have significant disadvantages. As each pulse in the sequence requires its own branch in the design, including an EOM, the cost of these designs quickly becomes prohibitive as the number of pulses in the sequence increases. It may be possible to use novel designs to fit a pair of pulses in a single branch or to otherwise use fewer EOMs, but even then, a large amount of optical hardware is still required, making it difficult to fit the design on the optical table. Therefore, the team quickly looked to other types of designs.
-
-\subsection{Single-Pulse Designs}
-
-
-
-\subsection{Digitizing Designs}
-\label{sec:digitizingDesign}
-The type of design on which the team is currently focusing have been termed “digitizing” designs. They are so named because instead of having a precisely tuned delay for each pulse, such that every pulse is output exactly where it is supposed to be in the sequence, a number of delays are shared between all pulses, such that only certain discretized pulse output times are possible. This results in discretization error, which reduces the effectiveness of the pulse sequence, but allows for greatly increased flexibility in the variety of sequences a single design can produce.
-
-	For example, the simplest digitizing design would be an EOM and nothing else. Although it would not be possible to produce an output pulse at the exact time desired, pulses would be arriving at the Pockels Cell every 13 nanoseconds, so by letting through the pulse nearest to the desired time, you would be guaranteed to produce a pulse within 6.5 nanoseconds (half of 13 nanoseconds) of the desired time. If you added to this an optional delay after the Pockel Cell of 6.5 nanoseconds, you could produce output pulses at any integer multiple of 6.5 nanoseconds, increasing your precision. An example of a simple optional delay is shown in Figure ~\ref{fig:simple}. By adding successive smaller optional delays, you could further increase the precision until the sequence would be nearly as effective as one with the exactly desired pulses.
-    
- \begin{figure}[t]
-\centering
-\includegraphics[width=0.8\textwidth]{simple_digitizing.png}
-\caption{A simple example of a digitizing design. The initial Pockels Cell rotates the incoming pulse's polarization so that it either takes the short path or the long path through the polarizing beam splitters. The Pockels Cell on the right then rotates the pulse's polarization back to its original state, so that all output pulses have the same polarization. Thus, by controlling the Pockels Cells, the experimenter can choose to delay certain pulses while letting other pulses through undelayed.}
-\label{fig:simple}
-\end{figure}
-    
-	Because the same collection of delays is used for each pulse in a sequence, this means a sequence can be extended indefinitely without having to change the design. A single design could create a 6-pulse sequence or a 30-pulse sequence. To optimize the precision of the pulse timings, it would be necessary to make slight changes to the delays between different sequences. However, these tunable delays would be simple to implement using retroreflectors on adjustable platforms. Digitizing designs are thus immensely flexible, as a single design could create almost any sequence. 
-    
-Of course, there are disadvantages to digitizing designs. There is a limitation on the type of sequence these designs can create. If the pulse are too closely spaced, problems may arise. For example, our current digitizing design, detailed in Section \ref{sec:detailed_design}, can only create sequences where the pulses are at least 20 nanoseconds apart. Another disadvantage is that the timings of the Pockels Cells become complex and tedious to ascertain by hand, so computer tools had to be developed to assist the timing management. Most importantly, the introduced discretization error decreases the effectiveness of the sequence, so evaluating and minimizing the error is an important consideration.
 
 
 \subsection{Design Alternatives Comparison}

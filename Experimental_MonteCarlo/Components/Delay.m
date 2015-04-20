@@ -22,14 +22,30 @@ classdef Delay < Component
             
             global montecarlo;
             global ErrorSpecs;
-            DelayAmtsd = ErrorSpecs.Delay.Amount; % Hard-coded component jitter
+            global UseGivenErrors;
+            global SampledErrors;
             
-            obj.DelayAmt = DelayAmt*(1 + montecarlo*DelayAmtsd*randn(1,1));
-            
-            global SampledErrors
-            se = struct('ID',obj.ID,'Amount',obj.DelayAmt);
-            SampledErrors.Delay =...
-                [SampledErrors.Delay, se];
+            if (UseGivenErrors == 1);
+                problem = 1;
+                for s = SampledErrors.Delay
+                    if(s.ID == obj.ID)
+                        obj.DelayAmt = s.Amount;
+                        problem = 0;
+                        break;
+                    end
+                end
+                if(problem)
+                    display('ERROR: Object not specified by SampledErrors');
+                end
+            else
+                DelayAmtsd = ErrorSpecs.Delay.Amount; % Hard-coded component jitter
+
+                obj.DelayAmt = DelayAmt*(1 + montecarlo*DelayAmtsd*randn(1,1));
+
+                se = struct('ID',obj.ID,'Amount',obj.DelayAmt);
+                SampledErrors.Delay =...
+                    [SampledErrors.Delay, se];
+            end
             
             streamSize = 5000; % For Preallocation
             obj.LeftInputStream = StreamArray(streamSize);

@@ -34,24 +34,43 @@ classdef BeamSplitterRotated < Component
             % Hard Coded Jitter
             global montecarlo;
             global ErrorSpecs;
-            TransRefsd = ErrorSpecs.BeamSplitter.TransRef;
-            Ghostsd = ErrorSpecs.BeamSplitter.Ghost;
-            BackRefsd = ErrorSpecs.BeamSplitter.Back;
-            
-            
-            obj.Reflectance = Reflectance*(1 + montecarlo*TransRefsd*randn(1,1));
-            obj.Transmittance = Transmittance*(1 + montecarlo*TransRefsd*randn(1,1));
-            obj.Ghost = Ghost*(1 + montecarlo*Ghostsd*randn(1,1));
-            obj.BackReflectance = BackReflectance*(1 + montecarlo*BackRefsd*randn(1,1));
-            
+            global UseGivenErrors;
             global SampledErrors
-            se = struct('ID',obj.ID,...
-                'Reflectance',obj.Reflectance,...
-                'Transmittance',obj.Transmittance,...
-                'Ghost',obj.Ghost',...
-                'BackReflectance',obj.BackReflectance);
-            SampledErrors.BeamSplitterRotated =...
-                [SampledErrors.BeamSplitterRotated, se];
+            
+            if (UseGivenErrors == 1);
+                problem = 1;
+                for s = SampledErrors.BeamSplitterRotated
+                    if(s.ID == obj.ID)
+                        obj.Reflectance = s.Reflectance;
+                        obj.Transmittance = s.Transmittance;
+                        obj.Ghost = s.Ghost;
+                        obj.BackReflectance = s.BackReflectance;
+                        problem = 0;
+                        break;
+                    end
+                end
+                if(problem)
+                    display('ERROR: Object not specified by SampledErrors');
+                end
+            else
+                TransRefsd = ErrorSpecs.BeamSplitter.TransRef;
+                Ghostsd = ErrorSpecs.BeamSplitter.Ghost;
+                BackRefsd = ErrorSpecs.BeamSplitter.Back;
+
+
+                obj.Reflectance = Reflectance*(1 + montecarlo*TransRefsd*randn(1,1));
+                obj.Transmittance = Transmittance*(1 + montecarlo*TransRefsd*randn(1,1));
+                obj.Ghost = Ghost*(1 + montecarlo*Ghostsd*randn(1,1));
+                obj.BackReflectance = BackReflectance*(1 + montecarlo*BackRefsd*randn(1,1));
+
+                se = struct('ID',obj.ID,...
+                    'Reflectance',obj.Reflectance,...
+                    'Transmittance',obj.Transmittance,...
+                    'Ghost',obj.Ghost',...
+                    'BackReflectance',obj.BackReflectance);
+                SampledErrors.BeamSplitterRotated =...
+                    [SampledErrors.BeamSplitterRotated, se];
+            end
 
             streamSize = 5000; % For Preallocation
             obj.TopInputStream = StreamArray(streamSize);

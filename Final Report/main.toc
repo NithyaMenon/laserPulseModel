@@ -17,29 +17,31 @@
 \contentsline {subsection}{\numberline {4.1}Electro-Optic Modulators and Pockels Cells}{16}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Important Specifications and Limitations}{17}{subsection.4.2}
 \contentsline {subsection}{\numberline {4.3}Polarizing Beam Splitters}{19}{subsection.4.3}
-\contentsline {section}{\numberline {5}Computational Tools}{21}{section.5}
-\contentsline {subsection}{\numberline {5.1}Optical Network Simulation}{21}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Delay Optimization}{27}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Filter Function and Error Analysis}{29}{subsection.5.3}
-\contentsline {section}{\numberline {6}Design Evaluation}{34}{section.6}
-\contentsline {section}{\numberline {7}Single Pulse Design}{34}{section.7}
-\contentsline {subsection}{\numberline {7.1}Specific Design (TODO Rename this subsection)}{34}{subsection.7.1}
-\contentsline {subsection}{\numberline {7.2}Evaluation}{36}{subsection.7.2}
-\contentsline {section}{\numberline {8}Digitizing Designs}{37}{section.8}
-\contentsline {section}{\numberline {9}Design Summaries}{37}{section.9}
-\contentsline {section}{\numberline {10}Design Alternatives}{37}{section.10}
-\contentsline {subsection}{\numberline {10.1}Path-per-Pulse Designs}{38}{subsection.10.1}
-\contentsline {subsection}{\numberline {10.2}Single-Pulse Designs}{38}{subsection.10.2}
-\contentsline {subsection}{\numberline {10.3}Digitizing Designs}{38}{subsection.10.3}
-\contentsline {subsection}{\numberline {10.4}Design Alternatives Comparison}{40}{subsection.10.4}
-\contentsline {section}{\numberline {11}Detailed Design}{41}{section.11}
-\contentsline {subsection}{\numberline {11.1}Physical Design Details}{41}{subsection.11.1}
-\contentsline {subsubsection}{\numberline {11.1.1}Simple Design}{41}{subsubsection.11.1.1}
-\contentsline {subsubsection}{\numberline {11.1.2}$\pi /2$ Pulses and Compensation Sequences}{53}{subsubsection.11.1.2}
-\contentsline {subsection}{\numberline {11.2}Design Limitations}{55}{subsection.11.2}
-\contentsline {section}{\numberline {12}Test Plan}{56}{section.12}
-\contentsline {subsection}{\numberline {12.1}Simulation Advancements}{56}{subsection.12.1}
-\contentsline {subsection}{\numberline {12.2}Physical Testing}{57}{subsection.12.2}
-\contentsline {section}{\numberline {13}Project Management}{58}{section.13}
-\contentsline {subsection}{\numberline {13.1}Work Breakdown Structure}{58}{subsection.13.1}
-\contentsline {subsection}{\numberline {13.2}Schedule}{58}{subsection.13.2}
+\contentsline {section}{\numberline {5}Design Evaluation}{21}{section.5}
+\contentsline {section}{\numberline {6}Single Pulse Design}{21}{section.6}
+\contentsline {subsection}{\numberline {6.1}Specific Design (TODO Rename this subsection)}{21}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Evaluation}{23}{subsection.6.2}
+\contentsline {section}{\numberline {7}Digitizing Designs}{24}{section.7}
+\contentsline {subsection}{\numberline {7.1}Design Details}{26}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Delay Optimization}{28}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Evaluation Results}{28}{subsection.7.3}
+\contentsline {subsection}{\numberline {7.4}Other Digitizing Designs}{28}{subsection.7.4}
+\contentsline {section}{\numberline {8}Computational Tools}{28}{section.8}
+\contentsline {subsection}{\numberline {8.1}Optical Network Simulation}{28}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Delay Optimization}{35}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Filter Function and Error Analysis}{37}{subsection.8.3}
+\contentsline {section}{\numberline {9}Design Summaries}{42}{section.9}
+\contentsline {section}{\numberline {10}Design Alternatives}{42}{section.10}
+\contentsline {subsection}{\numberline {10.1}Path-per-Pulse Designs}{42}{subsection.10.1}
+\contentsline {subsection}{\numberline {10.2}Design Alternatives Comparison}{43}{subsection.10.2}
+\contentsline {section}{\numberline {11}Detailed Design}{44}{section.11}
+\contentsline {subsection}{\numberline {11.1}Physical Design Details}{44}{subsection.11.1}
+\contentsline {subsubsection}{\numberline {11.1.1}Simple Design}{44}{subsubsection.11.1.1}
+\contentsline {subsubsection}{\numberline {11.1.2}$\pi /2$ Pulses and Compensation Sequences}{56}{subsubsection.11.1.2}
+\contentsline {subsection}{\numberline {11.2}Design Limitations}{58}{subsection.11.2}
+\contentsline {section}{\numberline {12}Test Plan}{59}{section.12}
+\contentsline {subsection}{\numberline {12.1}Simulation Advancements}{59}{subsection.12.1}
+\contentsline {subsection}{\numberline {12.2}Physical Testing}{60}{subsection.12.2}
+\contentsline {section}{\numberline {13}Project Management}{61}{section.13}
+\contentsline {subsection}{\numberline {13.1}Work Breakdown Structure}{61}{subsection.13.1}
+\contentsline {subsection}{\numberline {13.2}Schedule}{61}{subsection.13.2}

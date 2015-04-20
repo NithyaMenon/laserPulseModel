@@ -33,11 +33,44 @@ classdef PockelsCell < Component
             % Hard-coded jitter
             global montecarlo;
             global ErrorSpecs;
-            Psisd = ErrorSpecs.PockelsCell.Psi;
-            Transsd = ErrorSpecs.PockelsCell.Transmission;
-            scursd = ErrorSpecs.PockelsCell.SCurve;
+            global UseGivenErrors;
+            global SampledErrors;
             
-            obj.Psi = Psi*(1 + montecarlo*Psisd*randn(1,1));
+            if (UseGivenErrors == 1);
+                problem = 1;
+                for s = SampledErrors.PockelsCell
+                    if(s.ID == obj.ID)
+                        obj.Psi = s.Psi;
+                        obj.PCTransmittence = s.Transmittance;
+                        sampSCurRand = s.SCurve;
+                        problem = 0;
+                        break;
+                    end
+                end
+                if(problem)
+                    display('ERROR: Object not specified by SampledErrors');
+                end
+            else
+                
+                Psisd = ErrorSpecs.PockelsCell.Psi;
+                Transsd = ErrorSpecs.PockelsCell.Transmission;
+                scursd = ErrorSpecs.PockelsCell.SCurve;
+
+                obj.Psi = Psi*(1 + montecarlo*Psisd*randn(1,1));
+                sampSCurRand = montecarlo*scursd*randn(1,1)+...
+                    2.5*pi/180*~montecarlo;
+                
+                obj.RFTime = 8e-9; % (Rise-Fall Time) Hard-coded
+                obj.PCTransmittence = 0.85*(1 + montecarlo*Transsd*randn(1,1)); % Hard-coded
+                
+                se = struct('ID',obj.ID,'Psi',obj.Psi,...
+                'Transmittance',obj.PCTransmittence,...
+                'SCurve',sampSCurRand);
+                SampledErrors.PockelsCell =...
+                [SampledErrors.PockelsCell, se];
+                
+            end
+                
             streamSize = 5000; % For Preallocation
             obj.LeftInputStream = StreamArray(streamSize);
             obj.RightInputStream = StreamArray(streamSize);
@@ -51,11 +84,8 @@ classdef PockelsCell < Component
                 display('Error in PC instantiation: Not enough control powers');
             end
             
-            obj.RFTime = 8e-9; % (Rise-Fall Time) Hard-coded
-            obj.PCTransmittence = 0.85*(1 + montecarlo*Transsd*randn(1,1)); % Hard-coded
-            obj.Error = 2.5*pi/180*~montecarlo; 
             
-            sampSCurRand = montecarlo*scursd*randn(1,1);
+            
             
             %obj.sCurveFall = @(t,tStart) ((1.1241664308*10^8)*(t-(tStart+obj.RFTime)));
             obj.sCurveFall = @(t) (0.0112+(0.0876+1-((-0.135)+ 1.2348./(1+2*exp(-0.012*(t*1e11))).^2))/1.0876)/1.0092;
@@ -70,12 +100,8 @@ classdef PockelsCell < Component
             obj.offTimes = PCTimings(2:2:end);
             obj.ControlPowers = ControlPowers;
             
-            global SampledErrors
-            se = struct('ID',obj.ID,'Psi',obj.Psi,...
-                'Transmittance',obj.PCTransmittence,...
-                'SCurve',sampSCurRand);
-            SampledErrors.PockelsCell =...
-                [SampledErrors.PockelsCell, se];
+            
+            
             
             
         end
@@ -97,12 +123,11 @@ classdef PockelsCell < Component
             result = pulseArrayIDs;
         end
         function result = action(obj,inputPulse)
-%             obj.inputStream = [obj.inputStream,samplePulseObject(inputPulse)];
             psi = obj.Psi;
             t = inputPulse.time;
             calculatedValues = zeros(1,length(obj.onTimes));
             for i = 1:length(obj.onTimes)
-                calculatedValues(i) = (obj.ControlPowers(i)*pi-obj.Error)*...
+                calculatedValues(i) = (obj.ControlPowers(i)*pi)*...
                     obj.PCcurve(t,obj.onTimes(i),obj.offTimes(i));
                 
             end
@@ -145,7 +170,7 @@ classdef PockelsCell < Component
                 t = timings(j);
                 calculatedValues = zeros(1,length(obj.onTimes));
                 for i = 1:length(obj.onTimes)
-                    calculatedValues(i) = (obj.ControlPowers(i)*pi-obj.Error)*...
+                    calculatedValues(i) = (obj.ControlPowers(i)*pi)*...
                         obj.PCcurve(t,obj.onTimes(i),obj.offTimes(i));
 
                 end
