@@ -18,29 +18,32 @@
 \BOOKMARK [2][-]{subsection.4.3}{Polarizing Beam Splitters}{section.4}% 18
 \BOOKMARK [1][-]{section.5}{Design Evaluation}{}% 19
 \BOOKMARK [1][-]{section.6}{Single Pulse Design}{}% 20
-\BOOKMARK [2][-]{subsection.6.1}{Specific Design \(TODO Rename this subsection\)}{section.6}% 21
-\BOOKMARK [2][-]{subsection.6.2}{Evaluation}{section.6}% 22
-\BOOKMARK [1][-]{section.7}{Digitizing Designs}{}% 23
-\BOOKMARK [2][-]{subsection.7.1}{Design Details}{section.7}% 24
-\BOOKMARK [2][-]{subsection.7.2}{Delay Optimization}{section.7}% 25
-\BOOKMARK [2][-]{subsection.7.3}{Evaluation Results}{section.7}% 26
-\BOOKMARK [2][-]{subsection.7.4}{Other Digitizing Designs}{section.7}% 27
-\BOOKMARK [1][-]{section.8}{Computational Tools}{}% 28
-\BOOKMARK [2][-]{subsection.8.1}{Optical Network Simulation}{section.8}% 29
-\BOOKMARK [2][-]{subsection.8.2}{Delay Optimization}{section.8}% 30
-\BOOKMARK [2][-]{subsection.8.3}{Filter Function and Error Analysis}{section.8}% 31
-\BOOKMARK [1][-]{section.9}{Design Summaries}{}% 32
-\BOOKMARK [1][-]{section.10}{Design Alternatives}{}% 33
-\BOOKMARK [2][-]{subsection.10.1}{Path-per-Pulse Designs}{section.10}% 34
-\BOOKMARK [2][-]{subsection.10.2}{Design Alternatives Comparison}{section.10}% 35
-\BOOKMARK [1][-]{section.11}{Detailed Design}{}% 36
-\BOOKMARK [2][-]{subsection.11.1}{Physical Design Details}{section.11}% 37
-\BOOKMARK [3][-]{subsubsection.11.1.1}{Simple Design}{subsection.11.1}% 38
-\BOOKMARK [3][-]{subsubsection.11.1.2}{/2 Pulses and Compensation Sequences}{subsection.11.1}% 39
-\BOOKMARK [2][-]{subsection.11.2}{Design Limitations}{section.11}% 40
-\BOOKMARK [1][-]{section.12}{Test Plan}{}% 41
-\BOOKMARK [2][-]{subsection.12.1}{Simulation Advancements}{section.12}% 42
-\BOOKMARK [2][-]{subsection.12.2}{Physical Testing}{section.12}% 43
-\BOOKMARK [1][-]{section.13}{Project Management}{}% 44
-\BOOKMARK [2][-]{subsection.13.1}{Work Breakdown Structure}{section.13}% 45
-\BOOKMARK [2][-]{subsection.13.2}{Schedule}{section.13}% 46
+\BOOKMARK [2][-]{subsection.6.1}{Design Details}{section.6}% 21
+\BOOKMARK [2][-]{subsection.6.2}{/2 Pulses and Compensation Sequences}{section.6}% 22
+\BOOKMARK [2][-]{subsection.6.3}{Evaluation}{section.6}% 23
+\BOOKMARK [1][-]{section.7}{Digitizing Designs}{}% 24
+\BOOKMARK [2][-]{subsection.7.1}{Design Details}{section.7}% 25
+\BOOKMARK [2][-]{subsection.7.2}{Delay Optimization}{section.7}% 26
+\BOOKMARK [2][-]{subsection.7.3}{Evaluation Results}{section.7}% 27
+\BOOKMARK [2][-]{subsection.7.4}{Digitizing Design Modifications}{section.7}% 28
+\BOOKMARK [1][-]{section.8}{Computational Tools}{}% 29
+\BOOKMARK [2][-]{subsection.8.1}{Optical Network Simulation with Simulink}{section.8}% 30
+\BOOKMARK [2][-]{subsection.8.2}{Additional Simulation Tools}{section.8}% 31
+\BOOKMARK [2][-]{subsection.8.3}{Computation Tool Usage}{section.8}% 32
+\BOOKMARK [2][-]{subsection.8.4}{Computational Tool Improvement}{section.8}% 33
+\BOOKMARK [1][-]{section.9}{Conclusions}{}% 34
+\BOOKMARK [1][-]{appendix.A}{How to use simulation}{}% 35
+\BOOKMARK [1][-]{appendix.B}{Simulation implementation}{}% 36
+\BOOKMARK [1][-]{appendix.C}{Component Recommendations}{}% 37
+\BOOKMARK [1][-]{appendix.D}{Computational Tools \(Old\)}{}% 38
+\BOOKMARK [2][-]{subsection.D.1}{Optical Network Simulation}{appendix.D}% 39
+\BOOKMARK [2][-]{subsection.D.2}{Delay Optimization}{appendix.D}% 40
+\BOOKMARK [2][-]{subsection.D.3}{Filter Function and Error Analysis}{appendix.D}% 41
+\BOOKMARK [1][-]{appendix.E}{Design Alternatives \(Old\)}{}% 42
+\BOOKMARK [2][-]{subsection.E.1}{Path-per-Pulse Designs}{appendix.E}% 43
+\BOOKMARK [2][-]{subsection.E.2}{Design Alternatives Comparison}{appendix.E}% 44
+\BOOKMARK [1][-]{appendix.F}{Detailed Design \(Old\)}{}% 45
+\BOOKMARK [2][-]{subsection.F.1}{Physical Design Details}{appendix.F}% 46
+\BOOKMARK [3][-]{subsubsection.F.1.1}{Simple Design}{subsection.F.1}% 47
+\BOOKMARK [3][-]{subsubsection.F.1.2}{/2 Pulses and Compensation Sequences}{subsection.F.1}% 48
+\BOOKMARK [2][-]{subsection.F.2}{Design Limitations}{appendix.F}% 49

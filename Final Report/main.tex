@@ -301,7 +301,7 @@ Polarizing beam splitters can be created by using birefringent crystals, such as
 \label{sec:single_pulse_design}
 Single-pulse designs are characterized by using only a single pulse as the input to the optical network. An initial EOM will select a single pulse, which will then be split up into multiple pulses by beam splitters. These pulses will travel along different optical paths, encountering different delays and undergoing different attenuations. All the pulses will eventually be redirected onto a single path to produce the final output pulse sequence. 
 
-\subsection{Specific Design (TODO Rename this subsection)}
+\subsection{Design Details}
 As all output pulse are derived from a single pulse, the time delay between the pulses must be produced by time-of-flight delays on the optical table. Recognizing that the table space needed to produce these delays would be the primary fault of this type of design, we created a design that would minimize the delays needed by utilizing the symmetry of the UDD sequence to reuse delays. This single-pulse design, for a sequence of six $\pi$- pulses and two $\pi/2$-pulses, is shown in Figure~\ref{fig:singlepulse}. 
 
 \begin{figure}[t]
@@ -317,8 +317,6 @@ If we look back at the very first beamsplitter, we see the reflected pulse is se
 
 The total length of the labeled delays will be equal to the total length of the UDD sequence. Extra path length introduced by the physical setup of the design can either be dealt with by making sure extra path length is added symmetrically to each branch of the design or by decreasing the length of labeled delays by corresponding amounts.
 
-
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{singlepulse.png}
@@ -326,13 +324,16 @@ The total length of the labeled delays will be equal to the total length of the 
 \label{fig:UDDseqdelays}
 \end{figure}
 
+\subsection{$\pi/2$ Pulses and Compensation Sequences}
+This design can very easily create the necessary $\pi/2$ pulses at the beginning and end of the UDD sequence. The pulses that would form the $pi/2$ pulses travel along distinct paths at some point in the design. For example, in Figure~\ref{fig:singlepulse}, the initial $\pi/2$ pulse is created when it reflects upwards off the beamsplitter directly to the left of Delay 1. An attenuator could be placed immediately above that beamsplitter to reduce that pulse's power to the desired $\pi/2$ pulse power. Similarly, the final $\pi/2$ pulse is created when a pulse traveling in the opposite direction reflects downwards off that beamsplitter, so an attenuator could also be placed there.
+
+Compensation sequences would be more difficult to create. A beamsplitter and delay combination could easily turn one $\pi$ pulse into two $\pi/2$ pulses, but placing these components at the output of the design would also impose the split on the endcap $\pi/2$ pulses. To avoid this, separate systems of beamsplitters and a delay would have to be added for each pulse in the UDD sequence. While for a short sequence, this may still be feasible, this requires an additional two beamsplitters for each $\pi$ pulse in the UDD sequence.
+
 \subsection{Evaluation}
 
 These designs have several advantages. They generally require only a single EOM, saving greatly on cost and optical table space. Because these designs only use a single pulse, they are not constrained by the pulse repetition rate of the mode-locked laser. And because all the output pulses are derived from a single pulse, it is easy to generate many pulses all closely spaced with each other. However, these designs also have significant drawbacks. While it is easy to generate closely spaced pulses with this type of design, generating distantly spaced pulses requires long delays that require more complex optics or consume large amounts of optical table space. If the total sequence length is over 100 nanoseconds, the delays required are in the tens of nanoseconds. As light travels about one foot in a nanosecond, optical paths of twenty or more feet in length would be required. 
 
 Additional problems include power concerns. Every time a pulse is split, the resulting pulses have half the power of the initial pulse. Additionally, recombining the split pulses along a single path must be done with beamsplitters, losing additional power. Even the best design of this type, shown in Figure~\ref{fig:singlepulse}, has a power loss factor of $2^{-7}$ for an 8 pulse sequence. This means each output pulse will have $1/128$ of the power of the input pulse. For sequences with more pulses, this ratio would only get worse, as it scales by $2^{-3-n/2}$. Therefore, if many pulses are needed, there may be insufficient power to produce them all from the single pulse.
-
-
 
 
 
@@ -375,7 +376,7 @@ Choosing a certain delay for a pulse is done by controlling the rotator EOM. If 
 
 \subsection{Evaluation Results}
 
-\subsection{Other Digitizing Designs}
+\subsection{Digitizing Design Modifications}
 While the digitizing design discussed above could be created using only components HRL already possesses, the timing precision could be improved if additional components were added or if more complicated design modifications were implemented.
 
 A simple way to improve the design would be to repeat it. If the output of the current design was fed into an section with a second rotator EOM and associated beamsplitters and delays, as shown in Figure~\ref{fig:digdesigndouble}, then the timing precision would be increased significantly. This change would require an additional EOM, as well as almost twice as much optical table space, but would not be too much more complex or use any new principles.
@@ -387,9 +388,30 @@ A simple way to improve the design would be to repeat it. If the output of the c
 \label{fig:digdesigndouble}
 \end{figure}
 
-Another way to improve 
-
 \section{Computational Tools}
+\label{sec:comp}
+
+\subsection{Optical Network Simulation with Simulink}
+
+\subsection{Additional Simulation Tools}
+
+\subsection{Computation Tool Usage}
+
+\subsection{Computational Tool Improvement}
+
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+
+\appendix
+\section{How to use simulation}
+
+\section{Simulation implementation}
+
+\section{Component Recommendations}
+
+\section{Computational Tools (Old)}
 \label{sec:results}
 The team has written a variety of computational tools to aid in analysis and simulation of the designs. A discussion of these tools, their preliminary results, and the effect these results have on the project is presented in this section.
 
@@ -496,11 +518,7 @@ However, insights into how the UDD sequence works have suggested other character
 
 These insights into investigating error and filter functions suggest a few action items to complete next. As the integral of the switching sequence is equivalent to the sum of the timing errors with alternating signs, the team should verify that such an alternating sum is a good metric for filter function performance by taking the filter functions graphed in Figure \ref{fig:filter2} and plotting the value at $\omega T = 10^{-2}$ against the sum of time errors. If the sum of time errors is verified to indicate filter function performance, the optimization code mentioned in Section \ref{sec:optimizing} should be rewritten and re-tested to minimize that instead of MSD. Other places where MSD was used, such as in Figure \ref{fig:msd_vs_n} could also be redone with sum of timing errors in place of MSD. In addition, the team will remake the performance graph of Figure \ref{fig:msd_vs_n} for the full range of pulse sequences $n=1$ to $n=30$, and for a range of different digitizing designs.  This analysis will help clarify the tradeoff between equipment budget and pulse sequence performance.
 
-
-\section{Design Summaries}
-\label{sec:design_summary}
-
-\section{Design Alternatives}
+\section{Design Alternatives (Old)}
 \label{sec:design_alternatives}
 The team started by devising multiple design alternatives. As the project requires creating designs for a variety of laser pulse sequences, which may differ substantially in the timescales involved, the number of pulses used, and the types of pulses created, the team initially thought it would be necessary to create multiple optical networks in a variety of designs. However, after several iterations of designs had been considered, the possibility of using a single flexible design for many different laser pulse sequences appeared to be feasible. This section lists some designs the team considered, and provides a comparison of their qualities. The rejected alternatives may still provide useful insights for other designs even if they are not feasible for the current experiment parameters.
 
@@ -530,7 +548,7 @@ The three design alternatives all had various advantages and disadvantages, whic
 \end{table}
 
 
-\section{Detailed Design}
+\section{Detailed Design (Old)}
 \label{sec:detailed_design}
 
 Of the three design alternatives as described in Section  \ref{sec:design_alternatives}, the chosen design was the digitizing design. The path-per-pulse design was not feasible due to component expense and physical space. The single-pulse design dissipated too much power and was not scalable to larger numbers of pulses or longer sequence  lengths. The digitizing design provides the most flexibility and would be the most feasible design to implement. This section will analyze the digitizing design, by walking through the important components in the design, and by describing the limitations of this design.
@@ -685,48 +703,6 @@ As with any digitizing design, this design necessarily introduces some error whe
 This design is further limited by the switching time of the Pockels Cell, which puts a lower bound on the spacing between consecutive pulses generated by the network. With roughly an 8-ns rise time, the Pockels Cells cannot independently handle two pulses that must be closer than 16 ns. This constraint becomes a problem particularly when attempting to generate pulse sequences for shorter $T$ and larger $n$, as the pulses at the very beginning or end of the sequence may ideally arrive within a few nanoseconds of each other. One possible compensating technique involves setting the delays such that the second Pockels Cell setting for one pulse is the same as the first Pockels Cell setting for the next pulse, which would allow them to access the Pockels Cell simultaneously (note that this would introduce additional constraints on the delay optimization). Alternatively, the design could sacrifice significant precision at the beginnings and ends of pulse sequences in order to function normally.
 
 Lastly, the input pulse rate from the Ti:Sapph laser of one pulse every 13 nanoseconds places a lower limit on $T$ for a given $n$. This design does not split pulses, so for a given length of pulse sequence, $T$, the optical network can only output as many pulses as the laser produces throughout the duration of the sequence. Thus, it cannot generate a complete 30-pulse sequence in only 300 nanoseconds; at least 390 nanoseconds would be required to receive 30 pulses from the input laser.
-
-
-
-
-\section{Test Plan}
-\label{sec:test_plan}
-This section details the testing plan for the next semester of this project. Next semester's work will involve modifying and improving the simulation tools, as well as some physical testing and component analysis. In addition to any adjustments to the network design or new design ideas, the focus of next semester will be primarily in these areas. 
-\subsection{Simulation Advancements}
-\label{sec:simadvance}
-The areas of advancement for the simulation tools fall under two categories. The first task is to improve the way the tools approximate reality by considering more imperfections. The second task is to improve the user-friendliness of the simulation. 
-
-Currently, the Simulink simulation accounts for imperfections in the Pockels Cell. These imperfections appear throughout the timing diagrams as smaller residual pulses, usually 2-3 orders of magnitude smaller than the main pulses. However, all the rest of the components (i.e. beam splitters, linear polarizers, half-wave plates) are currently modeled with perfect performance. In reality, there will be slight losses, polarization-dependent reflections, and transmissions throughout. It would be valuable to model how all these small imperfections compound together. Additionally, the simulation is simplified to ignore the slight delays as the pulses travel through free space. This instantaneous approximation was helpful in building the model initially, but will need to be considered from here on out. 
-
-While the simulation was helpful in visualizing the network and the modulation of pulses and accounting for imperfections, the Simulink model is currently not very user friendly. Each optical component is contained within a custom block, so arranging the blocks to match a sketch and wiring it up is straightforward. But setting each delay and manually computing and entering the times for the Pockels Cells to be on is tedious. Most testing at this stage hasn't exceeded 6 pulse designs, but once the team explores 20-30 pulse designs, further MATLAB tools to compute the desired timings would be required. This semester the goal was to build a tool that would be usable, but next semester the tool will need to be polished and refined prior to being handed off for further usage. 
-\subsection{Physical Testing}
-
-One of the goals for the spring semester will be to try and build some of the most important sections of the digitized design in order to show the viability of a complete system. Given that the team will most likely have access to at most only one Pockels Cell, one of the concepts that will be physically tested is the use of a Pockels Cell to choose between separate branches of the optical network. Of course, the success of this test will rely on a number of the Pockels Cell's properties and their deviations from the ideal, such as the contrast ratio and rise time of the Pockels Cell.     
-
-The team  hopes to characterize the nonidealities of the Pockels Cell, along with those of the other optical components in the network, by designing some simple experiments. For example, we plan to gauge the variance in the splitting ratios of beam splitters by using a power meter to measure the power of the two outgoing beams. Similarly, one can use a power meter to measure an EOM's extinction ratio by measuring the input and output power at minimum transmission.
-
-Moreover, if a partial section of one of the digitized designs is indeed constructed during the spring semester, an ultrafast photodiode can be used at various locations along the beam path in order to characterize the modifications made to the pulse sequence. These experiments coupled with the Simulink simulation tools should allow the team to accurately gauge the performance of the digitized design.
-
-
-\section{Project Management}
-\label{sec:project_managment}
-The HRL Clinic Team has developed a work breakdown structure identifying the tasks to be performed, a Gantt chart laying out the milestones and the critical path through the project, and an initial partitioning of the labor among team members. 
-
-\subsection{Work Breakdown Structure}
-
-The work breakdown structure in Figure \ref{fig:WorkBreakDown} shows how the project has been hierarchically subdivided into more manageable tasks. The table shown is the same as initially forecast in the Work Plan. Since completing the Work Plan, the team has found its work projections to be accurate. Computer simulation and design research have taken a primary focus in the fall semester, as was estimated in the Work Plan. The team did not perform any small-scale physical design in the fall semester; however, the team expects most of the physical prototyping to occur in the spring semester, and so those items remain unchanged in the work breakdown structure.
-
-\begin{figure}
-\centering
-\includegraphics[scale=1.25]{workBreakdown.JPG}
-\caption{Work breakdown structure.}
-\label{fig:WorkBreakDown}
-\end{figure}
-
-\subsection{Schedule}
-In the spring semester, the team expects to begin work by integrating the new spring junior with the project in progress. The spring junior will likely work on the simulation tools, which will be the primary work focus for the first month of the semester as the simulation is updated for the current design. The simulation's ability to model non-ideal behavior will be expanded throughout the semester, as well.
-
-Once the current design is finalized, and possibly concurrently with the simulation development, the team intends to begin testing physical components and particular techniques relevant to the design, such as Pockels Cell switching. It will also explore procedures for setting up intricate portions of the design. Near the end of the semester, the team will use the results of its component tests along with additional research to compile component recommendations to include in the final report. The results of the future work outlined above will also be presented in the final report to the liaisons, to be submitted at the end of the spring semester.
 
 
 \newpage
