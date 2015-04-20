@@ -24,6 +24,8 @@ ErrorSpecs.HalfWavePlate.Psi = 0.01;
 
 ErrorSpecs.Delay.Amount = 0.01;
 
+ErrorSpecs.Attn.Factor = 0.01;
+
 ErrorSpecs.BeamSplitter.TransRef = 0.01;
 ErrorSpecs.BeamSplitter.Ghost = 0.01;
 ErrorSpecs.BeamSplitter.Back = 0.01;

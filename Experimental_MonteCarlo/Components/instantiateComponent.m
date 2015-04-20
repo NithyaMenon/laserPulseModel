@@ -7,6 +7,8 @@ switch ComponentType
         component = PockelsCell(ComponentParams.PCTimings, ComponentParams.ControlPowers, ComponentParams.Psi);
     case 'Delay'
         component = Delay(ComponentParams.DelayAmt);
+    case 'Attenuator'
+        component = Attenuator(ComponentParams.AttnFactor);
     case 'LinearPolarizer'
         component = LinearPolarizer(ComponentParams.Psi, ComponentParams.Transmittence, ComponentParams.ExtinctionRatio);
     case 'HalfWavePlate'
@@ -20,6 +22,7 @@ switch ComponentType
     case 'PolarizingBeamSplitter'
         component = PolarizingBeamSplitter(ComponentParams.Psi,ComponentParams.Transmittance, ComponentParams.Reflectance,...
             ComponentParams.Ghost, ComponentParams.BackReflectance);
+        
 end
 
 

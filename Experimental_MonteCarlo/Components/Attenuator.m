@@ -1,4 +1,4 @@
-classdef LinearPolarizer < Component
+classdef Attenuator < Component
     %UNTITLED5 Summary of this class goes here
     %   Detailed explanation goes here
     
@@ -11,32 +11,25 @@ classdef LinearPolarizer < Component
         RightOutputStream;
         
         % Component Specific Params
-        Psi;
-        Transmittance;
-        ExtinctionRatio;
-        M_pass;
-        M_stop;
-        
+        AttnFactor;
         
     end
     
     methods
-        function obj = LinearPolarizer(Psi,Transmittance,ExtinctionRatio)
-            id = LinearPolarizer.manageComponentArray(obj, 'add');
+        function obj = Attenuator(AttnFactor)
+            id = Attenuator.manageComponentArray(obj, 'add');
             obj.ID = id;
             
-            % Hard-coded Jitter
             global montecarlo;
             global ErrorSpecs;
-            global SampledErrors;
             global UseGivenErrors;
+            global SampledErrors;
             
             if (UseGivenErrors == 1);
                 problem = 1;
-                for s = SampledErrors.LinearPolarizer
+                for s = SampledErrors.AttnFactor
                     if(s.ID == obj.ID)
-                        obj.Psi = s.Psi;
-                        obj.Transmittance = s.Transmittance;
+                        obj.AttnFactor = s.AttnFactor;
                         problem = 0;
                         break;
                     end
@@ -45,46 +38,20 @@ classdef LinearPolarizer < Component
                     display('ERROR: Object not specified by SampledErrors');
                 end
             else
-            
-                Psisd = ErrorSpecs.LinearPolarizer.Psi;
-                Transsd = ErrorSpecs.LinearPolarizer.Transmission;
+                AttnFactorsd = ErrorSpecs.Attn.Factor; % Hard-coded component jitter
 
-                obj.Psi = Psi + montecarlo*Psisd*randn(1,1);
-                obj.Transmittance = Transmittance + montecarlo*Transsd*randn(1,1);
-                obj.ExtinctionRatio = ExtinctionRatio;
+                obj.AttnFactor = AttnFactor*(1 + montecarlo*AttnFactorsd*randn(1,1));
 
-
-                se = struct('ID',obj.ID,'Psi',obj.Psi,...
-                    'Transmittance',obj.Transmittance);
-                SampledErrors.LinearPolarizer =...
-                    [SampledErrors.LinearPolarizer, se];
+                se = struct('ID',obj.ID,'Amount',obj.AttnFactor);
+                SampledErrors.AttnFactor =...
+                    [SampledErrors.AttnFactor, se];
             end
-            
             
             streamSize = 5000; % For Preallocation
             obj.LeftInputStream = StreamArray(streamSize);
             obj.RightInputStream = StreamArray(streamSize);
             obj.LeftOutputStream = StreamArray(streamSize);
             obj.RightOutputStream = StreamArray(streamSize);
-            
-            %% Compute and save Mueller matrix
-            % Algorithm Soruce
-            % http://en.wikipedia.org/wiki/Mueller_calculus#Mueller_vs._Jones_calculi
-            % http://en.wikipedia.org/wiki/Jones_calculus#Jones_matrices
-            % Compute Jones Matrix
-            
-            Psi_2 = Psi + pi/2; % psi_2 is the block axis
-            J_pass = [cos(Psi)^2, cos(Psi)*sin(Psi);...
-                sin(Psi)*cos(Psi), sin(Psi)^2];
-            J_stop = [cos(Psi_2)^2, cos(Psi_2)*sin(Psi_2);...
-                sin(Psi_2)*cos(Psi_2), sin(Psi_2)^2];
-            % Compute Mueller Matrix
-            A = [ 1 0 0 1;...
-                1 0 0 -1;...
-                0 1 1 0;...
-                0 1i -1i 0];
-            obj.M_pass = A*kron(J_pass,conj(J_pass))*inv(A);
-            obj.M_stop = A*kron(J_stop,conj(J_stop))*inv(A);
             
         end
         function result = apply(obj,pulseArrayIDs)
@@ -106,23 +73,12 @@ classdef LinearPolarizer < Component
         end
         function result = action(obj,inputPulse)
             
-            % Apply Mueller matrix
-            S = [inputPulse.I;inputPulse.Q;inputPulse.U;inputPulse.V];
-            Sout = obj.Transmittance*(obj.M_pass + obj.M_stop/obj.ExtinctionRatio)*S;
-            inputPulse.I = Sout(1);
-            inputPulse.Q = Sout(2);
-            inputPulse.U = Sout(3);
-            inputPulse.V = Sout(4);
-            
             resultPulse = inputPulse;
+            resultPulse.I = resultPulse.I * obj.AttnFactor;
             
             
-            
-            %% State Saving
-            
-            
-            state_creator = sprintf('LinearPolarizer %i',...
-                obj.ID);
+            state_creator = sprintf('AttenuationFactor %i: AttnFactor = %0.2f ',...
+                obj.ID,obj.AttnFactor*1e9);
             Pulse.saveStateHistory(resultPulse,state_creator);
             
             result = 1;
@@ -145,6 +101,7 @@ classdef LinearPolarizer < Component
             [Times,Inds] = sort(Times);
             IDs = IDs(Inds);
             Widths = Widths(Inds);
+            Is = Is(Inds);
             dTimes = diff(Times);
             dWidths = (Widths(1:end-1) + Widths(2:end))/2;
             dLogPowers = abs(log10(Is(1:end-1)) - log10(Is(2:end)));
@@ -166,9 +123,6 @@ classdef LinearPolarizer < Component
             numCollisions = size(firstIDmatches,2) + size(secondIDmatches,2);
         end
     end
-    
-    
-    
     methods( Static )
         function result = manageComponentArray( cObj, operation)
             persistent componentarray
@@ -196,16 +150,16 @@ classdef LinearPolarizer < Component
         end
   
         function componentArray =  getComponentArray()
-            componentArray = LinearPolarizer.manageComponentArray([], 'getArray');
+            componentArray = Delay.manageComponentArray([], 'getArray');
         end
         function componentArray =  clearComponent()
-            componentArray = LinearPolarizer.manageComponentArray([], 'clear');
+            componentArray = Delay.manageComponentArray([], 'clear');
         end
         function componentArray = clearComponentArray()
-            componentArray = LinearPolarizer.manageComponentArray('clear');
+            componentArray = Delay.manageComponentArray('clear');
         end
         function comp = getComponent(id)
-            comp = LinearPolarizer.manageComponentArray(id, 'getComponent');
+            comp = Delay.manageComponentArray(id, 'getComponent');
         end
     end
     

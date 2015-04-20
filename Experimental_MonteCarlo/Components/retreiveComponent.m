@@ -17,6 +17,8 @@ switch ComponentType
         component = BeamSplitterRotated.getComponent(ComponentID);
     case 'PolarizingBeamSplitter'
         component = PolarizingBeamSplitter.getComponent(ComponentID);
+    case 'Attenuator'
+        component = Attenuator.getComponent(ComponentID);
 end
 
 
