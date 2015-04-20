@@ -55,7 +55,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
 
 figure(2)
 %axis([0 T 0.000000001 2]);
-set(gca,'YScale','log');
+%set(gca,'YScale','log');
 
 grid off; 
 

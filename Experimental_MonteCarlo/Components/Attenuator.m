@@ -27,7 +27,7 @@ classdef Attenuator < Component
             
             if (UseGivenErrors == 1);
                 problem = 1;
-                for s = SampledErrors.AttnFactor
+                for s = SampledErrors.Attenuator
                     if(s.ID == obj.ID)
                         obj.AttnFactor = s.AttnFactor;
                         problem = 0;
@@ -38,13 +38,13 @@ classdef Attenuator < Component
                     display('ERROR: Object not specified by SampledErrors');
                 end
             else
-                AttnFactorsd = ErrorSpecs.Attn.Factor; % Hard-coded component jitter
+                AttnFactorsd = ErrorSpecs.Attenuator.AttnFactor; % Hard-coded component jitter
 
                 obj.AttnFactor = AttnFactor*(1 + montecarlo*AttnFactorsd*randn(1,1));
-
-                se = struct('ID',obj.ID,'Amount',obj.AttnFactor);
-                SampledErrors.AttnFactor =...
-                    [SampledErrors.AttnFactor, se];
+                
+                se = struct('ID',obj.ID,'AttnFactor',obj.AttnFactor);
+                SampledErrors.Attenuator =...
+                    [SampledErrors.Attenuator, se];
             end
             
             streamSize = 5000; % For Preallocation
@@ -150,16 +150,16 @@ classdef Attenuator < Component
         end
   
         function componentArray =  getComponentArray()
-            componentArray = Delay.manageComponentArray([], 'getArray');
+            componentArray = Attenuator.manageComponentArray([], 'getArray');
         end
         function componentArray =  clearComponent()
-            componentArray = Delay.manageComponentArray([], 'clear');
+            componentArray = Attenuator.manageComponentArray([], 'clear');
         end
         function componentArray = clearComponentArray()
-            componentArray = Delay.manageComponentArray('clear');
+            componentArray = Attenuator.manageComponentArray('clear');
         end
         function comp = getComponent(id)
-            comp = Delay.manageComponentArray(id, 'getComponent');
+            comp = Attenuator.manageComponentArray(id, 'getComponent');
         end
     end
     
