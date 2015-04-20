@@ -2,7 +2,7 @@ paths;
 clearAll;
 MC_specifyerrors;
 
-parpool(2);
+%parpool(2);
 
 tic
 
@@ -13,7 +13,7 @@ FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
     'OptimizationTarget',-1,'IdealPulse',-1,'IdealTimingPerformance',-1,...
     'AllOutputData',-1,'SimParams',-1),1,1);
 
-N = 6; % N Pi Pulses
+N = 4; % N Pi Pulses
 T = 300e-9;
 %T = 2028e-9;
 
@@ -21,8 +21,7 @@ idealPulseTimes = uddTimes(T,N);
 FinalResultSet(1).N = N;
 FinalResultSet(1).T = T;
 
-[PCTimings1,CP1,PCTimings2,CP2,DelayLeft,DelayMiddle,DelayBottom,optVal] = ...
-    runExperiment(T*1e9,N);
+[PCTimings1,CP1,delTimes] = runExperiment_sp(T*1e9,N);
 
 % PCTimings1 = [-1,1,38,40,103,105,168,170,220,222,272,274]*1e-9;
 % CP1 = [0.5000,    1.0000,    1.0000,    1.0000,    1.0000,    0.5000];
@@ -40,12 +39,10 @@ PowerPerformances = zeros(1,montecarloruns);
 
 AllOutputData = repmat(struct('ImportantPulse_times',-1,'ImportantPulse_Is',-1,...
     'ResidualPulses_times',-1,'ResidualPulses_Is',-1,'DiffImpRes',-1),1,montecarloruns);
-parfor l = 1:montecarloruns
-    
-    
-    
-    MC_initialize;
-    sim('MC_DigitizingDesign.slx',(T/13e-9)+50);
+for l = 1:montecarloruns
+   
+    MC_initialize_sp;
+    sim('MC_SinglePulseN4.slx',(T/13e-9)+50);
 
     [ Pulses, Is, Qs, Us, Vs, widths, times, IDs] = ProcessSimout(simout);
 
@@ -78,21 +75,21 @@ FinalResultSet(1).TimingStatistics = struct('Mean',mean(TimingPerformances),...
     'StdDevation', std(TimingPerformances));
 FinalResultSet(1).PowerStatistics = struct('Mean',mean(PowerPerformances),...
     'StdDevation', std(PowerPerformances));
-FinalResultSet(1).OptimizationTarget = optVal;
+%FinalResultSet(1).OptimizationTarget = optVal;
 FinalResultSet(1).IdealPulse = idealPulseTimes*10^9;
 FinalResultSet(1).AllOutputData = AllOutputData;
 FinalResultSet(1).IdealTimingPerformance = calculateIdealTimingPerformance(N,T);
 
-SimParams = repmat(struct('DelayLeft',-1,'DelayBottom',-1,'DelayMiddle',-1,...
-    'PCTimings1',-1,'PCTimings2',-1),1,1);
-
-SimParams.DelayLeft = DelayLeft;
-SimParams.DelayBottom = DelayBottom;
-SimParams.DelayMiddle = DelayMiddle;
-SimParams.PCTimings1 = PCTimings1;
-SimParams.PCTimings2 = PCTimings2;
-    
-FinalResultSet(1).SimParams = SimParams;
+% SimParams = repmat(struct('DelayLeft',-1,'DelayBottom',-1,'DelayMiddle',-1,...
+%     'PCTimings1',-1,'PCTimings2',-1),1,1);
+% 
+% SimParams.DelayLeft = DelayLeft;
+% SimParams.DelayBottom = DelayBottom;
+% SimParams.DelayMiddle = DelayMiddle;
+% SimParams.PCTimings1 = PCTimings1;
+% SimParams.PCTimings2 = PCTimings2;
+%     
+% FinalResultSet(1).SimParams = SimParams;
 
 
 toc

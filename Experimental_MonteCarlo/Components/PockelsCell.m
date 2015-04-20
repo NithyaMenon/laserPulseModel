@@ -85,13 +85,13 @@ classdef PockelsCell < Component
             for p = leftPulses
                 obj.LeftInputStream.add(p);
                 obj.action(p);
-                obj.LeftOutputStream.add(p);
+                obj.RightOutputStream.add(p);
                 
             end
             for p = rightPulses
                 obj.RightInputStream.add(p);
                 obj.action(p);
-                obj.RightOutputStream.add(p);
+                obj.LeftOutputStream.add(p);
                 
             end
             result = pulseArrayIDs;

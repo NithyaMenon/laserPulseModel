@@ -14,7 +14,7 @@ riseTime = 8;
 idealTimes = [0; uddTimes(T,N,0); T];
 
 delTimes = zeros(1,N/2+1);
-for i = 1:N/2
+for i = 1:N/2+1
     delTimes(i)=idealTimes(i+1)-idealTimes(i);
 end
 

@@ -95,7 +95,7 @@ classdef BeamSplitterRotated < Component
             end
             
             for p = leftPulses
-                obj.LeftInputStrea.add(p);
+                obj.LeftInputStream.add(p);
                 [LT,LR,LG,LBR] = obj.action(p);
                 addAPulse('Left',LBR);
                 addAPulse('Right',LT);
