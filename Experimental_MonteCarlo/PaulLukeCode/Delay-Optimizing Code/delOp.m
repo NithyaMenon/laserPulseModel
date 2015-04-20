@@ -192,15 +192,18 @@ allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
 nearPulses = dsearchn(allTimes,modTimes);
 
 % compute filter function
-out = quad(@(w)ff(w,allTimes(nearPulses,1)+idealTimes).*lorentzian(w)./w.^2*2/pi,0,uLim,1e-4);
+out = quad(@(w)ff(w,allTimes(nearPulses,1)+idealTimes).*noise(w)./w.^2*2/pi,0,uLim,1e-4);
 end
 
 
 function ICs = ICmatrix(n,idealTimes,repRate)
 % returns a matrix of sets of initial conditions to be used in fmincon
 %
-modTimes = sort(mod(idealTimes,repRate));
-ICs = modTimes([floor(n/3);ceil(n*2/3)])/repRate;
+
+ICs = [0.1 0.1 0.3 0.1 0.3 0.5 0.1 0.3 0.5 0.7; ...
+       0.2 0.4 0.4 0.6 0.6 0.6 0.8 0.8 0.8 0.8];
+%modTimes = sort(mod(idealTimes,repRate));
+%ICs = modTimes([floor(n/3);ceil(n*2/3)])/repRate;
 end
 
 function tp = digitizer(pulses,Tmax,repRate,frac)
@@ -217,7 +220,7 @@ for j = 1:length(pulses)
 end
 end
 
-function out = lorentzian(w)
+function out = noise(w)
 % lorentzian function with correlation time 10^6 ns
 out = 10^6*2/pi./(1+(w*10^6).^2);
 end
