@@ -70,7 +70,7 @@ else
 
     delTimes = (0:1/nDelays:(1-1/nDelays))'; % a uniformly-spaced default
     minVal = minFun(delTimes,idealTimes,ff,uLim,repRate,compDels); % starting value
-    options = optimset('Algorithm','active-set','Display','off','UseParallel','always'); % suppress output
+    options = optimset('Algorithm','sqp','Display','off','UseParallel','always'); % suppress output
 
     % constraint matrices that specify 0<x0<x1<x2<2
     [A,B,Aeq,Beq,lb,ub] = conFun();
