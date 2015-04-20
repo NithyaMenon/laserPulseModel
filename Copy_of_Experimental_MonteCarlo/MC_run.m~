@@ -4,15 +4,15 @@ MC_specifyerrors;
 
 tic
 
-montecarloruns = 5;
+montecarloruns = 1;
 
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
     'PowerPerformances',[-1],'TimingStatistics',-1,'PowerStatistics',-1,...
     'OptimizationTarget',-1,'IdealPulse',-1,'IdealTimingPerformance',-1,...
     'AllOutputData',-1,'SimParams',-1),1,1);
 
-N = 16; % N Pi Pulses
-T = 1000e-9;
+N = 6; % N Pi Pulses
+T = 300e-9;
 %T = 2028e-9;
 
 idealPulseTimes = uddTimes(T,N);
@@ -21,18 +21,6 @@ FinalResultSet(1).T = T;
 
 [PCTimings1,CP1,PCTimings2,CP2,DelayLeft,DelayMiddle,DelayBottom,optVal] = ...
     runExperiment(T*1e9,N);
-
-SimParams = repmat(struct('DelayLeft',-1,'DelayBottom',-1,'DelayMiddle',-1,...
-    'PCTimings1',-1,'PCTimings2',-1),1,1);
-
-SimParams.DelayLeft = DelayLeft;
-SimParams.DelayBottom = DelayBottom;
-SimParams.DelayMiddle = DelayMiddle;
-SimParams.PCTimings1 = PCTimings1;
-SimParams.PCTimings2 = PCTimings2;
-    
-FinalResultSet(1).SimParams = SimParams;
-FinalResultSet(1).OptimizationTarget = optVal;
 
 % PCTimings1 = [-1,1,38,40,103,105,168,170,220,222,272,274]*1e-9;
 % CP1 = [0.5000,    1.0000,    1.0000,    1.0000,    1.0000,    0.5000];
@@ -45,7 +33,7 @@ toc
 %%
 tic
 TimingPerformancesFF = zeros(1,montecarloruns);
-TimingPerformancesRMSE = zeros(1,montecarloruns);
+TimingPerformancesMSE = zeros(1,montecarloruns);
 PowerPerformances = zeros(1,montecarloruns);
 
 AllOutputData = repmat(struct('ImportantPulse_times',-1,'ImportantPulse_Is',-1,...
@@ -75,24 +63,34 @@ for l = 1:montecarloruns
     AllOutputData(l).SampledErrors = SampledErrors;
     
     
-    [TimingPerformance, RMSE] = calculateTimingPerformance(ImportantPulses_Is,...
+    [TimingPerformance, MSE] = calculateTimingPerformance(ImportantPulses_Is,...
         ImportantPulses_times,ResidualPulses_Is,ResidualPulses_times,N,T);
 
     TimingPerformancesFF(l) = TimingPerformance;
-    TimingPerformancesRMSE(l) = RMSE;
+    TimingPerformancesMSE(l) = MSE;
 end
 
-FinalResultSet(1).TimingPerformances = [TimingPerformancesFF;TimingPerformancesRMSE];
+FinalResultSet(1).TimingPerformances = [TimingPerformancesFF;TimingPerformancesMSE];
 FinalResultSet(1).PowerPerformances = calculatePowerPerformance(AllOutputData,N);
-FinalResultSet(1).TimingStatistics = struct('Mean',mean([TimingPerformancesFF;TimingPerformancesRMSE],2),...
-    'StdDevation', std([TimingPerformancesFF;TimingPerformancesRMSE],0,2));
+FinalResultSet(1).TimingStatistics = struct('Mean',mean([TimingPerformancesFF;TimingPerformancesMSE]),...
+    'StdDevation', std([TimingPerformancesFF;TimingPerformancesMSE]));
 FinalResultSet(1).PowerStatistics = struct('Mean',mean(PowerPerformances),...
     'StdDevation', std(PowerPerformances));
+FinalResultSet(1).OptimizationTarget = optVal;
 FinalResultSet(1).IdealPulse = idealPulseTimes*10^9;
 FinalResultSet(1).AllOutputData = AllOutputData;
 FinalResultSet(1).IdealTimingPerformance = calculateIdealTimingPerformance(N,T);
 
+SimParams = repmat(struct('DelayLeft',-1,'DelayBottom',-1,'DelayMiddle',-1,...
+    'PCTimings1',-1,'PCTimings2',-1),1,1);
 
+SimParams.DelayLeft = DelayLeft;
+SimParams.DelayBottom = DelayBottom;
+SimParams.DelayMiddle = DelayMiddle;
+SimParams.PCTimings1 = PCTimings1;
+SimParams.PCTimings2 = PCTimings2;
+    
+FinalResultSet(1).SimParams = SimParams;
 
 
 toc
