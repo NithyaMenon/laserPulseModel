@@ -71,8 +71,8 @@ end
 
 FinalResultSet(1).TimingPerformances = [TimingPerformancesFF;TimingPerformancesMSE];
 FinalResultSet(1).PowerPerformances = calculatePowerPerformance(AllOutputData,N);
-FinalResultSet(1).TimingStatistics = struct('Mean',mean(TimingPerformances),...
-    'StdDevation', std(TimingPerformances));
+FinalResultSet(1).TimingStatistics = struct('Mean',mean([TimingPerformancesFF;TimingPerformancesMSE],2),...
+    'StdDevation', std([TimingPerformancesFF;TimingPerformancesMSE],0,2));
 FinalResultSet(1).PowerStatistics = struct('Mean',mean(PowerPerformances),...
     'StdDevation', std(PowerPerformances));
 %FinalResultSet(1).OptimizationTarget = optVal;
