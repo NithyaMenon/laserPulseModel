@@ -19,32 +19,32 @@
 \contentsline {subsection}{\numberline {4.3}Polarizing Beam Splitters}{19}{subsection.4.3}
 \contentsline {section}{\numberline {5}Design Evaluation}{21}{section.5}
 \contentsline {section}{\numberline {6}Single Pulse Design}{21}{section.6}
-\contentsline {subsection}{\numberline {6.1}Design Details}{21}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}$\pi /2$ Pulses and Compensation Sequences}{23}{subsection.6.2}
-\contentsline {subsection}{\numberline {6.3}Evaluation}{24}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.1}Design Details}{22}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}$\pi /2$ Pulses and Compensation Sequences}{24}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Evaluation}{25}{subsection.6.3}
 \contentsline {section}{\numberline {7}Digitizing Designs}{25}{section.7}
-\contentsline {subsection}{\numberline {7.1}Design Details}{26}{subsection.7.1}
-\contentsline {subsection}{\numberline {7.2}Delay Optimization}{28}{subsection.7.2}
-\contentsline {subsection}{\numberline {7.3}Evaluation Results}{28}{subsection.7.3}
-\contentsline {subsection}{\numberline {7.4}Digitizing Design Modifications}{28}{subsection.7.4}
-\contentsline {section}{\numberline {8}Computational Tools}{30}{section.8}
-\contentsline {subsection}{\numberline {8.1}Optical Network Simulation with Simulink}{30}{subsection.8.1}
-\contentsline {subsection}{\numberline {8.2}Additional Simulation Tools}{30}{subsection.8.2}
-\contentsline {subsection}{\numberline {8.3}Computation Tool Usage}{30}{subsection.8.3}
-\contentsline {subsection}{\numberline {8.4}Computational Tool Improvement}{30}{subsection.8.4}
-\contentsline {section}{\numberline {9}Conclusions}{30}{section.9}
-\contentsline {section}{\numberline {A}How to use simulation}{30}{appendix.A}
-\contentsline {section}{\numberline {B}Simulation implementation}{30}{appendix.B}
-\contentsline {section}{\numberline {C}Component Recommendations}{30}{appendix.C}
-\contentsline {section}{\numberline {D}Computational Tools (Old)}{30}{appendix.D}
-\contentsline {subsection}{\numberline {D.1}Optical Network Simulation}{30}{subsection.D.1}
-\contentsline {subsection}{\numberline {D.2}Delay Optimization}{36}{subsection.D.2}
-\contentsline {subsection}{\numberline {D.3}Filter Function and Error Analysis}{38}{subsection.D.3}
-\contentsline {section}{\numberline {E}Design Alternatives (Old)}{43}{appendix.E}
-\contentsline {subsection}{\numberline {E.1}Path-per-Pulse Designs}{43}{subsection.E.1}
-\contentsline {subsection}{\numberline {E.2}Design Alternatives Comparison}{44}{subsection.E.2}
-\contentsline {section}{\numberline {F}Detailed Design (Old)}{45}{appendix.F}
-\contentsline {subsection}{\numberline {F.1}Physical Design Details}{45}{subsection.F.1}
-\contentsline {subsubsection}{\numberline {F.1.1}Simple Design}{45}{subsubsection.F.1.1}
-\contentsline {subsubsection}{\numberline {F.1.2}$\pi /2$ Pulses and Compensation Sequences}{57}{subsubsection.F.1.2}
-\contentsline {subsection}{\numberline {F.2}Design Limitations}{59}{subsection.F.2}
+\contentsline {subsection}{\numberline {7.1}Design Details}{27}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Delay Optimization}{29}{subsection.7.2}
+\contentsline {subsection}{\numberline {7.3}Evaluation Results}{29}{subsection.7.3}
+\contentsline {subsection}{\numberline {7.4}Digitizing Design Modifications}{29}{subsection.7.4}
+\contentsline {section}{\numberline {8}Computational Tools}{31}{section.8}
+\contentsline {subsection}{\numberline {8.1}Optical Network Simulation with Simulink}{31}{subsection.8.1}
+\contentsline {subsection}{\numberline {8.2}Additional Simulation Tools}{31}{subsection.8.2}
+\contentsline {subsection}{\numberline {8.3}Computation Tool Usage}{31}{subsection.8.3}
+\contentsline {subsection}{\numberline {8.4}Computational Tool Improvement}{31}{subsection.8.4}
+\contentsline {section}{\numberline {9}Conclusions}{31}{section.9}
+\contentsline {section}{\numberline {A}How to use simulation}{31}{appendix.A}
+\contentsline {section}{\numberline {B}Simulation implementation}{31}{appendix.B}
+\contentsline {section}{\numberline {C}Component Recommendations}{31}{appendix.C}
+\contentsline {section}{\numberline {D}Computational Tools (Old)}{31}{appendix.D}
+\contentsline {subsection}{\numberline {D.1}Optical Network Simulation}{31}{subsection.D.1}
+\contentsline {subsection}{\numberline {D.2}Delay Optimization}{37}{subsection.D.2}
+\contentsline {subsection}{\numberline {D.3}Filter Function and Error Analysis}{39}{subsection.D.3}
+\contentsline {section}{\numberline {E}Design Alternatives (Old)}{44}{appendix.E}
+\contentsline {subsection}{\numberline {E.1}Path-per-Pulse Designs}{44}{subsection.E.1}
+\contentsline {subsection}{\numberline {E.2}Design Alternatives Comparison}{45}{subsection.E.2}
+\contentsline {section}{\numberline {F}Detailed Design (Old)}{46}{appendix.F}
+\contentsline {subsection}{\numberline {F.1}Physical Design Details}{46}{subsection.F.1}
+\contentsline {subsubsection}{\numberline {F.1.1}Simple Design}{46}{subsubsection.F.1.1}
+\contentsline {subsubsection}{\numberline {F.1.2}$\pi /2$ Pulses and Compensation Sequences}{58}{subsubsection.F.1.2}
+\contentsline {subsection}{\numberline {F.2}Design Limitations}{60}{subsection.F.2}
