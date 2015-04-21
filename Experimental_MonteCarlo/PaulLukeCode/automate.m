@@ -1,4 +1,4 @@
-function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail, err, ffResult] = automate(T,N,delTimes,bestDelays)
+function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail] = automate(T,N,delTimes,bestDelays)
 % Inputs:
 %  T - the overall length of the UDD sequence to be approximated, in
 %      nanoseconds
@@ -17,7 +17,7 @@ function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail, err, ff
 %    T=2028;
 %    N=6;
 
-if mod(T,N)~=0
+if mod(T,13)~=0
    warning('T (currently T=%d) must be a multiple of 13 ns',T); 
 end
 
@@ -91,24 +91,8 @@ ppEomOffTimes = passes(:,1)- offset+1;
 ppEomOnTimes = ppEomOffTimes - 2;
 
 error = actualTimes-idealTimes;
-%maxErr=0;
-%for k = 1:length(error)
-%    if abs(error(k)) > abs(maxErr)
-%        maxErr = error(k);
-%    end
-%end
-relWT=100;
-err = (sqrt(sum(error.*error))/relWT + 1) * abs(sum(((-1).^([0:length(error)-1])*error)));   
 
 
-n=1:N;
-omegaT = logspace(-2,2,300)';
-filter_function = @(timings) abs(1+(-1)^(N+1)*exp(1i*omegaT) + ...
-        sum(2*exp(1i*bsxfun(@plus,n*pi,omegaT*timings)),2)).^2;
-F = filter_function(actualTimes(2:end-1)'/T);
-ffResult=F(1);
-
-%autoplot(T, N, idealTimes, actualTimes, err, passes, eomOnTimes, eomOffTimes);
 seqFail=0;
 if length(unique(ppEomOffTimes))~=length(ppEomOffTimes) ...
         || length(unique(ppEomOnTimes))~=length(ppEomOnTimes)
@@ -125,7 +109,7 @@ eomOffTimes = sort(eomOffTimes'*10^-9);
 %changes first EOM timings such that when adjacent pulses are
 %picked, EOM just stays on for that time
 if length(unique([pulseNum;pulseNum+1]))~=2*length(pulseNum)
-    %fprintf('\nWarning, adjacent pulses needed, for sequence with T=%d and N=%d.\n',T,N);
+    warning('\nWarning, adjacent pulses needed, for sequence with T=%d and N=%d.\n',T,N);
     for i=length(ppEomOnTimes):-1:2
         if abs(ppEomOnTimes(i)-(ppEomOnTimes(i-1)+13*10^-9))<10^-15
             ppEomOnTimes(i)=[];
