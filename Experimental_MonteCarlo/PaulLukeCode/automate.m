@@ -27,9 +27,9 @@ idealTimes = [0; uddTimes(T,N,0); T];
 offset = 0;
 
 delTimes = delTimes.*repRate;
-%if delTimes(2)<riseTime
-%    delTimes(2) = delTimes(2)+repRate;    
-%end
+if delTimes(2)<riseTime
+    delTimes(2) = delTimes(2)+repRate;    
+end
 delTimes=delTimes+repRate+1;
 if length(bestDelays)==N
     bestDelays = [1;bestDelays;1];
