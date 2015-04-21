@@ -1,11 +1,11 @@
-function [PCTimings1, CP1, PCTimings2, CP2,DelayLeft,DelayMiddle,DelayBottom,optVal] = runExperiment(T,n)
+function [PCTimings1, CP1, PCTimings2, CP2,DelayLeft,DelayMiddle,DelayBottom,optVal,seqFail] = runExperiment(T,n)
 % top-level function to run delay optimization and automation, then pass
 % inputs to the Simulink model
 % example input: T=2028,n=6;
 
 [~,digTimes,bestDelays,optVal] = delOp(T,n,false);
 
-[eomOnTimes,eomOffTimes, ppEomOnTimes, ppEomOffTimes] = automate(T,n,digTimes,bestDelays);
+[eomOnTimes,eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail] = automate(T,n,digTimes,bestDelays);
 
 PCTimings1 = zeros(1,length(ppEomOnTimes)+length(ppEomOffTimes));
 PCTimings1(1:2:end)=ppEomOnTimes;
