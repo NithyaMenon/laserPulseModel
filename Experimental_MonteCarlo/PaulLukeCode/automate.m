@@ -108,14 +108,14 @@ eomOffTimes = sort(eomOffTimes'*10^-9);
 
 %changes first EOM timings such that when adjacent pulses are
 %picked, EOM just stays on for that time
-if length(unique([pulseNum;pulseNum+1]))~=2*length(pulseNum)
-    warning('\nWarning, adjacent pulses needed, for sequence with T=%d and N=%d.\n',T,N);
-    for i=length(ppEomOnTimes):-1:2
-        if abs(ppEomOnTimes(i)-(ppEomOnTimes(i-1)+13*10^-9))<10^-15
-            ppEomOnTimes(i)=[];
-            ppEomOffTimes(i-1)=[];
-        end 
-    end
-end
+%if length(unique([pulseNum;pulseNum+1]))~=2*length(pulseNum)
+%    warning('\nWarning, adjacent pulses needed, for sequence with T=%d and N=%d.\n',T,N);
+%    for i=length(ppEomOnTimes):-1:2
+%        if abs(ppEomOnTimes(i)-(ppEomOnTimes(i-1)+13*10^-9))<10^-15
+%            ppEomOnTimes(i)=[];
+%            ppEomOffTimes(i-1)=[];
+%        end 
+%    end
+%end
 
 
