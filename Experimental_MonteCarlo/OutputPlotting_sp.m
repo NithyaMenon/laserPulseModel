@@ -54,7 +54,7 @@ fixfonts = @(h) set(h,'FontName','Arial',...
                   
 
 figure(2)
-%axis([0 T 0.000000001 2]);
+axis([-5 T*1e9 0.000000001 2]);
 set(gca,'YScale','log');
 
 grid off; 
@@ -65,12 +65,12 @@ fixfonts(ylabel('Relative Power'));
 
 hold on
 %semilogy(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red','Marker','+');
-stem(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red','Marker','+');
+stem(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red','Marker','+','BaseValue',1e-9);
 
 %semilogy(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',1,'Marker','+');
-stem(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',2,'Marker','+');
+stem(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',2,'Marker','+','BaseValue',1e-9);
 
-stem(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',2,'Marker','+');
+stem(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',2,'Marker','+','BaseValue',1e-9);
 grid on
 
 legend('Residual Pulses', 'Important Pulses','Ideal Pulses')

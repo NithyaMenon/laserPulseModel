@@ -80,16 +80,12 @@ FinalResultSet(1).IdealPulse = idealPulseTimes*10^9;
 FinalResultSet(1).AllOutputData = AllOutputData;
 FinalResultSet(1).IdealTimingPerformance = calculateIdealTimingPerformance(N,T);
 
-% SimParams = repmat(struct('DelayLeft',-1,'DelayBottom',-1,'DelayMiddle',-1,...
-%     'PCTimings1',-1,'PCTimings2',-1),1,1);
-% 
-% SimParams.DelayLeft = DelayLeft;
-% SimParams.DelayBottom = DelayBottom;
-% SimParams.DelayMiddle = DelayMiddle;
-% SimParams.PCTimings1 = PCTimings1;
-% SimParams.PCTimings2 = PCTimings2;
-%     
-% FinalResultSet(1).SimParams = SimParams;
+SimParams = repmat(struct('DelayTimes',-1,'PCTimings1',-1),1,1);
+ 
+SimParams.DelayTimes = delTimes;
+SimParams.PCTimings1 = PCTimings1;
+     
+FinalResultSet(1).SimParams = SimParams;
 
 
 toc
