@@ -3,7 +3,7 @@ function [TimingPerformance, RMSE] = calculateTimingPerformance(ImportantPulses_
     
 
     T = T*1e9;
-%     target = 17.317171337233528; % Change. This is only for N=6
+
     timings = transpose((ImportantPulses_times - ImportantPulses_times(1))*1e9);
     
     ff = @(w,timings) abs(1+(-1)^(n+1)*exp(1i*w*T) + ...
@@ -16,9 +16,7 @@ function [TimingPerformance, RMSE] = calculateTimingPerformance(ImportantPulses_
     [~,uLimInd] = max(ff(w,idealPulseTimings)./w.^2);
     uLim = w(uLimInd);
     
-    
     TimingPerformance = integral(@(w)ff(w,timings(2:end-1)).*lorentzian(w)./w.^2*2/pi,0,uLim);
-
     
     % Add the initial offset to the ideal pulse times
     idealPulseTimings = idealPulseTimings + timings(1);
