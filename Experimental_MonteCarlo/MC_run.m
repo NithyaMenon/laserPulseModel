@@ -83,7 +83,7 @@ for N = Ns
             AllOutputData(l).ImportantPulse_Is = ImportantPulses_Is;
             AllOutputData(l).ResidualPulses_times = ResidualPulses_times;
             AllOutputData(l).ResidualPulses_Is = ResidualPulses_Is;
-            AllOutputData(l).DiffImpRes = log10(min(ImportantPulses_Is) - max(ResidualPulses_Is));
+            AllOutputData(l).DiffImpRes = log10(min(ImportantPulses_Is)/max(ResidualPulses_Is));
             AllOutputData(l).SampledErrors = SampledErrors;
 
 

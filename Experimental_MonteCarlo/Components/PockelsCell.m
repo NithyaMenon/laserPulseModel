@@ -125,11 +125,15 @@ classdef PockelsCell < Component
         function result = action(obj,inputPulse)
             psi = obj.Psi;
             t = inputPulse.time;
-            calculatedValues = zeros(1,length(obj.onTimes));
-            for i = 1:length(obj.onTimes)
-                calculatedValues(i) = (obj.ControlPowers(i)*pi)*...
-                    obj.PCcurve(t,obj.onTimes(i),obj.offTimes(i));
-                
+            if(~isempty(obj.onTimes))
+                calculatedValues = zeros(1,length(obj.onTimes));
+                for i = 1:length(obj.onTimes)
+                    calculatedValues(i) = (obj.ControlPowers(i)*pi)*...
+                        obj.PCcurve(t,obj.onTimes(i),obj.offTimes(i));
+
+                end
+            else
+                calculatedValues = 0;
             end
             
             Tau = max(calculatedValues);
