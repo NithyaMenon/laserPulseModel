@@ -1,4 +1,4 @@
-function [ output_args ] = ResimulateWithSampledErrors( SampledErrs, N, T )
+function [ Pulses, Is, Qs, Us, Vs, widths, times, IDs, NthLargestPulse ] = ResimulateWithSampledErrors( SampledErrs, N, T )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
     MC_specifyerrors;

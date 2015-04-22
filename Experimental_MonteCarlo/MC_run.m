@@ -10,7 +10,7 @@ w = warning ('off','all');
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
             'PowerPerformances',[-1],'TimingStatistics',-1,'PowerStatistics',-1,...
             'OptimizationTarget',-1,'IdealPulse',-1,'IdealTimingPerformance',-1,...
-            'AllOutputData',-1,'SimParams',-1),length(Ns)*length(Ts),1);
+            'AllOutputData',-1,'SimParams',-1,'SeqFail',-1),length(Ns)*length(Ts),1);
 
 montecarloruns = 2;
 
@@ -32,7 +32,7 @@ for N = Ns
 
         [PCTimings1,CP1,PCTimings2,CP2,DelayLeft,DelayMiddle,DelayBottom,optVal,seqFail] = ...
             runExperiment(T*1e9,N);
-
+        FinalResultSet(ctr).seqFail = seqFail;
         SimParams = repmat(struct('DelayLeft',-1,'DelayBottom',-1,'DelayMiddle',-1,...
             'PCTimings1',-1,'PCTimings2',-1),1,1);
 
@@ -44,6 +44,14 @@ for N = Ns
 
         FinalResultSet(ctr).SimParams = SimParams;
         FinalResultSet(ctr).OptimizationTarget = optVal;
+        if(seqFail)
+            AllOutputData = [];
+            TimingPerformancesFF = [];
+            TimingPerformancesRMSE = [];
+            PowerPerformances = [];
+            continue;
+        end
+        
 
         
 
