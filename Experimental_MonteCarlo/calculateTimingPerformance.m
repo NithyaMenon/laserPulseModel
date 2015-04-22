@@ -17,14 +17,14 @@ function [TimingPerformance, RMSE] = calculateTimingPerformance(ImportantPulses_
     uLim = w(uLimInd);
     
     
-    TimingPerformance = integral(@(w)ff(w,timings(2:end-1)).*lorentzian(w)./w.^2,0,uLim);
+    TimingPerformance = integral(@(w)ff(w,timings(2:end-1)).*lorentzian(w)./w.^2*2/pi,0,uLim);
 
     
     % Add the initial offset to the ideal pulse times
     idealPulseTimings = idealPulseTimings + timings(1);
     
     % Compute RMSE 
-    RMSE = 1/n * sqrt(sum((timings(2:end-1) - (idealPulseTimings - idealPulseTimings(1))).^2));
+%    RMSE = 1/n * sqrt(sum((timings(2:end-1) - (idealPulseTimings - idealPulseTimings(1))).^2));
     
-    
+    RMSE = 1/n * sqrt(sum((timings(2:end-1) - (idealPulseTimings)).^2));
 end
