@@ -80,9 +80,8 @@ else
 
     % performs optimization
     for ind = 1:size(ICs,2)
-        delTry = fmincon(@(x)minFun(x,idealTimes,ff,uLim,repRate,compDels),ICs(:,ind),...
+        [delTry,minTry] = fmincon(@(x)minFun(x,idealTimes,ff,uLim,repRate,compDels),ICs(:,ind),...
             A,B,Aeq,Beq,lb,ub,[],options);
-        minTry = minFun(delTry,idealTimes,ff,T,repRate,compDels);
 
         if minTry < minVal % we've improved!
             minVal = minTry;
@@ -192,7 +191,7 @@ allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
 nearPulses = dsearchn(allTimes,modTimes);
 
 % compute filter function
-out = quad(@(w)ff(w,allTimes(nearPulses,1)+idealTimes).*noise(w)./w.^2*2/pi,0,uLim,1e-4);
+out = quad(@(w)ff(w,allTimes(nearPulses,1)-modTimes+idealTimes).*noise(w)./w.^2*2/pi,0,uLim,1e-4);
 end
 
 
