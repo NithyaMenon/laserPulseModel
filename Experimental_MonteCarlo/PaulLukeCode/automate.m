@@ -1,4 +1,4 @@
-function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail] = automate(T,N,delTimes,bestDelays)
+function [eomOnTimes, eomOffTimes, ppEomOnTimes, ppEomOffTimes, delTimes, seqFail] = automate(T,N,delTimes,bestDelays)
 % Inputs:
 %  T - the overall length of the UDD sequence to be approximated, in
 %      nanoseconds
@@ -27,9 +27,9 @@ idealTimes = [0; uddTimes(T,N,0); T];
 offset = 0;
 
 delTimes = delTimes.*repRate;
-if delTimes(2)<riseTime
-    delTimes(2) = delTimes(2)+repRate;    
-end
+%if delTimes(2)<riseTime
+%    delTimes(2) = delTimes(2)+repRate;    
+%end
 delTimes=delTimes+repRate;
 if length(bestDelays)==N
     bestDelays = [1;bestDelays;1];

@@ -5,7 +5,7 @@ function [PCTimings1, CP1, PCTimings2, CP2,DelayLeft,DelayMiddle,DelayBottom,opt
 
 [~,digTimes,bestDelays,optVal] = delOp(T,n,false);
 
-[eomOnTimes,eomOffTimes, ppEomOnTimes, ppEomOffTimes, seqFail] = automate(T,n,digTimes,bestDelays);
+[eomOnTimes,eomOffTimes, ppEomOnTimes, ppEomOffTimes, delTimes, seqFail] = automate(T,n,digTimes,bestDelays);
 
 PCTimings1 = zeros(1,length(ppEomOnTimes)+length(ppEomOffTimes));
 PCTimings1(1:2:end)=ppEomOnTimes;
@@ -15,7 +15,7 @@ PCTimings2(1:2:end)=eomOnTimes;
 PCTimings2(2:2:end)=eomOffTimes;
 CP1 = [0.5000, ones(1,length(ppEomOnTimes)-2), 0.5000];
 CP2 = ones(1,length(eomOnTimes));
-DelayLeft=digTimes(1)*13e-9;
-DelayMiddle=digTimes(2)*13e-9;
-DelayBottom=digTimes(3)*13e-9;
+DelayLeft=delTimes(1)*1e-9;
+DelayMiddle=delTimes(2)*1e-9;
+DelayBottom=delTimes(3)*1e-9;
 end
