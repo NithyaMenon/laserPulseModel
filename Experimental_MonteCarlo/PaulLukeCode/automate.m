@@ -130,7 +130,7 @@ end
 
 for j=desiredOn
     success = 0;
-    for i=1:length(timeOn)
+    for i=1:length(timeOn(:,1))
         low=timeOn(i,1);
         high=timeOn(i,2);
         if j>low && j<high
@@ -145,7 +145,7 @@ end
 
 for j=desiredOff
     success = 0;
-    for i=1:length(timeOn)
+    for i=1:length(timeOn(:,1))
         low=timeOn(i,1);
         high=timeOn(i,2);
         if j>low && j<high
