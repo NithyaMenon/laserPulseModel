@@ -9,7 +9,7 @@ HalfWavePlate.clearComponent();
 BeamSplitter.clearComponent();
 BeamSplitterRotated.clearComponent();
 PolarizingBeamSplitter.clearComponent();
-
+Attenuator.clearComponent();
 
 p = PulseArray();
 p.addPulse(Pulse([]));
@@ -22,7 +22,7 @@ montecarlo = 1;
 global SampledErrors;
 SampledErrors = struct('PolarizingBeamSplitter',[],'PockelsCell',[],...
     'LinearPolarizer',[],'HalfWavePlate',[],'Delay',[],'BeamSplitter',[],...
-    'BeamSplitterRotated',[]);
+    'BeamSplitterRotated',[],'Attenuator',[]);
 
 % Dont use a specified SampledErrors
 global UseGivenErrors;

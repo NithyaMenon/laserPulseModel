@@ -4,11 +4,12 @@ timevec = [ times-widths/2-eps, times-widths/2, times+widths/2,times+widths/2+ep
 Ivec = [ zeropad, Is, Is, zeropad];
 Ivec_length = 2*size(zeropad)+ 2;
 
-T = 300e-9;
-n = 4;
+T = 140e-9;
+n = 8;
 
 sortedPulses = sort(Is,'descend');
-nLargePulseList = sortedPulses(1:n);
+% Identify the n Pi pulses and the 2 Pi/2 pulses
+nLargePulseList = sortedPulses(1:(n+2));
 nLargePulse = nLargePulseList(end);
 
 ImportantPulses_Is = Is(Is>=nLargePulse-eps);

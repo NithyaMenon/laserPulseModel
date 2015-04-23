@@ -4,12 +4,12 @@ MC_specifyerrors;
 
 %parpool(2);
 
-N = 4;
-Ts = [299, 1001, 1300, 2002, 2600, 3003]*1e-9;
-
+N = 6;
+Ts = [20, 40, 60, 80, 100, 120, 140]*1e-9;
+%Ts=[20,40]*1e-9;
 tic
 
-montecarloruns = 5;
+montecarloruns = 2;
 
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
     'PowerPerformances',[-1],'TimingStatistics',-1,'PowerStatistics',-1,...
@@ -22,10 +22,9 @@ FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
 
 ctr = 1;
 
+
 for T = Ts
-    if ((N+2)*13e-9 >= T)
-        continue
-    end
+    
     idealPulseTimes = uddTimes(T,N);
     FinalResultSet(ctr).N = N;
     FinalResultSet(ctr).T = T;
@@ -48,7 +47,7 @@ for T = Ts
     for l = 1:montecarloruns
    
         MC_initialize_sp;
-        sim('MC_SinglePulseN4.slx',(T/13e-9)+50);
+        sim('MC_SinglePulseN6.slx',(T/13e-9)+50);
 
         [ Pulses, Is, Qs, Us, Vs, widths, times, IDs] = ProcessSimout(simout);
 
