@@ -66,16 +66,16 @@ desiredOn=[];
 desiredOff=[];
 for i=1:length(bestDelays)
     if bestDelays(i)==1;
+        desiredOff = [desiredOff,allPasses(i,:)];
         if temp==1
             eomOffTimes = [eomOffTimes; (passes(i,1)-9)];
-            desiredOff = [desiredOff,allPasses(i,:)];
             temp = -1;
         end
     end
     if bestDelays(i)==3;
+        desiredOn = [desiredOn,allPasses(i,:)];
         if temp==-1;
             eomOnTimes = [eomOnTimes; (passes(i,1)-9)];
-            desiredOn = [desiredOn,allPasses(i,:)];
             temp = 1;
         end
     end
