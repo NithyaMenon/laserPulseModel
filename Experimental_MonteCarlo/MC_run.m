@@ -3,8 +3,11 @@ clearAll;
 MC_specifyerrors;
 
 
-Ns = [6, 10 ,16, 24, 30];
-Ts = [299, 1001, 1300, 2002, 2600, 3003]*1e-9;
+%Ns = [6, 10 ,16, 24, 30];
+%Ts = [299, 1001, 1300, 2002, 2600, 3003]*1e-9;
+
+Ns = [6, 10];
+Ts = [299, 1001]*1e-9;
 
 w = warning ('off','all');
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
