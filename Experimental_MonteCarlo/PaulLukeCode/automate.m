@@ -128,6 +128,10 @@ else
     timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end),PCTimings2(end)+1e-7]';
 end
 
+if isempty(PCTimings2)
+    return
+end
+
 for j=desiredOn
     success = 0;
     for i=1:length(timeOn(:,1))
