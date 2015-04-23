@@ -4,8 +4,8 @@ timevec = [ times-widths/2-eps, times-widths/2, times+widths/2,times+widths/2+ep
 Ivec = [ zeropad, Is, Is, zeropad];
 Ivec_length = 2*size(zeropad)+ 2;
 
-T = 300e-9;
-n = 4;
+%T = 300e-9;
+n = N;
 
 sortedPulses = sort(Is,'descend');
 
@@ -72,7 +72,7 @@ hold on
 %semilogy(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red','Marker','+');
 stem(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red','Marker','+');
 
-%semilogy(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',1,'Marker','+');
+%semilogy(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LiNeWidth',1,'Marker','+');
 stem(impPlotData(:,1)*1e9, impPlotData(:,2),'Color','blue','LineWidth',2,'Marker','+');
 
 stem(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',2,'Marker','+');
