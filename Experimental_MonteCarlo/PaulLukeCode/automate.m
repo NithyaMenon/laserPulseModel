@@ -30,7 +30,7 @@ delTimes = delTimes.*repRate;
 %if delTimes(2)<riseTime
 %    delTimes(2) = delTimes(2)+repRate;    
 %end
-delTimes=delTimes+10;
+delTimes=delTimes+13;
 if length(bestDelays)==N
     bestDelays = [1;bestDelays;1];
 end
@@ -103,6 +103,31 @@ ppEomOffTimes = sort(ppEomOffTimes'*10^-9);
 ppEomOnTimes = sort(ppEomOnTimes'*10^-9);
 eomOnTimes = sort((eomOnTimes + 8)'*10^-9);
 eomOffTimes = sort(eomOffTimes'*10^-9);
+
+PCTimings1 = zeros(1,length(ppEomOnTimes)+length(ppEomOffTimes));
+PCTimings1(1:2:end)=ppEomOnTimes;
+PCTimings1(2:2:end)=ppEomOffTimes;
+PCTimings1 = PCTimings1 + 26e-9;
+PCTimings2 = zeros(1,length(eomOnTimes)+length(eomOffTimes));
+PCTimings2(1:2:end)=eomOnTimes;
+PCTimings2(2:2:end)=eomOffTimes;
+PCTimings2 = PCTimings2 + 26e-9;
+
+if mod(length(PCTimings2),2)~=0
+    timeOn = [PCTimings2(1:2:end); PCTimings2(2:2:end),PCTimings2(end)+1e-7]';
+    timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end)]';
+else
+    timeOn = [PCTimings2(1:2:end); PCTimings2(2:2:end)]';
+    timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end),PCTimings2(end)+1e-7]';
+end
+
+timeOn*1e9
+
+
+
+
+ 
+
 
 %changes first EOM timings such that when adjacent pulses are
 %picked, EOM just stays on for that time
