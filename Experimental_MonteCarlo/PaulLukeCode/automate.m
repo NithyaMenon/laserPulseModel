@@ -120,6 +120,11 @@ PCTimings2(1:2:end)=eomOnTimes;
 PCTimings2(2:2:end)=eomOffTimes;
 PCTimings2 = PCTimings2*1e9;
 
+
+if isempty(PCTimings2)
+    return
+end
+
 if mod(length(PCTimings2),2)~=0
     timeOn = [PCTimings2(1:2:end); PCTimings2(2:2:end),PCTimings2(end)+1e-7]';
     timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end)]';
@@ -128,9 +133,6 @@ else
     timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end),PCTimings2(end)+1e-7]';
 end
 
-if isempty(PCTimings2)
-    return
-end
 
 for j=desiredOn
     success = 0;
