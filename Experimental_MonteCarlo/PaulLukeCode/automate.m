@@ -24,7 +24,6 @@ end
 repRate = 13;
 riseTime = 8;
 idealTimes = [0; uddTimes(T,N,0); T];
-offset = 0;
 
 delTimes = delTimes.*repRate;
 %if delTimes(2)<riseTime
@@ -68,14 +67,14 @@ desiredOff=[];
 for i=1:length(bestDelays)
     if bestDelays(i)==1;
         if temp==1
-            eomOffTimes = [eomOffTimes; (passes(i,1)-10)];
+            eomOffTimes = [eomOffTimes; (passes(i,1)-9)];
             desiredOff = [desiredOff,allPasses(i,:)];
             temp = -1;
         end
     end
     if bestDelays(i)==3;
         if temp==-1;
-            eomOnTimes = [eomOnTimes; (passes(i,1)-10)];
+            eomOnTimes = [eomOnTimes; (passes(i,1)-9)];
             desiredOn = [desiredOn,allPasses(i,:)];
             temp = 1;
         end
@@ -95,7 +94,7 @@ for i=1:length(bestDelays)
     end
 end
 
-ppEomOffTimes = passes(:,1)- offset+1;
+ppEomOffTimes = passes(:,1)+1;
 ppEomOnTimes = ppEomOffTimes - 2;
 
 seqFail=0;
@@ -152,8 +151,8 @@ end
 for j=desiredOff
     success = 0;
     for i=1:length(timeOn(:,1))
-        low=timeOn(i,1);
-        high=timeOn(i,2);
+        low=timeOn(i,1)-8;
+        high=timeOn(i,2)+8;
         if j>low && j<high
             success=1;
         end
