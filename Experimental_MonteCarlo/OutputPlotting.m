@@ -8,7 +8,9 @@ T = 300e-9;
 n = 6;
 
 sortedPulses = sort(Is,'descend');
-nLargePulseList = sortedPulses(1:n);
+
+%Identify the largest n and two Pi/2 pulses 
+nLargePulseList = sortedPulses(1:(n+2));
 nLargePulse = nLargePulseList(end);
 
 ImportantPulses_Is = Is(Is>=nLargePulse-eps);
@@ -38,7 +40,9 @@ resPlotData = transpose([resTimeVec; ResidualPulses_Ivec]);
 resPlotData = resPlotData(Inds,:);
 
 uddTimes =(pi/(2*n+2):pi/(2*n+2):n*pi/(2*n+2))';
-uddSequence = T*sin(uddTimes).^2;
+
+% Scale UDD times to match a constant offset present in the first pulse
+uddSequence = (T*sin(uddTimes).^2)+ImportantPulses_times(1);
 uddPowers = ones(size(uddSequence))*max(Is);
 uddTimes = [uddSequence-eps;uddSequence;uddSequence+eps];
 uddPowers = [zeros(size(uddPowers));uddPowers;zeros(size(uddPowers))];
