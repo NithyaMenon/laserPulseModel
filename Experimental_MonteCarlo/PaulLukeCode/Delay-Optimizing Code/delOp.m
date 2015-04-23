@@ -191,7 +191,7 @@ allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
 nearPulses = dsearchn(allTimes,modTimes);
 
 % compute filter function
-out = quad(@(w)ff(w,allTimes(nearPulses,1)-modTimes+idealTimes).*noise(w)./w.^2*2/pi,0,uLim,1e-4);
+out = quad(@(w)ff(w,modTimes-allTimes(nearPulses,1)+idealTimes).*noise(w)./w.^2*2/pi,0,uLim,1e-4);
 end
 
 
