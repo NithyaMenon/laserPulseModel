@@ -24,13 +24,12 @@ end
 repRate = 13;
 riseTime = 8;
 idealTimes = [0; uddTimes(T,N,0); T];
-offset = 0;
 
 delTimes = delTimes.*repRate;
 %if delTimes(2)<riseTime
 %    delTimes(2) = delTimes(2)+repRate;    
 %end
-delTimes=delTimes+10;
+delTimes=delTimes+13;
 if length(bestDelays)==N
     bestDelays = [1;bestDelays;1];
 end
@@ -39,7 +38,7 @@ bestDelTimes = delTimes(bestDelays);
 pulseNum = round((idealTimes-bestDelTimes)/repRate);
 actualTimes = (pulseNum*repRate)+bestDelTimes;
 passes = [(actualTimes-delTimes(bestDelays)), actualTimes];
-
+allPasses = [(actualTimes-delTimes(bestDelays)), (actualTimes-delTimes(bestDelays))+delTimes(1),(actualTimes-delTimes(bestDelays))+delTimes(2),(actualTimes-delTimes(bestDelays))+delTimes(3)];
 %this part determines how the EOM should start out
 eomOnTimes = [];
 eomOffTimes = [];
@@ -63,32 +62,39 @@ end
 %if temp==-1
 %    eomOffTimes = [0];
 %end
-
+desiredOn=[];
+desiredOff=[];
 for i=1:length(bestDelays)
     if bestDelays(i)==1;
+        desiredOff = [desiredOff,allPasses(i,:)];
         if temp==1
-            eomOffTimes = [eomOffTimes; (passes(i,1)-10)];
+            eomOffTimes = [eomOffTimes; (passes(i,1)-9)];
             temp = -1;
         end
     end
     if bestDelays(i)==3;
+        desiredOn = [desiredOn,allPasses(i,:)];
         if temp==-1;
-            eomOnTimes = [eomOnTimes; (passes(i,1)-10)];
+            eomOnTimes = [eomOnTimes; (passes(i,1)-9)];
             temp = 1;
         end
     end
     if bestDelays(i)==2;
         if temp==-1;
             eomOnTimes = [eomOnTimes; (passes(i,1)+1)];
+            desiredOff = [desiredOff, allPasses(i,1)];
+            desiredOn = [desiredOn, allPasses(i,2:end)];
         end
         if temp==1;
             eomOffTimes = [eomOffTimes; (passes(i,1)+1)];
+            desiredOn = [desiredOn, allPasses(i,1)];
+            desiredOff = [desiredOff, allPasses(i,2:end)];
         end
         temp = temp * -1;
     end
 end
 
-ppEomOffTimes = passes(:,1)- offset+1;
+ppEomOffTimes = passes(:,1)+1;
 ppEomOnTimes = ppEomOffTimes - 2;
 
 seqFail=0;
@@ -103,6 +109,58 @@ ppEomOffTimes = sort(ppEomOffTimes'*10^-9);
 ppEomOnTimes = sort(ppEomOnTimes'*10^-9);
 eomOnTimes = sort((eomOnTimes + 8)'*10^-9);
 eomOffTimes = sort(eomOffTimes'*10^-9);
+
+PCTimings1 = zeros(1,length(ppEomOnTimes)+length(ppEomOffTimes));
+PCTimings1(1:2:end)=ppEomOnTimes;
+PCTimings1(2:2:end)=ppEomOffTimes;
+PCTimings1 = PCTimings1*1e9;
+PCTimings2 = zeros(1,length(eomOnTimes)+length(eomOffTimes));
+PCTimings2(1:2:end)=eomOnTimes;
+PCTimings2(2:2:end)=eomOffTimes;
+PCTimings2 = PCTimings2*1e9;
+
+
+if isempty(PCTimings2)
+    return
+end
+
+if mod(length(PCTimings2),2)~=0
+    timeOn = [PCTimings2(1:2:end); PCTimings2(2:2:end),PCTimings2(end)+1e-7]';
+    timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end)]';
+else
+    timeOn = [PCTimings2(1:2:end); PCTimings2(2:2:end)]';
+    timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end),PCTimings2(end)+1e-7]';
+end
+
+
+for j=desiredOn
+    success = 0;
+    for i=1:length(timeOn(:,1))
+        low=timeOn(i,1);
+        high=timeOn(i,2);
+        if j>low && j<high
+            success=1;
+        end
+    end
+    if success==0
+        seqFail=1;
+    end
+end
+
+
+for j=desiredOff
+    success = 0;
+    for i=1:length(timeOn(:,1))
+        low=timeOn(i,1)-8;
+        high=timeOn(i,2)+8;
+        if j>low && j<high
+            success=1;
+        end
+    end
+    if success==1
+        seqFail=1;
+    end
+end
 
 %changes first EOM timings such that when adjacent pulses are
 %picked, EOM just stays on for that time

@@ -64,6 +64,10 @@ function [ Pulses, Is, Qs, Us, Vs, widths, times, IDs, NthLargestPulse ] = Resim
     ImportantPulses_times = times(Is>=NthLargestPulse-eps);
     ResidualPulses_times = times(Is<NthLargestPulse-eps);
     OutputPlotting;
+    PC1 = PockelsCell.getComponent(1);
+    PC2 = PockelsCell.getComponent(2);
+    PC1.plotIO(T+50e-9);
+    PC2.plotIO(T+50e-9);
 
 
 
