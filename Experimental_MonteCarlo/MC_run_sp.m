@@ -6,9 +6,9 @@ w = warning ('off','all');
 %parpool(2);
 
 N = 4;
-%Ts = [20, 40, 60, 80, 100, 120, 140]*1e-9;
-Ts=[20]*1e-9;
-tic
+Ts = [20, 40, 60, 80, 100, 120, 140]*1e-9;
+%Ts=[20]*1e-9;
+tic1 = tic;
 
 montecarloruns = 100;
 
@@ -45,8 +45,11 @@ for T = Ts
 
     AllOutputData = repmat(struct('ImportantPulse_times',-1,'ImportantPulse_Is',-1,...
     'ResidualPulses_times',-1,'ResidualPulses_Is',-1,'DiffImpRes',-1),1,montecarloruns);
+    tic2 = tic;
     for l = 1:montecarloruns
-        display(sprintf('N: %i, T: %f, Run: %i', N, T*1e9, l))
+        timmy = toc(tic2);
+        display(sprintf('N: %i, T: %f, Run: %i, PrevRunTime: %f', N, T*1e9, l, timmy))
+        tic2 = tic;
         MC_initialize_sp;
         sim('MC_SinglePulseN4.slx',(T/13e-9)+50);
 
@@ -96,4 +99,4 @@ for T = Ts
     ctr = ctr + 1;
 end
 
-toc
+toc(tic1);
