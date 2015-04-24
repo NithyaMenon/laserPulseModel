@@ -71,11 +71,11 @@ fillcolors = ones(size(linecolors))*(1-shading)+shading*linecolors;
                   
 figure(2)
 %axis([0 T 0.000000001 2]);
-%set(gca,'YScale','log');
+set(gca,'YScale','log');
 
 grid off; 
 
-fixfonts(title('Output Pulse'));
+fixfonts(title(sprintf('Timing Diagram for Digitizing Design, N = %i, T = %3.0f',N,T*1e9)));
 fixfonts(xlabel('Time (ns)'));
 fixfonts(ylabel('Relative Power'));
 
@@ -92,11 +92,14 @@ h2 = fill(resPlotData(:,1)*1e9, resPlotData(:,2), fillcolors(2,:));
 set(h1,'EdgeColor',linecolors(1,:),'LineWidth',2,'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
 set(h2,'EdgeColor',linecolors(2,:),'LineWidth',2,'LineStyle', '-','Marker', '+', 'MarkerSize', 10);
 
-stem(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',2,'Marker','+');
+st = stem(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',2,'Marker','+');
 grid on
 
-legend('Residual Pulses', 'Important Pulses','Ideal Pulses')
+legend('Important Pulses', 'Residual Pulses','Ideal Pulses')
 
 fixfonts(gca);
+axis([-Inf,Inf,1e-8,0.1]);
 
-print -dpng -r500 'Ghost Pulses.png'
+td = gca;
+
+% print -dpng -r500 'Ghost Pulses.png'

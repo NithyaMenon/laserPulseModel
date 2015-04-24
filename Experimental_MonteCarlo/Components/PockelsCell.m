@@ -214,12 +214,12 @@ classdef PockelsCell < Component
             [AX,H1,H2] = plotyy(timevec*1e9,IHvec,tt*1e9,curveData/pi);
             set(H1,'LineWidth',2);
             set(H2,'LineWidth',2,'Color',[0.9290    0.6940    0.1250]);
-            set(AX(2),'XLim',[-1,maxTime*1e9],'YLim',[0,1]);
+            set(AX(2),'XLim',[-1,maxTime*1e9],'YLim',[0,1.1]);
             set(AX(1),'XLim',[-1,maxTime*1e9],'YLim',[0,2*max(inputI)]);
             h = legend('Vertically Polarized Input', 'Horizontally Polarized Input', 'Retardation by PC');
             set(h,'FontSize',14);
             
-            titl = sprintf('Input Plot for Pockels Cell %i', obj.ID);
+            titl = sprintf('Input Plot for EOM %i', obj.ID);
             title(titl,'FontSize',16);
             xlabel('Time [ns]','FontSize',14);
             AX(2).YLabel.String = 'Fraction of 90 Degree Rotation';

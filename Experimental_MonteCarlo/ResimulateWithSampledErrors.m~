@@ -1,4 +1,4 @@
-function [ td, pc1h, pc2h ] = ResimulateWithSampledErrors( SampledErrs, N, T )
+function [ td, pc1, pc2 ] = ResimulateWithSampledErrors( SampledErrs, N, T )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
     MC_specifyerrors;
@@ -66,8 +66,8 @@ function [ td, pc1h, pc2h ] = ResimulateWithSampledErrors( SampledErrs, N, T )
     OutputPlotting;
     PC1 = PockelsCell.getComponent(1);
     PC2 = PockelsCell.getComponent(2);
-    pc1h = PC1.plotIO(T+50e-9);
-    pc2h = PC2.plotIO(T+50e-9);
+    PC1.plotIO(T+50e-9);
+    PC2.plotIO(T+50e-9);
 
 
 
