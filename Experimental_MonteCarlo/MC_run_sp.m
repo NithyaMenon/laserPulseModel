@@ -2,14 +2,15 @@ paths;
 clearAll;
 MC_specifyerrors;
 
+w = warning ('off','all');
 %parpool(2);
 
-N = 12;
+N = 4;
 %Ts = [20, 40, 60, 80, 100, 120, 140]*1e-9;
 Ts=[20]*1e-9;
 tic
 
-montecarloruns = 1;
+montecarloruns = 100;
 
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
     'PowerPerformances',[-1],'TimingStatistics',-1,'PowerStatistics',-1,...
@@ -45,9 +46,9 @@ for T = Ts
     AllOutputData = repmat(struct('ImportantPulse_times',-1,'ImportantPulse_Is',-1,...
     'ResidualPulses_times',-1,'ResidualPulses_Is',-1,'DiffImpRes',-1),1,montecarloruns);
     for l = 1:montecarloruns
-   
+        display(sprintf('N: %i, T: %f, Run: %i', N, T*1e9, l))
         MC_initialize_sp;
-        sim('MC_SinglePulseN12.slx',(T/13e-9)+50);
+        sim('MC_SinglePulseN4.slx',(T/13e-9)+50);
 
         [ Pulses, Is, Qs, Us, Vs, widths, times, IDs] = ProcessSimout(simout);
 
