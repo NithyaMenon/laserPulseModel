@@ -20,8 +20,7 @@ TimDev = {Tim(:).StdDevation};
 Pwr = [FinalResultSet(1:EndInd).PowerStatistics];
 PwrMean = {Pwr(:).Mean};
 PwrDev = {Pwr(:).StdDevation};
-OptVal = [FinalResultSet(1:EndInd).OptimizationTarget];
-IdealVal = [FinalResultSet(1:EndInd).IdealTimingPerformance];
+OptVal = [FinalResultSet
 
 %%
 
@@ -31,8 +30,6 @@ TimMeanRMSESheet = cell(length(unique(N))+1,length(unique(T))+1);
 TimDevRMSESheet = cell(length(unique(N))+1,length(unique(T))+1);
 PwrMeanSheet = cell(length(unique(N))+1,length(unique(T))+1);
 PwrDevSheet = cell(length(unique(N))+1,length(unique(T))+1);
-OptValSheet = cell(length(unique(N))+1,length(unique(T))+1);
-IdealValSheet = cell(length(unique(N))+1,length(unique(T))+1);
 
 %%
 
@@ -42,9 +39,6 @@ TimMeanRMSESheet{1,1} = 'N/T';
 TimDevRMSESheet{1,1} = 'N/T';
 PwrMeanSheet{1,1} = 'N/T';
 PwrDevSheet{1,1} = 'N/T';
-OptValSheet{1,1} = 'N/T';
-IdealValSheet{1,1} = 'N/T';
-
 
 %%
 
@@ -56,8 +50,6 @@ for n = unique(N)
     TimDevRMSESheet{i,1} = n;
     PwrMeanSheet{i,1} = n;
     PwrDevSheet{i,1} = n;
-    OptValSheet{i,1} = n;
-    IdealValSheet{i,1} = n;
     i = i+1;
 end
 
@@ -69,8 +61,6 @@ for t = unique(T)
     TimDevRMSESheet{1,i} = t;
     PwrMeanSheet{1,i} = t;
     PwrDevSheet{1,i} = t;
-    OptValSheet{1,i} = t;
-    IdealValSheet{1,i} = t;
     i = i+1;
 end
 %%
@@ -99,8 +89,6 @@ for k = 1:length(N)
         PwrMeanSheet{i,j} = PMean{1,1};
         PwrDevSheet{i,j} = PDev{1,1};  
     end
-    OptValSheet{i,j} = OptVal(k);
-    IdealValSheet{i,j} = IdealVal(k);
 end
 
 %%
