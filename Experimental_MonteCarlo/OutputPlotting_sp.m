@@ -99,7 +99,7 @@ set(h2,'EdgeColor',linecolors(2,:),'LineWidth',2,'LineStyle', '-','Marker', '+',
 stem(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',2,'Marker','+','BaseValue',1e-9);
 grid on
 
-legend('Residual Pulses', 'Important Pulses','Ideal Pulses')
+legend('Important Pulses', 'Residual Pulses','Ideal Pulses')
 
 fixfonts(gca);
 
