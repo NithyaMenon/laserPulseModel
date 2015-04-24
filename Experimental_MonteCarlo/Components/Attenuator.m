@@ -78,7 +78,7 @@ classdef Attenuator < Component
             
             
             state_creator = sprintf('AttenuationFactor %i: AttnFactor = %0.2f ',...
-                obj.ID,obj.AttnFactor*1e9);
+                obj.ID,obj.AttnFactor);
             Pulse.saveStateHistory(resultPulse,state_creator);
             
             result = 1;
