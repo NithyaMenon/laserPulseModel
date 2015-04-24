@@ -2,18 +2,26 @@
 
 clear
 clc
-load('FinalResultSet_ForTesting3.mat')
+load('FinalResultSet_ForTesting6.mat')
 
+%%
 
+% Find last valid entry
+EndInd = find([FinalResultSet.N] ~= -1, 1, 'last');
 
-N = [FinalResultSet(1:end-2).N];
-T = [FinalResultSet(1:end-2).T]*1e9;
-Tim = [FinalResultSet(1:end-2).TimingStatistics];
-TimMean = [Tim(:).Mean];
-TimDev = [Tim(:).StdDevation];
-Pwr = [FinalResultSet(1:end-2).PowerStatistics];
-PwrMean = [Pwr(:).Mean];
-PwrDev = [Pwr(:).StdDevation];
+%%
+
+N = [FinalResultSet(1:EndInd).N];
+T = [FinalResultSet(1:EndInd).T]*1e9;
+seqFail = [FinalResultSet(1:EndInd).seqFail];
+Tim = [FinalResultSet(1:EndInd).TimingStatistics];
+TimMean = {Tim(:).Mean};
+TimDev = {Tim(:).StdDevation};
+Pwr = [FinalResultSet(1:EndInd).PowerStatistics];
+PwrMean = {Pwr(:).Mean};
+PwrDev = {Pwr(:).StdDevation};
+
+%%
 
 TimMeanFFSheet = cell(length(unique(N))+1,length(unique(T))+1);
 TimDevFFSheet = cell(length(unique(N))+1,length(unique(T))+1);
@@ -22,6 +30,7 @@ TimDevRMSESheet = cell(length(unique(N))+1,length(unique(T))+1);
 PwrMeanSheet = cell(length(unique(N))+1,length(unique(T))+1);
 PwrDevSheet = cell(length(unique(N))+1,length(unique(T))+1);
 
+%%
 
 TimMeanFFSheet{1,1} = 'N/T';
 TimDevFFSheet{1,1} = 'N/T';
@@ -29,6 +38,8 @@ TimMeanRMSESheet{1,1} = 'N/T';
 TimDevRMSESheet{1,1} = 'N/T';
 PwrMeanSheet{1,1} = 'N/T';
 PwrDevSheet{1,1} = 'N/T';
+
+%%
 
 i = 2;
 for n = unique(N)
@@ -51,17 +62,58 @@ for t = unique(T)
     PwrDevSheet{1,i} = t;
     i = i+1;
 end
+%%
 
 for k = 1:length(N)
     i = find([TimMeanFFSheet{2:end,1}] == N(k),1,'first')+1;
     j = find([TimMeanFFSheet{1,2:end}] == T(k),1,'first')+1;
-    TimMeanFFSheet{i,j} = TimMean(1,k);
-    TimDevFFSheet{i,j} = TimDev(1,k);
-    TimMeanRMSESheet{i,j} = TimMean(2,k);
-    TimDevRMSESheet{i,j} = TimDev(2,k);
-    PwrMeanSheet{i,j} = PwrMean(k);
-    PwrDevSheet{i,j} = PwrDev(k);    
+    if(seqFail(k) == 1)
+        TimMeanFFSheet{i,j} = NaN;
+        TimDevFFSheet{i,j} = NaN;
+        TimMeanRMSESheet{i,j} = NaN;
+        TimDevRMSESheet{i,j} = NaN;
+        PwrMeanSheet{i,j} = NaN;
+        PwrDevSheet{i,j} = NaN;
+    else
+        Mean = TimMean(k);
+        Mean = Mean{1,1};
+        Dev = TimDev(k);
+        Dev = Dev{1,1};
+        PMean = PwrMean(k);
+        PDev = PwrDev(k);
+        TimMeanFFSheet{i,j} = Mean(1);
+        TimDevFFSheet{i,j} = Dev(1);
+        TimMeanRMSESheet{i,j} = Mean(2);
+        TimDevRMSESheet{i,j} = Dev(2);
+        PwrMeanSheet{i,j} = PMean{1,1};
+        PwrDevSheet{i,j} = PDev{1,1};  
+    end
 end
+
+%%
+SizeArr = size(TimMeanFFSheet);
+for i = 1:SizeArr(1)
+    for j = 1:SizeArr(2)
+        if(isempty(TimMeanFFSheet{i,j}))
+            TimMeanFFSheet{i,j} = NaN;
+            TimDevFFSheet{i,j} = NaN;
+            TimMeanRMSESheet{i,j} = NaN;
+            TimDevRMSESheet{i,j} = NaN;
+            PwrMeanSheet{i,j} = NaN;
+            PwrDevSheet{i,j} = NaN;
+        end
+    end
+end
+
+%%
+% TimMeanFFSheet = cellfun(@(s) sprintf('%-12s', s),TimMeanFFSheet, 'UniformOutput', false);
+% TimDevFFSheet = cellfun(@(s) sprintf('%-12s', s),TimDevFFSheet, 'UniformOutput', false);
+% TimMeanRMSESheet = cellfun(@(s) sprintf('%-12s', s),TimMeanRMSESheet, 'UniformOutput', false);
+% TimDevRMSESheet = cellfun(@(s) sprintf('%-12s', s),TimDevRMSESheet, 'UniformOutput', false);
+% PwrMeanSheet = cellfun(@(s) sprintf('%-12s', s),PwrMeanSheet, 'UniformOutput', false);
+% PwrDevSheet = cellfun(@(s) sprintf('%-12s', s),PwrDevSheet, 'UniformOutput', false);
+
+%%
 
 xlswrite('FinalResultSet_ForTesting.xlsx',TimMeanFFSheet,1);
 xlswrite('FinalResultSet_ForTesting.xlsx',TimDevFFSheet,2);

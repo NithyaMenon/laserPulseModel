@@ -98,8 +98,8 @@ for N = Ns
         FinalResultSet(ctr).PowerPerformances = calculatePowerPerformance(AllOutputData,N);
         FinalResultSet(ctr).TimingStatistics = struct('Mean',mean([TimingPerformancesFF;TimingPerformancesRMSE],2),...
             'StdDevation', std([TimingPerformancesFF;TimingPerformancesRMSE],0,2));
-        FinalResultSet(ctr).PowerStatistics = struct('Mean',mean(PowerPerformances),...
-            'StdDevation', std(PowerPerformances));
+        FinalResultSet(ctr).PowerStatistics = struct('Mean',mean(FinalResultSet(ctr).PowerPerformances),...
+            'StdDevation', std(FinalResultSet(ctr).PowerPerformances));
         FinalResultSet(ctr).IdealPulse = idealPulseTimes*10^9;
         FinalResultSet(ctr).AllOutputData = AllOutputData;
         FinalResultSet(ctr).IdealTimingPerformance = calculateIdealTimingPerformance(N,T);
