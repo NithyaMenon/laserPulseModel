@@ -3,11 +3,11 @@ clearAll;
 MC_specifyerrors;
 
 
-%Ns = [6, 10 ,16, 24, 30];
-%Ts = [299, 1001, 1300, 2002, 2600, 3003]*1e-9;
+Ns = [6, 10 ,16, 24, 30];
+Ts = [299, 1001, 1300, 2002, 2600, 3003]*1e-9;
 
-Ns = [6, 10];
-Ts = [299, 1001]*1e-9;
+% Ns = [6, 10];
+% Ts = [299, 1001]*1e-9;
 
 w = warning ('off','all');
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
@@ -15,7 +15,7 @@ FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
             'OptimizationTarget',-1,'IdealPulse',-1,'IdealTimingPerformance',-1,...
             'AllOutputData',-1,'SimParams',-1,'seqFail',-1),length(Ns)*length(Ts),1);
 
-montecarloruns = 2;
+montecarloruns = 40;
 
 tic
 
@@ -27,7 +27,7 @@ for N = Ns
             continue
         end
         
-        
+        display(sprintf('N: %i, T: %i', N, T*1e9))
 
         idealPulseTimes = uddTimes(T,N);
         FinalResultSet(ctr).N = N;
@@ -111,7 +111,7 @@ end
 
 
 
-
+save('FinalResultSet_40Runs.mat','FinalResultSet');
 
 
 
