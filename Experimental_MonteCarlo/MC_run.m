@@ -2,12 +2,14 @@ paths;
 clearAll;
 MC_specifyerrors;
 
+Ns = 6;
+Ts = [299, 390:130:3003,3003]*1e-9;
 
-Ns = [6, 10 ,16, 24, 30];
-Ts = [299, 1001, 1300, 2002, 2600, 3003]*1e-9;
+% Ns = [6, 10 ,16, 24, 30];
+% Ts = [299, 1001, 1300, 2002, 2600, 3003]*1e-9;
 
-% Ns = [6, 10];
-% Ts = [299, 1001]*1e-9;
+% Ns = [16, 24];
+% Ts = [1001,1300]*1e-9;
 
 w = warning ('off','all');
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
@@ -15,7 +17,7 @@ FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
             'OptimizationTarget',-1,'IdealPulse',-1,'IdealTimingPerformance',-1,...
             'AllOutputData',-1,'SimParams',-1,'seqFail',-1),length(Ns)*length(Ts),1);
 
-montecarloruns = 40;
+montecarloruns = 20;
 
 tic
 
@@ -47,7 +49,7 @@ for N = Ns
 
         FinalResultSet(ctr).SimParams = SimParams;
         FinalResultSet(ctr).OptimizationTarget = optVal;
-        if(seqFail)
+        if(seqFail ~= 0)
             AllOutputData = [];
             TimingPerformancesFF = [];
             TimingPerformancesRMSE = [];
@@ -111,7 +113,7 @@ end
 
 
 
-save('FinalResultSet_40Runs.mat','FinalResultSet');
+save('FinalResultSet_20Runs_N6.mat','FinalResultSet');
 
 
 
