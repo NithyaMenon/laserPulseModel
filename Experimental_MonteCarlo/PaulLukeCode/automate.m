@@ -110,10 +110,6 @@ ppEomOnTimes = sort(ppEomOnTimes'*10^-9);
 eomOnTimes = sort((eomOnTimes + 8)'*10^-9);
 eomOffTimes = sort(eomOffTimes'*10^-9);
 
-PCTimings1 = zeros(1,length(ppEomOnTimes)+length(ppEomOffTimes));
-PCTimings1(1:2:end)=ppEomOnTimes;
-PCTimings1(2:2:end)=ppEomOffTimes;
-PCTimings1 = PCTimings1*1e9;
 PCTimings2 = zeros(1,length(eomOnTimes)+length(eomOffTimes));
 PCTimings2(1:2:end)=eomOnTimes;
 PCTimings2(2:2:end)=eomOffTimes;
@@ -126,15 +122,19 @@ end
 
 if mod(length(PCTimings2),2)~=0
     timeOn = [PCTimings2(1:2:end); PCTimings2(2:2:end),PCTimings2(end)+1e-7]';
-    timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end)]';
+    %timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end)]';
 else
     timeOn = [PCTimings2(1:2:end); PCTimings2(2:2:end)]';
-    timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end),PCTimings2(end)+1e-7]';
+    %timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end),PCTimings2(end)+1e-7]';
 end
 
+timeOn
+desiredOn
+desiredOff
 
 for j=desiredOn
     success = 0;
+    borderline = 0;
     for i=1:length(timeOn(:,1))
         low=timeOn(i,1);
         high=timeOn(i,2);
@@ -143,13 +143,25 @@ for j=desiredOn
         end
     end
     if success==0
-        seqFail=1;
+        for i=1:length(timeOn(:,1))
+            low=timeOn(i,1);
+            high=timeOn(i,2);
+            if j>low-8 && j<high+8
+                borderline=1;
+            end
+        end
+        if borderline==1 && seqFail~=1
+	        seqFail=2;
+        else
+            seqFail=1;
+        end
     end
 end
 
 
 for j=desiredOff
     success = 0;
+    borderline = 0;
     for i=1:length(timeOn(:,1))
         low=timeOn(i,1)-8;
         high=timeOn(i,2)+8;
@@ -158,7 +170,18 @@ for j=desiredOff
         end
     end
     if success==1
-        seqFail=1;
+        for i=1:length(timeOn(:,1))
+            low=timeOn(i,1);
+            high=timeOn(i,2);
+            if j>low+8 && j<high-8
+                borderline=1;
+            end
+        end
+        if borderline==0 && seqFail~=1
+            seqFail=2;
+        else
+            seqFail=1;
+        end
     end
 end
 
