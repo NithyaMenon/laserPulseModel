@@ -128,9 +128,6 @@ else
     %timeOff = [PCTimings2(2:2:end); PCTimings2(3:2:end),PCTimings2(end)+1e-7]';
 end
 
-timeOn
-desiredOn
-desiredOff
 
 for j=desiredOn
     success = 0;
@@ -146,7 +143,6 @@ for j=desiredOn
         for i=1:length(timeOn(:,1))
             low=timeOn(i,1);
             high=timeOn(i,2);
-            if j>low-8 && j<high+8
                 borderline=1;
             end
         end
@@ -173,7 +169,7 @@ for j=desiredOff
         for i=1:length(timeOn(:,1))
             low=timeOn(i,1);
             high=timeOn(i,2);
-            if j>low+8 && j<high-8
+            if j>low+5 && j<high-5
                 borderline=1;
             end
         end
