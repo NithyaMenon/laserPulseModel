@@ -68,7 +68,7 @@ else
     [~,uLimInd] = max(ff(w,idealTimes)./w.^2);
     uLim = w(uLimInd);
 
-    delTimes = (0:1/nDelays:(1-1/nDelays))'; % a uniformly-spaced default
+    delTimes = zeros(nDelays,1); % pulse-picking default
     minVal = minFun(delTimes,idealTimes,ff,uLim,repRate,compDels); % starting value
     options = optimset('Algorithm','sqp','Display','off','UseParallel','always'); % suppress output
 
