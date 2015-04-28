@@ -1,6 +1,14 @@
 function [ component ] = retreiveComponent( ComponentType, ComponentID )
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%RETRIEVECOMPONENT Returns a component given the type and ID.
+%   C = retreiveComponent( ComponentType, Component ID ) takes arguments
+%    ComponentType, which is a string such as 'BeamSplitter', and Component
+%    ID, which is the ID of the ComponentType asked for.
+%   Accepted component types are:
+%       'PockelsCell', 'Delay', 'LinearPolarizer', 'HalfWavePlate',
+%       'BeamSplitter', 'BeamSplitterRotated', 'PolarizingBeamSplitter',
+%       'Attenuator'
+%   This method is used by S-functions such as component_s.
+%   See also: instantiateComponent, component_s
 
 switch ComponentType
     case 'PockelsCell'

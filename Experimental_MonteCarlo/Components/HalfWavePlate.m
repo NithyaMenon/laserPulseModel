@@ -1,6 +1,36 @@
 classdef HalfWavePlate < Component
-    %UNTITLED5 Summary of this class goes here
-    %   Detailed explanation goes here
+    %HALFWAVEPLATE Component object for calling by S-function
+    %   HWP = HalfWavePlate(Psi,Transmittance) returns a 
+    %       HalfWavePlate object. 
+    %       Usage requires global variables 'montecarlo', 'UseGivenErrors'
+    %       (logicals), 'ErrorSpecs', 'SampledErrors' (structs) to be
+    %       initialized.
+    %
+    %   result = HWP.apply(pulseArrayIDs) uses the Mueller calculus and
+    %       specified parameters (with specified jitter) to mutate the
+    %       pulses in each PulseArray specified by 'pulseArrayIDs'.
+    %       'pulseArrayIDs' is expected to be a vector of length 2, and
+    %       called using IDs passed to the 2 input channels of the 
+    %       component, by the S-function component_s.
+    %
+    %   result = HWP.action(pulse) applies the specified Mueller calculus
+    %       for HWP to the Pulse 'pulse' and returns a logical indicating
+    %       success.
+    %
+    %   [Times,Is,Qs,Us,Vs,Widths,IDs] = HWP.streamData(stream) returns
+    %       arrays containing the characterisitcs of every pulse that has
+    %       entered HWP.
+    %
+    %   numCollisions = HWP.checkInterference(importantPulses) takes in an
+    %       array of Pulse IDs of pulses considered important and checks
+    %       the input StreamArrays of PBS to see if there is any overlap in
+    %       timing between pulses that were ever once the important pulses.
+    %
+    %   [STATIC] HWP = HalfWavePlate.getComponent(id) returns the
+    %       HalfWavePlate Object with the ID 'id', throws an
+    %       error if the no object has the ID.
+    %
+    %   See also: Pulse, PulseArray, component_s
     
     properties
         ID;

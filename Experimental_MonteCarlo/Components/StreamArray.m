@@ -1,6 +1,17 @@
 classdef StreamArray < handle
-    %UNTITLED2 Summary of this class goes here
-    %   Detailed explanation goes here
+    %STREAMARRAY Container for Pulse stream data stored by components
+    %   S = StreamArray(size) returns an empty container with initial
+    %    capacity 'size'. The container holds structs that store the
+    %    information of a pulse (I,Q,U..).
+    %   S.add(pulse) adds the information of a pulse to the next available
+    %    struct in the StreamArray. If the capacity is to be exceed, the
+    %    capacity is automatically doubled.
+    %   [Times,Is,Qs,Us,Vs,Widths,IDs] = S.thisStreamData() returns arrays
+    %    of the data held in the StreamArray.
+    %   [Static] [Times,Is,Qs,Us,Vs,Widths,IDs] = StreamData(objArr) takes
+    %    an array of StreamArrays called objArr and returns the stream 
+    %    data held in all of the StreamArrays. This method is called by
+    %    Component objects.
     
     properties
         ary;

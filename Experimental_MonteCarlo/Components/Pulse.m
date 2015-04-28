@@ -23,6 +23,7 @@ classdef Pulse < handle
     %         properties as the input pulse.
     %     Pulse.clearPulses() - clears references from the Pulse object's
     %         static fields. Should be used at the start of any simulation.
+ 
     
     properties 
         % Stokes Parameters

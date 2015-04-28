@@ -6,6 +6,7 @@ function [TimingPerformance,RMSE,seqFail] =  calculatePulsePickerPerformance(N,T
     else
         Err = ErrorSpecs.Pulse.Time*1e9;
     end
+    plotting = 0;
 
     T = T*1e9;
 
@@ -25,6 +26,15 @@ function [TimingPerformance,RMSE,seqFail] =  calculatePulsePickerPerformance(N,T
     if ~seqFail
 
         Timings = pulseTrain(inds) + transpose(Errs);
+        if plotting
+            figure();
+            stem(Timings,ones(size(Timings)));
+            hold on;
+            stem(ideal,ones(size(ideal)));
+            stem(pulseTrain,0.5*ones(size(pulseTrain)));
+            hold off;
+            legend('Pulse Picker','UDD','Train');
+        end
 
         [TimingPerformance,RMSE] = calculateTimingPerformance([],Timings/1e9,...
             [],[],N,T/1e9);

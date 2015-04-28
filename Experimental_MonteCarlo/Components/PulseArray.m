@@ -1,6 +1,26 @@
 classdef PulseArray < handle
-    %UNTITLED5 Summary of this class goes here
-    %   Detailed explanation goes here
+    %PULSEARRAY Container for pulses that can be referenced by ID.
+    %   P = PulseArray() returns an empty pulse array P.
+    %   result = P.addPulse(pulse) adds the Pulse 'pulse' and returns 1 if 
+    %    the argument is a Pulse object, else returns -1.
+    %   result = P.addPulsesFromPulseArray(pA) adds the Pulse objects from
+    %    PulseArray pA to its own array.
+    %   result = P.Empty() returns 1 if P is empty (holds no Pulses).
+    %   result = P.clearArray() clears references to the Pulses held by P.
+    %   P = PulseArray.getComponent(ID) returns PulseArray P that has the
+    %    ID specified by argument 'ID'.
+    %   pulse = PulseArray.getPulses(pA) returns an array of Pulses held by
+    %    PulseArray 'pA'.
+    %   result = PulseArray.addPulseTopA(pAid, pulse) adds the Pulse
+    %    specified by pulse to the PulseArray specified by the ID 'pAid'.
+    %    Returns 1 if successful.
+    %   
+    %
+    %   This class is used to pass around multiple Pulses through
+    %   Simulink's data channels with the use of only one number, which is
+    %   the PulseArray's ID.
+    %
+    %   See also: Pulse, component_s
     
     properties
         ID;
@@ -16,7 +36,8 @@ classdef PulseArray < handle
         end
         function result = addPulse(obj,pulse)
             if(isa(pulse,'Pulse'))
-                obj.Array = [obj.Array,pulse];
+                obj.Array = [obj.Array,pulse]; % Inefficent, but never expcted
+                  % to be large number of pulses in a single PulseArray.
                 result = 1;
             else
                 result = -1;

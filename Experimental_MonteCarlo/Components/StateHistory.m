@@ -4,7 +4,10 @@ classdef StateHistory<handle
     %   input pulse when the StateHistory object is created. It also holds
     %   information regarding the process which induced the state
     %   (state_creator). The usage is: stateHistoryObj =
-    %   StateHistory(inputPulse, state_creator).
+    %   StateHistory(inputPulse, state_creator), where state_creator is a
+    %   string describing the creation of the state.
+    %   
+    %   See also: Pulse
     
     properties
         state_creator;

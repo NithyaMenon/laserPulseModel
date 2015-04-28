@@ -1,6 +1,37 @@
 classdef PolarizingBeamSplitter < Component
-    %UNTITLED5 Summary of this class goes here
-    %   Detailed explanation goes here
+    %POLARIZINGBEAMSPLITTER Component object for calling by S-function
+    %   PBS = PolarizingBeamSplitter(Psi,Transmittance,Reflectance,Ghost,  
+    %       BackReflectance) returns a Polarizing Beamsplitter object.
+    %       Usage requires global variables 'montecarlo', 'UseGivenErrors'
+    %       (logicals), 'ErrorSpecs', 'SampledErrors' (structs) to be
+    %       initialized.
+    %
+    %   result = PBS.apply(pulseArrayIDs) uses the Mueller calculus and
+    %   specified parameters (with specified jitter) to mutate the pulses
+    %   in each PulseArray specified by 'pulseArrayIDs'. 'pulseArrayIDs' is
+    %   expected to be a vector of length 4, and called using IDs passed to
+    %   the 4 channels of the component, by the S-function
+    %   fourwaycomponent_s.
+    %
+    %   [transmitPulse,reflectPulse,ghostPulse,backreflectPulse] =
+    %       PBS.action(pulse) applies the specified Mueller calculus for
+    %       PBS to the Pulse 'pulse' to create the four resulting pulses
+    %       that leave through each channel of the Polarizing Beamsplitter.
+    %
+    %   [Times,Is,Qs,Us,Vs,Widths,IDs] = PBS.streamData(stream) returns
+    %       arrays containing the characterisitcs of every pulse that has
+    %       entered PBS.
+    %
+    %   numCollisions = PBS.checkInterference(importantPulses) takes in an
+    %       array of Pulse IDs of pulses considered important and checks
+    %       the input StreamArrays of PBS to see if there is any overlap in
+    %       timing between pulses that were ever once the important pulses.
+    %
+    %   [STATIC] PBS = PolarizingBeamSplitter.getComponent(id) returns the
+    %       Polarizing Beamsplitter Object with the ID 'id', throws an
+    %       error if the no object has the ID.
+    %
+    %   See also: Pulse, PulseArray, fourwaycomponent_s
     
     properties
         ID;
@@ -252,7 +283,9 @@ classdef PolarizingBeamSplitter < Component
         end
         
         function numCollisions = checkInterference(obj,importantPulses)
-            [Times,Is,~,~,~,Widths,IDs] = obj.streamData([obj.LeftInputStream,obj.RightInputStream,obj.TopInputStream,obj.BottomInputStream]);
+            [Times,Is,~,~,~,Widths,IDs] = obj.streamData(...
+                [obj.LeftInputStream,obj.RightInputStream,obj.TopInputStream,...
+                obj.BottomInputStream]);
             [Times,Inds] = sort(Times);
             IDs = IDs(Inds);
             Widths = Widths(Inds);
@@ -260,7 +293,9 @@ classdef PolarizingBeamSplitter < Component
             dTimes = diff(Times);
             dWidths = (Widths(1:end-1) + Widths(2:end))/2;
             dLogPowers = abs(log10(Is(1:end-1)) - log10(Is(2:end)));
-            Interferes = dTimes<dWidths & dLogPowers < 3; % Interference, of pulses than can affect eachother, that we actually care about.
+            Interferes = dTimes<dWidths & dLogPowers < 3; 
+                    % Interference, of pulses than can affect eachother, 
+                    % that we actually care about.
             firstIDs = IDs([Interferes;logical(0)]);
             secondIDs = IDs([logical(0);Interferes]);
             firstIDmatches = [];
