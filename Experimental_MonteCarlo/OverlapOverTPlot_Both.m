@@ -5,8 +5,7 @@ clear
 clc
 
 % load('FinalResultSet_5Runs_N6_Subset.mat')
-% load('FinalResultSet_20Runs_N6.mat');
-load('FinalResultSet_40Runs_N6_Subset.mat');
+load('FinalResultSet_20Runs_N6.mat');
 
 SubSet = FinalResultSet([FinalResultSet.seqFail] == 0);
 
@@ -45,7 +44,8 @@ hf = figure(1);
 % set(hf,'PaperUnits','Points');
 set(hf,'Position',[150,550,350*1.15,300*1.15]);
 
-subplot(2,1,1);
+% subplot(2,1,1);
+subplot(2,1,2);
 semilogy(Ts_6*1e9, Ideal_6,'s-','LineWidth',2);
 hold on
 plot(Ts_6*1e9, Digit_6, 'd-','LineWidth',2);
@@ -61,13 +61,13 @@ grid on
 hold off
 
 ylabel('Overlap Integral');
-title('Overlap Integral & RMS Error for N = 6');
+% title('Overlap Integral & RMS Error for N = 6');
 
-subplot(2,1,2);
-hold on
-plot(Ts_6*1e9,DigitRMS_6,'d-','Color',[0.8500    0.3250    0.0980],'LineWidth',2);
-plot(Ts_6*1e9, PPRMS_6,'^-','Color',[0.9290    0.6940    0.1250],'LineWidth',2);
-hold off
-grid on;
-ylabel('RMS Timing Error [ns]');
+% subplot(2,1,2);
+% hold on
+% plot(Ts_6*1e9,DigitRMS_6,'d-','Color',[0.8500    0.3250    0.0980],'LineWidth',2);
+% plot(Ts_6*1e9, PPRMS_6,'^-','Color',[0.9290    0.6940    0.1250],'LineWidth',2);
+% hold off
+% grid on;
+% ylabel('RMS Timing Error [ns]');
 xlabel('Total Sequence Lentgth (T) [ns]');

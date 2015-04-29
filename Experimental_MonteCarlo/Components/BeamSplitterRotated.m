@@ -1,6 +1,39 @@
 classdef BeamSplitterRotated < Component
-    %UNTITLED5 Summary of this class goes here
-    %   Detailed explanation goes here
+    %BEAMSPLITTERROTATED Component object for calling by S-function
+    %   This class is a copy of BeamSplitter used for a rotated but
+    %       equivalent block.
+    %   BSR = BeamSplitterRotated(Transmittance,Reflectance,Ghost,  
+    %       BackReflectance) returns a Polarizing BeamSplitterRotated object.
+    %       Usage requires global variables 'montecarlo', 'UseGivenErrors'
+    %       (logicals), 'ErrorSpecs', 'SampledErrors' (structs) to be
+    %       initialized.
+    %
+    %   result = BSR.apply(pulseArrayIDs) uses the Mueller calculus and
+    %   specified parameters (with specified jitter) to mutate the pulses
+    %   in each PulseArray specified by 'pulseArrayIDs'. 'pulseArrayIDs' is
+    %   expected to be a vector of length 4, and called using IDs passed to
+    %   the 4 channels of the component, by the S-function
+    %   fourwaycomponent_s.
+    %
+    %   [transmitPulse,reflectPulse,ghostPulse,backreflectPulse] =
+    %       BSR.action(pulse) applies the specified Mueller calculus for
+    %       BSR to the Pulse 'pulse' to create the four resulting pulses
+    %       that leave through each channel of the Polarizing BeamSplitterRotated.
+    %
+    %   [Times,Is,Qs,Us,Vs,Widths,IDs] = BSR.streamData(stream) returns
+    %       arrays containing the characterisitcs of every pulse that has
+    %       entered BSR.
+    %
+    %   numCollisions = BSR.checkInterference(importantPulses) takes in an
+    %       array of Pulse IDs of pulses considered important and checks
+    %       the input StreamArrays of PBS to see if there is any overlap in
+    %       timing between pulses that were ever once the important pulses.
+    %
+    %   [STATIC] BSR = BeamSplitterRotated.getComponent(id) returns the
+    %       Polarizing BeamSplitterRotated Object with the ID 'id', throws an
+    %       error if the no object has the ID.
+    %
+    %   See also: Pulse, PulseArray, fourwaycomponent_s, BeamSplitter
     
     properties
         ID;

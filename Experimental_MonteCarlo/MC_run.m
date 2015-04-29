@@ -20,7 +20,7 @@ FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
             'OptimizationTarget',-1,'IdealPulse',-1,'IdealTimingPerformance',-1,...
             'AllOutputData',-1,'SimParams',-1,'seqFail',-1),length(Ns)*length(Ts),1);
 
-montecarloruns = 5;
+montecarloruns = 40;
 
 tic
 
@@ -116,7 +116,7 @@ end
 
 
 
-save('FinalResultSet_5Runs_N6_Subset.mat','FinalResultSet');
+save('FinalResultSet_40Runs_N6.mat','FinalResultSet');
 
 
 

@@ -1,7 +1,10 @@
 classdef Component < handle
-    %COMPONENT 
+    %COMPONENT (Abstract)
     %
     %   Relevant Methods:
+    %   apply(pulseArrayIDs)
+    %   checkInterference()
+    %   [STATIC] getComponent(ID)
 
     
     properties(Abstract)

@@ -1,6 +1,37 @@
 classdef BeamSplitter < Component
-    %UNTITLED5 Summary of this class goes here
-    %   Detailed explanation goes here
+    %BEAMSPLITTER Component object for calling by S-function
+    %   BS = BeamSplitter(Transmittance,Reflectance,Ghost,  
+    %       BackReflectance) returns a Polarizing Beamsplitter object.
+    %       Usage requires global variables 'montecarlo', 'UseGivenErrors'
+    %       (logicals), 'ErrorSpecs', 'SampledErrors' (structs) to be
+    %       initialized.
+    %
+    %   result = BS.apply(pulseArrayIDs) uses the Mueller calculus and
+    %   specified parameters (with specified jitter) to mutate the pulses
+    %   in each PulseArray specified by 'pulseArrayIDs'. 'pulseArrayIDs' is
+    %   expected to be a vector of length 4, and called using IDs passed to
+    %   the 4 channels of the component, by the S-function
+    %   fourwaycomponent_s.
+    %
+    %   [transmitPulse,reflectPulse,ghostPulse,backreflectPulse] =
+    %       BS.action(pulse) applies the specified Mueller calculus for
+    %       BS to the Pulse 'pulse' to create the four resulting pulses
+    %       that leave through each channel of the Polarizing Beamsplitter.
+    %
+    %   [Times,Is,Qs,Us,Vs,Widths,IDs] = BS.streamData(stream) returns
+    %       arrays containing the characterisitcs of every pulse that has
+    %       entered BS.
+    %
+    %   numCollisions = BS.checkInterference(importantPulses) takes in an
+    %       array of Pulse IDs of pulses considered important and checks
+    %       the input StreamArrays of PBS to see if there is any overlap in
+    %       timing between pulses that were ever once the important pulses.
+    %
+    %   [STATIC] BS = BeamSplitter.getComponent(id) returns the
+    %       Polarizing Beamsplitter Object with the ID 'id', throws an
+    %       error if the no object has the ID.
+    %
+    %   See also: Pulse, PulseArray, fourwaycomponent_s
     
     properties
         ID;
