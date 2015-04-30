@@ -6,11 +6,11 @@ ErrorSpecs.Delay.Amount = 0;
 % Ns = 6;
 % Ts = [299, 390:130:3003,3003]*1e-9;
 
-% Ns = 6;
-% Ts = (1690:13:2050)*1e-9;
+Ns = 6;
+Ts = (1690:13:2050)*1e-9;
 
-Ns = [6, 10 ,16, 24, 30];
-Ts = [299, 1001, 1300, 2002, 2600, 3003]*1e-9;
+% Ns = [6, 10 ,16, 24, 30];
+% Ts = [299, 1001, 1300, 2002, 2600, 3003]*1e-9;
 
 % Ns = [16, 24];
 % Ts = [1001,1300]*1e-9;
@@ -117,7 +117,7 @@ end
 
 
 
-save('FinalResultSet_1Runs_NoDelayError.mat','FinalResultSet');
+save('FinalResultSet_1Runs_NoDelayError_N6_Subset.mat','FinalResultSet');
 
 
 

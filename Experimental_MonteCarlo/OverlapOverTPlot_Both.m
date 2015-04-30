@@ -5,7 +5,8 @@ clear
 clc
 
 % load('FinalResultSet_5Runs_N6_Subset.mat')
-load('FinalResultSet_20Runs_N6.mat');
+% load('FinalResultSet_20Runs_N6.mat');
+load('FinalResultSet_1Runs_NoDelayError_N6.mat');
 
 SubSet = FinalResultSet([FinalResultSet.seqFail] == 0);
 
@@ -70,4 +71,4 @@ ylabel('Overlap Integral');
 % hold off
 % grid on;
 % ylabel('RMS Timing Error [ns]');
-xlabel('Total Sequence Lentgth (T) [ns]');
+xlabel('Total Sequence Length (T) [ns]');

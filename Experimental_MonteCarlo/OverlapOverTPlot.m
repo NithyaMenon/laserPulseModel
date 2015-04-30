@@ -6,7 +6,8 @@ clc
 
 % load('FinalResultSet_5Runs_N6_Subset.mat')
 % load('FinalResultSet_20Runs_N6.mat');
-load('FinalResultSet_40Runs_N6_Subset.mat');
+% load('FinalResultSet_40Runs_N6_Subset.mat');
+load('FinalResultSet_1Runs_NoDelayError_N6_Subset.mat');
 
 SubSet = FinalResultSet([FinalResultSet.seqFail] == 0);
 
@@ -70,4 +71,4 @@ plot(Ts_6*1e9, PPRMS_6,'^-','Color',[0.9290    0.6940    0.1250],'LineWidth',2);
 hold off
 grid on;
 ylabel('RMS Timing Error [ns]');
-xlabel('Total Sequence Lentgth (T) [ns]');
+xlabel('Total Sequence Length (T) [ns]');

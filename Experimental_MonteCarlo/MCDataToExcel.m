@@ -2,7 +2,7 @@
 
 clear
 clc
-load('FinalResultSet_ForTesting6.mat')
+load('FinalResultSet_40Runs.mat')
 
 %%
 
@@ -88,13 +88,14 @@ for k = 1:length(N)
     else
         Mean = TimMean(k);
         Mean = Mean{1,1};
+        [MeanPP,RMSPP] = calculatePulsePickerPerformance(N(k),T(k)*1e-9);
         Dev = TimDev(k);
         Dev = Dev{1,1};
         PMean = PwrMean(k);
         PDev = PwrDev(k);
-        TimMeanFFSheet{i,j} = Mean(1);
-        TimDevFFSheet{i,j} = Dev(1);
-        TimMeanRMSESheet{i,j} = Mean(2);
+        TimMeanFFSheet{i,j} = Mean(1)*(Mean(1)<MeanPP) + MeanPP*(Mean(1)>=MeanPP);
+        TimDevFFSheet{i,j} = Dev(1); % Eh..
+        TimMeanRMSESheet{i,j} = Mean(2)*(Mean(1)<MeanPP) + RMSPP*(Mean(1)>=MeanPP);
         TimDevRMSESheet{i,j} = Dev(2);
         PwrMeanSheet{i,j} = PMean{1,1};
         PwrDevSheet{i,j} = PDev{1,1};  
