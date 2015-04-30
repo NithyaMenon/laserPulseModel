@@ -5,6 +5,11 @@ classdef PockelsCell < Component
     %       Usage requires global variables 'montecarlo', 'UseGivenErrors'
     %       (logicals), 'ErrorSpecs', 'SampledErrors' (structs) to be
     %       initialized.
+    %       PCTimings is a vector of on an off times specified:
+    %           [OnTime1, OffTime1, OnTime2, OffTime2,...,OnTimeN, OffTimeN]
+    %       ControlPowers is a vector half the length of PCTimings
+    %        specifying the control power of the corresponding curve rise:
+    %           [ControlPower1, ControlPower2,...,ControlPowerN]
     %
     %   result = PC.apply(pulseArrayIDs) uses the Mueller calculus and
     %       specified parameters (with specified jitter) to mutate the

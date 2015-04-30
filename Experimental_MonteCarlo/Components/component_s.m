@@ -1,5 +1,6 @@
 function component_s(block)
-% S-Function for generic component
+% S-Function for generic 2-port I/O component (ex. Delay)
+% See also: fourwaycomponent_s, retreiveComponent, instantiateComponent
 
   setup(block);
   
@@ -50,7 +51,8 @@ function setup(block)
 function DoPostPropSetup(block)
  %% Setup Dwork
  block.NumDworks = 1;
- block.Dwork(1).Name = 'ComponentID';
+ block.Dwork(1).Name = 'ComponentID'; % Basically a persistent variable of
+    % the block, which will hold the ComponentID.
  for i = 1:1
      
      block.Dwork(i).Dimensions = 1;

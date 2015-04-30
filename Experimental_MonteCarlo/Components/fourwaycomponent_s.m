@@ -1,5 +1,6 @@
 function fourwaycomponent_s(block)
-% S-Function for generic component
+% S-Function for generic 4-port I/O component (ex. BeamSplitter)
+% See also: component_s, retreiveComponent, instantiateComponent
 
   setup(block);
   
@@ -82,7 +83,7 @@ function Output(block)
       block.InputPort(3).Data, block.InputPort(4).Data];
   ResultData = component.apply(round(PortData));
   
-  block.OutputPort(1).Data = ResultData(1); 
+  block.OutputPort(1).Data = ResultData(1); % Signal routing done internal to components
   block.OutputPort(2).Data = ResultData(2); 
   block.OutputPort(3).Data = ResultData(3); 
   block.OutputPort(4).Data = ResultData(4); 

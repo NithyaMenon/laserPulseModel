@@ -1,6 +1,21 @@
 function [ component ] = instantiateComponent( ComponentType, ComponentParams )
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
+%INSTANTIATECOMPONENT Returns a component given the type and parameters.
+%   C = instantiateComponent( ComponentType, ComponentParams ) takes
+%    arguments ComponentType, which is a string such as 'BeamSplitter', and
+%    ComponentParams, which is a struct of parameters for ComponentType 
+%    asked for.
+%   Accepted component types and their required paramters are:
+%       'PockelsCell' - PCTimings, ControlPowers, Psi
+%       'Delay' - DelayAmt 
+%       'Attenuator' - AttnFactor
+%       'LinearPolarizer' - Psi, Transmittence, ExtinctionRatio
+%       'HalfWavePlate' - Psi, Transmittence
+%       'BeamSplitter' - Transmittance, Reflectance, Ghost, BackReflectance
+%       'BeamSplitterRotated' - Same as BeamSplitter, 
+%       'PolarizingBeamSplitter' - Psi, Same as BeamSplitter
+%   
+%   This method is used by S-functions such as component_s.
+%   See also: retreiveComponent, component_s
 
 switch ComponentType
     case 'PockelsCell'
