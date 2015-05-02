@@ -62,7 +62,7 @@ grid on
 hold off
 
 ylabel('Overlap Integral');
-% title('Overlap Integral & RMS Error for N = 6');
+title('Overlap Integral for N = 6, 650<T<3003 ns');
 
 % subplot(2,1,2);
 % hold on
@@ -72,3 +72,5 @@ ylabel('Overlap Integral');
 % grid on;
 % ylabel('RMS Timing Error [ns]');
 xlabel('Total Sequence Length (T) [ns]');
+
+axis([-Inf,Inf,1e-6, 1e6]);

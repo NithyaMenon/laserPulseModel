@@ -1,11 +1,17 @@
 
 OutputPlotting;
 
+%% Everything from here down is checking for interference
+
 threshold = 1e-4;
 
 importantPulses = IDs(Is>threshold);
 
 %%
+
+% Basically, go through each component, check for interference using 
+% important pulses as reference, and print warnings.
+
 for object = PockelsCell.getComponentArray()
     interference = object.checkInterference(importantPulses);
     str = sprintf('PockelsCell %i:',object.ID);

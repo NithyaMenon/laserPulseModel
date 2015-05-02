@@ -1,48 +1,63 @@
 function [compDels, conFun, nDelays] = experimentFile()
 % user-generated file that is customized for each experimental setup
+%
+% Inputs:
+%  None
+%
+% Outputs:
+%  This is just a wrapper function to set the number of delays and pass two
+%  function handles. nDelays is the number of independent, tunable delay
+%  paths in the experiment.
+%
+% Last updated 5/2/15 by Paul Jerger.
 
-compDels = @compositeDelays;
-conFun = @constraintFunction;
-nDelays = 2;
+    compDels = @compositeDelays;
+    conFun = @constraintFunction;
+    nDelays = 2;
 end
 
 
-function out = compositeDelays(base)
+function out = compositeDelays(x)
 % generates the possible composite delays of the optical network from the
 % input tunable delays
 %
 % Input:
-%  base - a vector of tunable delays
+%  x - a vector of the delay paths in the network
 %
 % Output:
-%  Currently, the function computes six different composite delays from
-%  four input delays. The first is an offset, and the other three are
-%  permuted. Two of the eight permutations are eliminated due to the need
-%  for the design to produce pi/2 pulses at appropriate times. The
-%  remainder:
-%               x1
-%               x1+x2
-%               x1+x3
-%               x1+x4
-%               x1+x4+x2
-%               x1+x4+x3
+%  This function generates all possible combinations of delays (i.e., the 
+%  composite delays), as determined by the number and length of the delay
+%  paths and the organization of the optical network.
+%
+%  Currently, there are only three total delay paths: one which is 
+%  always zero relative delay and two that are entirely independent of the
+%  first. This makes the composite delays trivial to compute from the delay
+%  paths - simply return a vector of zero and the values of the other two
+%  delays.
 
-out = [0;base(1);base(2)];
+    out = [0;x(1);x(2)];
 end
 
 
 function [A,B,Aeq,Beq,lb,ub] = constraintFunction()
-% helper function for digOp.m that creates constraints for fmincon
+% helper function for delOp.m that creates constraints for fmincon
 %
 % Inputs: none
 %
 % Outputs:
-%  constraintFunction
+%  constraintFunction holds the following information, which is
+%  user-generated based on the construction of the optical network and the
+%  desired details of the delay paths:
+%
+%   A & B: inequality constraints for fmincon; A*x < B
+%   Aeq & Beq: equality constraints; Aeq*x = Beq
+%   lb & ub: lower and upper bounds on the values of the delay paths, x,
+%            which as a reminder has values that represent fractions of repRate
 
-A = [1 -1];
-B = [0];
-Aeq = [];
-Beq = [];
-lb = zeros(2,1);
-ub = ones(2,1);
+    A = [1 -1]; % specify that x(1) < x(2)
+    B = 0;
+    Aeq = [];
+    Beq = [];
+    lb = zeros(2,1);
+    ub = ones(2,1);
 end

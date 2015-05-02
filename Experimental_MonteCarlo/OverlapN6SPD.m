@@ -23,13 +23,17 @@ hold on
 plot(T, FF, 'd-','LineWidth',2);
 plot(T,ZeroFF,'*-','LineWidth',2,'Color',[0.4940    0.1840    0.5560]);
 legend('Ideal UDD','Single Pulse Design','No Filtering',...
-    'Location','SouthEast');
+    'Location','North', 'Orientation','Horizontal');
 grid on
 hold off
 
 ylabel('Overlap Integral');
+xlabel('Total Sequence Length (T) [ns]');
 % title('Overlap Integral & RMS Error for N = 6');
-title('Overlap Integral for N = 6');
+title('Overlap Integral for N = 6, 20<T<140 ns');
+
+axis([-Inf,Inf,1e-6, 1e6]);
+
 % 
 % subplot(2,1,2);
 % hold on
