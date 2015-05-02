@@ -7,7 +7,10 @@ function component_s(block)
 %endfunction
 
 function setup(block)
- 
+  
+  % This method defines the block's properties, such as the number of
+  % ports, etc. It is run on model loading, but before you have access to
+  % any information from mask parameters.
 
   block.NumDialogPrms  = 2; % Component Type, ParamsObject
 
@@ -49,6 +52,9 @@ function setup(block)
   
   
 function DoPostPropSetup(block)
+ % This function lets you do stuff after the block setup, but before you
+ % have access to the mask parameters. 
+
  %% Setup Dwork
  block.NumDworks = 1;
  block.Dwork(1).Name = 'ComponentID'; % Basically a persistent variable of
@@ -65,7 +71,9 @@ function DoPostPropSetup(block)
   
 function InitConditions(block)  
   %% Instantiate Object  
-  
+  % This is the initialization of the block. The mask params are used to
+  % call a function that returns the requested component. See
+  % instantiateComponent
   component = instantiateComponent(block.DialogPrm(1).Data, block.DialogPrm(2).Data);
   %% Initialize Dwork
   block.Dwork(1).Data = component.ID;
@@ -75,10 +83,21 @@ function InitConditions(block)
 
 
 function Output(block)
+  % At each timestep, Simulink calls this methof of the S-function
+  % We retreive the component object using its ID (since Simulink doesn't
+  % let you hold data types that are object references.
   component = retreiveComponent(block.DialogPrm(1).Data, block.Dwork(1).Data);
+  % And then pass the input data into the component's "apply" method, which
+  % each component has.
   PortData = [block.InputPort(1).Data, block.InputPort(2).Data];
   ResultData = component.apply(round(PortData));
+  % The "data" is another ID pointing to a "PulseArray" object which holds
+  % an array of pulses to be acted on at that timestep. A lot of these
+  % "reference things by ID" are just to get around Simulink's data type
+  % restrictions. See "PulseArray" in the Components folder
   
+  % Send the output data back into Simulink. These data are also PulseArray
+  % IDs
   block.OutputPort(1).Data = ResultData(2); % Left In goes Right Out
   block.OutputPort(2).Data = ResultData(1); % Right In goes Left Out
 
