@@ -1,6 +1,6 @@
 function idealTimingPerformance = calculateIdealTimingPerformance(n,T)
     %idealTimingPerformace.m - Script to evaluate overlap integral using
-    %   UDD Times
+    %   ideal UDD Times
     % INPUTS -
     %   n - Number of pi pulses in the UDD sequence
     %   T - total sequenece duration in nano seconds

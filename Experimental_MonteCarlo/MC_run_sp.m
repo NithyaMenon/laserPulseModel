@@ -1,5 +1,16 @@
+% MC_run.m - Script to initialize and run the Monte Carlo model, to the run
+% the simulation, specify a range of N and T and number of Monte Carlo
+% models below and press the "run" button in the above MATLAB toolbar. The
+% simulation will use the .slx file listed in the below for loop. This
+% script is currently configured to perform Monte Carlo simulations of the
+% single pulse design drawn in a variety of schematics
+
+% Clear the workspace to prepare for simulation
 paths;
 clearAll;
+
+% Use MC_specifyerrors to specify the global component errors to be sampled
+% for each Monte Carlo run for every component error listed in MC_specifyerrors 
 MC_specifyerrors;
 
 w = warning ('off','all');

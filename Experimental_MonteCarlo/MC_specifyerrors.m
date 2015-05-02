@@ -1,7 +1,16 @@
+% MC_specifyerrors.m - Script to declare all of the component errors before
+% running a Monte Carlo model
+
 global ErrorSpecs
 
 % Errors are fractions of nomial values unless otherwise specified
 % These are all std deviations
+
+% These errors are std deviations (unless otherwise specified) where the
+% mean of the distribution is specified in the simulink model. The Monte
+% Carlo model uses a random number generator to add on the error:
+% Beam splitter transmission coefficient example:
+% actualTrans = idealTrans*(1*ErrorSpecs.BeamSplitter.TransRef*rand(1,1))
 
 ErrorSpecs.Pulse.Time = 0.01e-9; % This is an absolute error
 ErrorSpecs.Pulse.I = 0.01;

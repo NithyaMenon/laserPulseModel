@@ -1,3 +1,8 @@
+% OutputPlotting.m - for a given simulation run in the workspace, generate
+% an output timing diagram showing the intended, residual and ideal pulse
+% timings and powers
+
+% Process simulation data
 [ Pulses, Is, Qs, Us, Vs, widths, times, IDs] = ProcessSimout(simout);
 zeropad = zeros(size(times));
 timevec = [ times-widths/2-eps, times-widths/2, times+widths/2,times+widths/2+eps];
@@ -13,6 +18,7 @@ sortedPulses = sort(Is,'descend');
 nLargePulseList = sortedPulses(1:(n+2));
 nLargePulse = nLargePulseList(end);
 
+% Seperate out the intended and residual pulses
 ImportantPulses_Is = Is(Is>=nLargePulse-eps);
 ResidualPulses_Is = Is(Is<nLargePulse-eps);
 
@@ -22,6 +28,7 @@ ResidualPulses_times = times(Is<nLargePulse-eps);
 impPulseWidths = widths(Is >= nLargePulse - eps);
 resPulseWidths = widths(Is < nLargePulse - eps);
 
+% Manipulate the arrays to have the same dimensions
 zeropadImp = ones(size(ImportantPulses_times))*1e-15;
 zeropadRes = ones(size(ResidualPulses_times))*1e-15;
 
@@ -45,6 +52,8 @@ uddTimes =(pi/(2*n+2):pi/(2*n+2):n*pi/(2*n+2))';
 uddSequence = (T*sin(uddTimes).^2);
 uddSequence = [0;uddSequence;T]+ImportantPulses_times(1);
 uddPowers = ones(size(uddSequence))*max(Is);
+
+% Fix uddTimes array to have the same dimensions
 uddTimes = [uddSequence-eps;uddSequence;uddSequence+eps];
 uddPowers = [zeros(size(uddPowers));uddPowers;zeros(size(uddPowers))];
 [uddTimes,Inds] = sort(uddTimes);
@@ -68,7 +77,8 @@ shading = 0.1;
 fillcolors = ones(size(linecolors))*(1-shading)+shading*linecolors;
 
                   
-                  
+% Generate output plots by filling the arrays generated earlier such that
+% each pulse has the appropriate width
 figure(2)
 %axis([0 T 0.000000001 2]);
 set(gca,'YScale','log');
