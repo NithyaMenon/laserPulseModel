@@ -30,7 +30,7 @@ SampledErrors = struct('PolarizingBeamSplitter',[],'PockelsCell',[],...
 global UseGivenErrors;
 UseGivenErrors = 0;
 
-% Dont save State History (1)
+% Dont save State History
 global savestatehistory;
 savestatehistory = 0;
 
