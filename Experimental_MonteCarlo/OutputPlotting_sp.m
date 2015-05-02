@@ -61,6 +61,8 @@ uddSequence = T*sin(uddTimes).^2;
 uddSequence = [0;uddSequence;T]+ImportantPulses_times(1);
 
 uddPowers = ones(size(uddSequence))*max(Is);
+uddPowers(1) = uddPowers(1)/2;
+uddPowers(end) = uddPowers(end)/2;
 uddTimes = [uddSequence-eps;uddSequence;uddSequence+eps];
 uddPowers = [zeros(size(uddPowers));uddPowers;zeros(size(uddPowers))];
 [uddTimes,Inds] = sort(uddTimes);
@@ -71,10 +73,11 @@ uddPowers = uddPowers(Inds);
 close all
 fixfonts = @(h) set(h,'FontName','Arial',...
                       'FontSize',12,...
-                      'FontWeight','bold');
-                  
+                      'FontWeight','bold');              
 
-figure(2)
+hf = figure(2);
+set(hf,'Position',[150,350,350*1.15,300*1.15]);
+
 axis([-5 (T*1e9+5) 0.0000001 2]);
 set(gca,'YScale','log');
 
@@ -83,6 +86,10 @@ grid off;
 fixfonts(title('Output Pulse'));
 fixfonts(xlabel('Time (ns)'));
 fixfonts(ylabel('Relative Power'));
+
+%title('Single pulse design N = 4 T = 20 ns')
+%xlabel('Time (ns)')
+%ylabel('Relative pulse power')
 
 hold on
 %semilogy(resPlotData(:,1)*1e9,resPlotData(:,2),'Color', 'red','Marker','+');
@@ -99,7 +106,7 @@ set(h2,'EdgeColor',linecolors(2,:),'LineWidth',2,'LineStyle', '-','Marker', '+',
 stem(uddTimes*1e9,uddPowers,'--','Color','green','LineWidth',2,'Marker','+','BaseValue',1e-9);
 grid on
 
-legend('Important Pulses', 'Residual Pulses','Ideal Pulses')
+legend('Intended Pulses', 'Residual Pulses','Ideal Pulses')
 
 fixfonts(gca);
 
