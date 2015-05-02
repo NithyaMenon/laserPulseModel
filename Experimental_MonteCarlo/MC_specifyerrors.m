@@ -22,7 +22,7 @@ ErrorSpecs.HalfWavePlate.Tau = 0.01;
 ErrorSpecs.HalfWavePlate.Transmission = 0.001;
 ErrorSpecs.HalfWavePlate.Psi = 0.01;
 
-ErrorSpecs.Delay.Amount = 0.01;
+ErrorSpecs.Delay.Amount = 0.001;
 
 ErrorSpecs.Attenuator.AttnFactor = 0.01;
 
