@@ -6,29 +6,45 @@ function [delTimes, digTimes, bestDelays, minVal] = delOp(T,n,plotCheck)
 %  T - the overall length of the UDD sequence to be approximated, in
 %      nanoseconds
 %  n - the number of pi pulses in the UDD sequence
-%  plotCheck - optional boolean input to turn off plotting
+%  plotCheck - optional integer input that selects plotting routines
 %
 % Outputs:
-%  The function computes a vector of the optimal times (mod 13 nanoseconds)
-%  at which the digitized pulses should arrive so as to minimize the
-%  mean-square time difference between pulses. To do the optimization, the
-%  code employs fmincon, and tries a number of initial conditions to
-%  improve the chances of finding a global minimum.
+%  The function sets up and uses fmincon to determine the best set of
+%  delays to use in the optical network. It is structured to handle any
+%  number of delays (specified in the contents of experimentFile.m) and a
+%  variety of relationships between those delays. If the number of delays
+%  is zero, delOp will revert to simple pulse-picking. The function does
+%  not currently check that the design can actually create the sequence -
+%  it simply finds the best delays assuming all sequences can be created.
+%  This may be a point of improvement in the future.
+%
+%       delTimes - a vector specifying the lengths of the independent delay
+%                  paths, as fractions of the laser repetition rate
+%       digTimes - a vector of the composite delay values, in nanoseconds
+%       bestDelays - an n-by-1 vector of integers, where the jth value is
+%                    the index into digTimes for which composite delay is
+%                    taken by the jth pulse
+%       minVal - the minimum value of the minimization function, as
+%                computed by fmincon
 %
 % Required files:
-%  uddTimes.m
+%  experimentFile.m or replace the code in line 27 with a similar file
+%
+% Last updated 5/2/15 by Paul Jerger
+
+
 if nargin<3
     plotCheck = 2;
 end
 
-repRate = 13; % input pulse repetition rate, in nanoseconds
-idealTimes = uddTimes(T,n); % UDD sequence times
+repRate = 13;               % input pulse repetition rate, in nanoseconds
+idealTimes = uddTimes(T,n); % perfect UDD sequence times
 
-[compDels, conFun, nDelays] = experimentFile();
+[compDels, conFun, nDelays] = experimentFile(); % obtain experiment-specific information
 
 %use Pulse Picking Design if the number of delays is zero
 if nDelays==0
-digTimes=digitizer(idealTimes,T,repRate,1);
+    digTimes=digitizer(idealTimes,T,repRate,1); % all the work
 
     if plotCheck==2
      fixfonts = @(h) set(h,'FontName','Arial',...
@@ -61,22 +77,22 @@ digTimes=digitizer(idealTimes,T,repRate,1);
 
 %otherwise attempt delay optimization
 else
+    % define the filter function as a function of frequency and pulse times   
     ff = @(w,timings) abs(1+(-1)^(n+1)*exp(1i*w*T) + ...
             sum(2*bsxfun(@times,(-1).^(1:n)',exp(1i*timings*w)),1)).^2;
     
+    % in the next three lines, we find the upper limit of the overlap
+    %  integral
     w = logspace(-6,8,1000);
     [~,uLimInd] = max(ff(w,idealTimes)./w.^2);
     uLim = w(uLimInd);
 
-    delTimes = zeros(nDelays,1); % pulse-picking default
+    delTimes = zeros(nDelays,1);                                   % pulse-picking default
     minVal = minFun(delTimes,idealTimes,ff,uLim,repRate,compDels); % starting value
     options = optimset('Algorithm','sqp','Display','off','UseParallel','always'); % suppress output
 
-    % constraint matrices that specify 0<x0<x1<x2<2
-    [A,B,Aeq,Beq,lb,ub] = conFun();
-
-    % get initial conditions
-    ICs = ICmatrix(n,idealTimes,repRate);
+    [A,B,Aeq,Beq,lb,ub] = conFun();         % get fmincon constraints
+    ICs = ICmatrix(n,idealTimes,repRate);   % get fmincon initial values
 
     % performs optimization
     for ind = 1:size(ICs,2)
@@ -163,41 +179,53 @@ function out = minFun(x,idealTimes,ff,uLim,repRate,compositeDelays)
 % All times are in nanoseconds.
 %
 % Inputs:
-%  x - input from fmincon, containing the fractions of the repetition rate
-%      at which the digital pulses will arrive, mod rep rate
+%  x - input from fmincon, containing the lengths of the delay paths, as
+%      fractions of repRate
 %  idealTimes - the theoretically ideal pulse arrival times
+%  ff - function handle for the filter function
+%  T - length of the entire UDD sequence
 %  repRate - the repetition time of the laser
-%  compositeDelays - handle of function to construct the set of usable
-%                    delays from the set of tunable delays
+%  compositeDelays - handle of function to construct the set of composite
+%                    delays from the set of delay paths
 %  
 %
 % Outputs:
 %  The function computes an error function of a non-ideal pulse sequence
 %  relative to an ideal sequence for the purposes of minimization via
-%  fmincon. Currently, the function is
-%       error = mean-squared error + switching function error (weighted)
+%  fmincon. Currently, the function is the integral of the filter function
+%  times a noise power spectral density and integrated to an upper limit
+%  that was computed in the main delOp function.
+
 
 % the ideal times
 modTimes = mod(idealTimes,repRate);
 
 % construct the possible delay lines in subfunction; add preceding and
-% succeeding pulses as well for wraparound boundary conditions
+%  succeeding pulses as well for wraparound boundary conditions
 digTimes = repRate*compositeDelays(x);
-perShift = repRate*ones(length(digTimes),1); % time of one repetition of laser
-allTimes = [digTimes; digTimes+perShift; digTimes-perShift];
+allTimes = [digTimes; digTimes+repRate; digTimes-repRate];
 
-% here we find the nearest pulse, either in this set of digital pulses or an
-% adjacent one, for each real pulse
-nearPulses = dsearchn(allTimes,modTimes);
+nearPulses = dsearchn(allTimes,modTimes); % find nearest pulses to composite delays
 
-% compute filter function
+% compute overlap integral
 out = quad(@(w)ff(w,modTimes-allTimes(nearPulses,1)+idealTimes).*noise(w)./w.^2*2/pi,0,uLim,1e-4);
 end
 
 
 function ICs = ICmatrix(n,idealTimes,repRate)
-% returns a matrix of sets of initial conditions to be used in fmincon
+% returns a matrix of sets of initial values to be used in fmincon
 %
+% Inputs:
+%  n - the number of pi pulses in the UDD sequence
+%  idealTimes - the theoretically ideal pulse arrival times
+%  repRate - the repetition time of the laser
+%
+% Outputs:
+%  Here, the initial values are just specified for two delays and are
+%  basically pulled out of thin air - the idea was simply to have some
+%  semblance of uniformly-spaced guesses. This feature needs to be revamped
+%  in the future to make it more general; suggestions include guessing at
+%  sequence pulse times or only guessing uniformly-spaced.
 
 ICs = [0.1 0.1 0.3 0.1 0.3 0.5 0.1 0.3 0.5 0.7; ...
        0.2 0.4 0.4 0.6 0.6 0.6 0.8 0.8 0.8 0.8];
@@ -220,12 +248,38 @@ end
 end
 
 function out = noise(w)
-% lorentzian function with correlation time 10^6 ns
-out = 10^6*2/pi./(1+(w*10^6).^2);
+% function for noise power spectral density
+%
+% Inputs:
+%  w - frequency
+%
+% Outputs:
+%  This function is only called by the numerical integrator. It contains
+%  the information on the noise power spectral density. Currently, this is
+%  modeled as a lorentzian function with a correlation time of 10 ms (times
+%  are in nanoseconds in this file, so 10^6 is 10 ms). The correlation time
+%  can be adjusted with the constant below, or the whole function can be
+%  redone if better information becomes available.
+    
+
+    corr = 10^6; % correlation time in nanoseconds
+    out = corr*2/pi./(1+(w*corr).^2);
 end
 
 
 function out = uddTimes(T,n)
 % constructs a vector of ideal times in a UDD pulse sequence
-out = T*sin((pi/(2*n+2):pi/(2*n+2):n*pi/(2*n+2))').^2;
+%
+% Inputs:
+%  T - the overall length of the UDD sequence to be approximated, in
+%      nanoseconds
+%  n - the number of pi pulses in the UDD sequence
+%
+% Outputs:
+%  Returns a vector of times representing ideal pi pulse arrival times for
+%  a UDD sequence of order n and sequence length T. Times are in
+%  nanoseconds.
+
+
+    out = T*sin((pi/(2*n+2):pi/(2*n+2):n*pi/(2*n+2))').^2;
 end
