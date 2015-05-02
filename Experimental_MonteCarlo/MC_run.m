@@ -1,7 +1,15 @@
+% Clear the workspace to prepare for simulation
 paths;
 clearAll;
+
+% Use MC_specifyerrors to specify the global component errors to be sampled
+% for each Monte Carlo run for every component listed in MC_specifyerrors 
 MC_specifyerrors;
+% For digitizing designs, we can likely neglect timing errors constructed
+% from retroreflectors on the optical table
 ErrorSpecs.Delay.Amount = 0;
+
+% Specify the range of N and T for the Monte Carlo model to simulate
 
 % Ns = 6;
 % Ts = [299, 390:130:3003,3003]*1e-9;
@@ -16,11 +24,13 @@ Ts = (1690:13:2050)*1e-9;
 % Ts = [1001,1300]*1e-9;
 
 w = warning ('off','all');
+% Specify the structure to store output data
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
             'PowerPerformances',[-1],'TimingStatistics',-1,'PowerStatistics',-1,...
             'OptimizationTarget',-1,'IdealPulse',-1,'IdealTimingPerformance',-1,...
             'AllOutputData',-1,'SimParams',-1,'seqFail',-1),length(Ns)*length(Ts),1);
 
+% Specify the number of Monte Carlo simulations to run
 montecarloruns = 1;
 
 tic
@@ -29,6 +39,7 @@ ctr = 1;
 
 for N = Ns
     for T = Ts
+        % Skip values of N where sequence creation is not possible
         if((N+2)*13e-9 >= T)
             continue
         end
@@ -39,6 +50,9 @@ for N = Ns
         FinalResultSet(ctr).N = N;
         FinalResultSet(ctr).T = T;
 
+        % Use runExperiment to calculate PC control timings and powers and
+        % specify delays for digitizing design. optVal is the overlap
+        % integral value 
         [PCTimings1,CP1,PCTimings2,CP2,DelayLeft,DelayMiddle,DelayBottom,optVal,seqFail] = ...
             runExperiment(T*1e9,N);
         FinalResultSet(ctr).seqFail = seqFail;

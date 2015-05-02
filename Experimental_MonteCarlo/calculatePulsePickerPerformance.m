@@ -1,5 +1,16 @@
 function [TimingPerformance,RMSE,seqFail] =  calculatePulsePickerPerformance(N,T);
-    
+
+    % calculatePulsePickerPerformance - calculate overlap integral, RMSE,
+    % and power performance for a given N and T
+    % INPUTS
+    %   N - number of pi pulses
+    %   T - total pulse sequence length
+    % OUTPUTS
+    %   TimingPerformance - Overlap integral performance 
+    %   RMSE - root mean squared error from ideal sequence
+    %   N - number of pi pulses
+    %   T - total sequence duration
+
     global ErrorSpecs;
     if ~isfield(ErrorSpecs,'Pulse')
         Err = 0;
@@ -36,6 +47,7 @@ function [TimingPerformance,RMSE,seqFail] =  calculatePulsePickerPerformance(N,T
             legend('Pulse Picker','UDD','Train');
         end
 
+        % Compute timing and RMSE performance
         [TimingPerformance,RMSE] = calculateTimingPerformance([],Timings/1e9,...
             [],[],N,T/1e9);
 

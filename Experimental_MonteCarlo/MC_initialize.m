@@ -16,7 +16,7 @@ Attenuator.clearComponent();
 p = PulseArray();
 p.addPulse(Pulse([]));
 
-% Allow Variation (1)
+% Allow Monte Carlo sampling for errors
 global montecarlo;
 montecarlo = 1;
 
@@ -30,7 +30,7 @@ SampledErrors = struct('PolarizingBeamSplitter',[],'PockelsCell',[],...
 global UseGivenErrors;
 UseGivenErrors = 0;
 
-% Dont save State History (1)
+% Dont save State History for the Monte Carlo Model (1)
 global savestatehistory;
 savestatehistory = 0;
 
@@ -38,7 +38,7 @@ savestatehistory = 0;
 num_pulses_start = T/13e-9 + 10;
 timings = 0:13e-9:(num_pulses_start-1)*13e-9;
 
-% Pulse sequence creation
+% Create input pulse sequence from the laser
 inputsignal = zeros(length(timings)+100,1);
 
 for i = 1:length(timings)
