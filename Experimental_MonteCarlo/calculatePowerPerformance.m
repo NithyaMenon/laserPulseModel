@@ -32,5 +32,8 @@ function PowerPerformance = calculatePowerPerformance(AllOutputData,N)
         % Take the square root of the sum of the squared power errors to
         % define the output power error metric
         PowerPerformance(p) = sqrt(sum(PowerErrorImportant.^2) + sum(PowerErrorResidual.^2));
+        
+        % Normalize with respect to the power of the average pi pulse power
+        PowerPerformance(p) = PowerPerformance(p) / IdealPiIntensity;
     end   
 end

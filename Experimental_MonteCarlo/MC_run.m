@@ -20,10 +20,11 @@ ErrorSpecs.Delay.Amount = 0;
 %==========================================================
 % CHANGE THE FOLLOWING PARAMETERS TO CONTROL THE SIMULATION
 % Specify a range of N and T to simulate
-Ns = [16,24,30];
-Ts = [2002:13:3003]*1e-9;
+Ns = [6,10,16,24,30];
+Ts = [299, 1001, 1300, 2002, 2600, 3003]*1e-9;
+%Ts = [2002:13:3003]*1e-9;
 % Specify the number of Monte Carlo simulations to run
-montecarloruns = 1;
+montecarloruns = 40;
 % Specify the Simulink model to simulate
 model = 'MC_DigitizingDesign.slx';
 %=========================================================

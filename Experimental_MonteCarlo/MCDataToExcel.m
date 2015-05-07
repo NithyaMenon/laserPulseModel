@@ -2,7 +2,7 @@
 
 clear
 clc
-load('FinalResultSet_40Runs.mat')
+load('FinalResultSet_40Runs_new.mat')
 
 %%
 
@@ -94,13 +94,15 @@ for k = 1:length(N)
         PMean = PwrMean(k);
         PDev = PwrDev(k);
         TimMeanFFSheet{i,j} = Mean(1)*(Mean(1)<MeanPP) + MeanPP*(Mean(1)>=MeanPP);
+        %TimMeanFFSheet{i,j} = Mean(1);
         TimDevFFSheet{i,j} = Dev(1); % Eh..
         TimMeanRMSESheet{i,j} = Mean(2)*(Mean(1)<MeanPP) + RMSPP*(Mean(1)>=MeanPP);
+        %TimMeanRMSESheet{i,j} = Mean(2);
         TimDevRMSESheet{i,j} = Dev(2);
         PwrMeanSheet{i,j} = PMean{1,1};
         PwrDevSheet{i,j} = PDev{1,1};  
-    end
-    OptValSheet{i,j} = OptVal(k);
+   end
+   OptValSheet{i,j} = OptVal(k);
     IdealValSheet{i,j} = IdealVal(k);
 end
 
@@ -120,12 +122,12 @@ for i = 1:SizeArr(1)
 end
 
 %%
-% TimMeanFFSheet = cellfun(@(s) sprintf('%-12s', s),TimMeanFFSheet, 'UniformOutput', false);
-% TimDevFFSheet = cellfun(@(s) sprintf('%-12s', s),TimDevFFSheet, 'UniformOutput', false);
-% TimMeanRMSESheet = cellfun(@(s) sprintf('%-12s', s),TimMeanRMSESheet, 'UniformOutput', false);
-% TimDevRMSESheet = cellfun(@(s) sprintf('%-12s', s),TimDevRMSESheet, 'UniformOutput', false);
-% PwrMeanSheet = cellfun(@(s) sprintf('%-12s', s),PwrMeanSheet, 'UniformOutput', false);
-% PwrDevSheet = cellfun(@(s) sprintf('%-12s', s),PwrDevSheet, 'UniformOutput', false);
+TimMeanFFSheet = cellfun(@(s) sprintf('%-12s', s),TimMeanFFSheet, 'UniformOutput', false);
+TimDevFFSheet = cellfun(@(s) sprintf('%-12s', s),TimDevFFSheet, 'UniformOutput', false);
+TimMeanRMSESheet = cellfun(@(s) sprintf('%-12s', s),TimMeanRMSESheet, 'UniformOutput', false);
+TimDevRMSESheet = cellfun(@(s) sprintf('%-12s', s),TimDevRMSESheet, 'UniformOutput', false);
+PwrMeanSheet = cellfun(@(s) sprintf('%-12s', s),PwrMeanSheet, 'UniformOutput', false);
+PwrDevSheet = cellfun(@(s) sprintf('%-12s', s),PwrDevSheet, 'UniformOutput', false);
 
 %%
 
@@ -135,3 +137,4 @@ xlswrite('FinalResultSet_ForTesting.xlsx',TimMeanRMSESheet,3);
 xlswrite('FinalResultSet_ForTesting.xlsx',TimDevRMSESheet,4);
 xlswrite('FinalResultSet_ForTesting.xlsx',PwrMeanSheet,5);
 xlswrite('FinalResultSet_ForTesting.xlsx',PwrDevSheet,6);
+xlswrite('FinalResultSet_ForTesting.xlsx',IdealValSheet,7);

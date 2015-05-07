@@ -15,13 +15,16 @@ MC_specifyerrors;
 
 w = warning ('off','all');
 %parpool(2);
-
-Ns = [6];
-Ts = [20, 40, 60, 80, 100, 120, 140]*1e-9;
+Ns = 10;
+Ts = 60*1e-9;
+%Ns = [4,6,8];
+%Ts = [20, 40, 60, 80, 100, 120, 140]*1e-9;
 %Ts=[20]*1e-9
+
+
 tic1 = tic;
 
-montecarloruns = 100;
+montecarloruns = 1;
 
 FinalResultSet = repmat(struct('N',-1,'T',-1,'TimingPerformances',[-1],...
     'PowerPerformances',[-1],'TimingStatistics',-1,'PowerStatistics',-1,...
@@ -70,6 +73,8 @@ for N = Ns
                     sim('MC_SinglePulseN6.slx',(T/13e-9)+50);
                 case 8
                     sim('MC_SinglePulseN8.slx',(T/13e-9)+50);
+                case 10
+                    sim('MC_SinglePulseN10.slx',(T/13e-9)+50);
             end
 
 

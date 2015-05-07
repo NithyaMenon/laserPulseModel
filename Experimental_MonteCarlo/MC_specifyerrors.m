@@ -31,6 +31,7 @@ ErrorSpecs.HalfWavePlate.Tau = 0.01;
 ErrorSpecs.HalfWavePlate.Transmission = 0.001;
 ErrorSpecs.HalfWavePlate.Psi = 0.01;
 
+% Delay error changed to be 0.1% of delay length
 ErrorSpecs.Delay.Amount = 0.001;
 
 ErrorSpecs.Attenuator.AttnFactor = 0.01;
