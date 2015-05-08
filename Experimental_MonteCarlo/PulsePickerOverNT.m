@@ -42,7 +42,11 @@ T_N = FinalTs(FinalNs == N)*1e9;
 IP_N = IdealPerformance(FinalNs == N);
 PPP_N = PulsePickerPerformance(FinalNs == N);
 NF_N = NoFilterPerformance(FinalNs == N);
-semilogy(T_N, IP_N, 's-', T_N, PPP_N, 'd-', T_N, NF_N, '*-', 'LineWidth',2)
+semilogy(T_N, IP_N, 's-', 'LineWidth',2);
+hold on
+semilogy(T_N, PPP_N, 'd-', 'LineWidth',2,'Color',[0.9290    0.6940    0.1250]);
+semilogy(T_N, NF_N, '*-', 'LineWidth',2, 'Color',[0.4940    0.1840    0.5560]);
+hold off
 axis([0,Inf,1e-2,1e5])
 grid on
 title 'Pulse Picker Performance: N = 6'
@@ -55,7 +59,11 @@ T_N = FinalTs(FinalNs == N)*1e9;
 IP_N = IdealPerformance(FinalNs == N);
 PPP_N = PulsePickerPerformance(FinalNs == N);
 NF_N = NoFilterPerformance(FinalNs == N);
-semilogy(T_N, IP_N, 's-', T_N, PPP_N, 'd-', T_N, NF_N, '*-', 'LineWidth',2)
+semilogy(T_N, IP_N, 's-', 'LineWidth',2);
+hold on
+semilogy(T_N, PPP_N, 'd-', 'LineWidth',2,'Color',[0.9290    0.6940    0.1250]);
+semilogy(T_N, NF_N, '*-', 'LineWidth',2, 'Color',[0.4940    0.1840    0.5560]);
+hold off
 axis([0,Inf,1e-2,1e5])
 grid on
 title 'N = 10'
@@ -67,7 +75,11 @@ T_N = FinalTs(FinalNs == N)*1e9;
 IP_N = IdealPerformance(FinalNs == N);
 PPP_N = PulsePickerPerformance(FinalNs == N);
 NF_N = NoFilterPerformance(FinalNs == N);
-semilogy(T_N, IP_N, 's-', T_N, PPP_N, 'd-', T_N, NF_N, '*-', 'LineWidth',2)
+semilogy(T_N, IP_N, 's-', 'LineWidth',2);
+hold on
+semilogy(T_N, PPP_N, 'd-', 'LineWidth',2,'Color',[0.9290    0.6940    0.1250]);
+semilogy(T_N, NF_N, '*-', 'LineWidth',2, 'Color',[0.4940    0.1840    0.5560]);
+hold off
 axis([0,Inf,1e-2,1e5])
 grid on
 
